@@ -11,7 +11,7 @@ import org.example.model.Aula;
  */
 public class GsonConfig {
     /**
-     * Método para crear un GSON que use AulaTypeAdapter para serialización y deserialización polimórfica
+     * Crea un GSON que use AulaTypeAdapter para serialización y deserialización polimórfica
      * @return Gson configurado para Aula y Laboratorio
      */
     public static Gson createGsonAulaLaboratorio() {
