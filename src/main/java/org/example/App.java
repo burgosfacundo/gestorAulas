@@ -33,7 +33,6 @@ public class App extends Application {
             vistaUtils.cargarVista("/org/example/view/menu-inicio-view.fxml");
         } catch (IOException e) {
             System.err.println("Error al cargar la vista inicial:");
-            e.printStackTrace();
             Platform.exit();
         }
     }
