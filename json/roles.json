@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "nombre": "Administrador",
+    "permisos": [
+      "CREAR_ESPACIO",
+      "ELIMINAR_ESPACIO",
+      "MODIFICAR_ESPACIO",
+      "VER_ESPACIOS",
+      "VER_AULAS",
+      "VER_LABORATORIOS",
+      "CREAR_RESERVA",
+      "MODIFICAR_RESERVA",
+      "ELIMINAR_RESERVA",
+      "VER_RESERVAS",
+      "VER_SOLICITUDES_CAMBIO",
+      "GESTIONAR_CAMBIOS",
+      "CREAR_USUARIO",
+      "MODIFICAR_USUARIO",
+      "VER_USUARIOS",
+      "CAMBIAR_PASSWORD",
+      "ELIMINAR_USUARIO"
+    ]
+  },
+  {
+    "id": 2,
+    "nombre": "Profesor",
+    "permisos": [
+      "VER_ESPACIOS",
+      "VER_AULAS",
+      "VER_LABORATORIOS",
+      "SOLICITAR_CAMBIO",
+      "VER_RESERVAS",
+      "VER_SOLICITUDES_CAMBIO",
+      "CAMBIAR_PASSWORD"
+    ]
+  }
+]

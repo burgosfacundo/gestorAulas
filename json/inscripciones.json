@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "cantidadAlumnos": 40,
+    "margenAlumnos": 5,
+    "fechaFinInscripcion": "2025-03-25",
+    "idAsignatura": 1,
+    "comision": "8",
+    "idProfesor": 2
+  },
+  {
+    "id": 2,
+    "cantidadAlumnos": 35,
+    "margenAlumnos": 15,
+    "fechaFinInscripcion": "2025-03-25",
+    "idAsignatura": 3,
+    "comision": "8",
+    "idProfesor": 1
+  },
+  {
+    "id": 3,
+    "cantidadAlumnos": 35,
+    "margenAlumnos": 15,
+    "fechaFinInscripcion": "2025-03-25",
+    "idAsignatura": 2,
+    "comision": "8",
+    "idProfesor": 1
+  },
+  {
+    "id": 4,
+    "cantidadAlumnos": 30,
+    "margenAlumnos": 10,
+    "fechaFinInscripcion": "2025-03-25",
+    "idAsignatura": 4,
+    "comision": "8",
+    "idProfesor": 3
+  }
+]
