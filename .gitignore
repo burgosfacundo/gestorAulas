@@ -50,3 +50,7 @@ build/
 /.idea/misc.xml
 /.idea/material_theme_project_new.xml
 /.idea/encodings.xml
+/.mvn/wrapper/maven-wrapper.jar
+/.mvn/wrapper/maven-wrapper.properties
+/mvnw
+/mvnw.cmd
