@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class Utils {
     /**
-     * Método para obtener los nombres de los días de la semana en español.
+     * Obtiene los nombres de los días de la semana en español.
      * @param diasSemana Set de DayOfWeek con los días de la semana.
      * @return String con los nombres de los días separados por coma.
      */
@@ -23,7 +23,7 @@ public class Utils {
 
     //Métodos para formatear los toString
     /**
-     * Método para añadir indentación a cada línea de un texto.
+     * Añade indentación a cada línea de un texto.
      * @param text Texto al que se le aplicará la indentación.
      * @param indentSpaces Cantidad de espacios para la indentación.
      * @return String con el texto indentado.
@@ -36,14 +36,14 @@ public class Utils {
     }
 
     /**
-     * Método para formatear un mapa de días de la semana y bloques horarios.
+     * Formatear un mapa de días de la semana y bloques horarios.
      * @param diasYBloques Mapa de DayOfWeek a Set de BloqueHorario.
      * @return String con el formato de días y bloques horarios.
      */
     public static String formatDiasYBloques(Map<DayOfWeek, Set<BloqueHorario>> diasYBloques) {
         var sb = new StringBuilder();
         diasYBloques.forEach((dia, bloques) -> {
-            // Usamos el método obtenerDiasEnEspaniol para obtener el nombre del día en español
+            // Usamos obtenerDiasEnEspaniol para obtener el nombre del día en español
             var diaEnEspaniol = obtenerDiasEnEspaniol(Set.of(dia));
             var bloquesFormateados = bloques.stream()
                     .map(BloqueHorario::name)
@@ -55,7 +55,7 @@ public class Utils {
     }
 
     /**
-     * Método para formatear listas de elementos a texto.
+     * Formatea listas de elementos a texto.
      * Convierte cada elemento en una cadena y lo lista con un prefijo "-".
      * @param items Lista de elementos a formatear.
      * @param <T> Tipo genérico de los elementos.
@@ -68,7 +68,7 @@ public class Utils {
     }
 
     /**
-     * Método que verifica si dos períodos de fechas se solapan.
+     * Verifica si dos períodos de fechas se solapan.
      * @param fechaInicio1 inicio del primer período.
      * @param fechaFin1 fin del primer período.
      * @param fechaInicio2 inicio del segundo período.
@@ -80,7 +80,7 @@ public class Utils {
     }
 
     /**
-     * Método que verifica si hay solapamiento en los días y bloques horarios entre dos mapas.
+     * Verifica si hay solapamiento en los días y bloques horarios entre dos mapas.
      * @param diasYBloquesReserva días y bloques horarios de una reserva existente.
      * @param diasYBloquesSolicitados días y bloques horarios solicitados para disponibilidad.
      * @return boolean si existe al menos un día y bloque horario común.
