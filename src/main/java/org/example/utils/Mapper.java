@@ -11,7 +11,7 @@ public class Mapper {
     //Usuario
 
     /**
-     * Método para mapear un dto a Usuario
+     * Mapea un dto a Usuario
      * @param dto que queremos mapear
      * @return Usuario mapeado desde dto
      */
@@ -27,7 +27,7 @@ public class Mapper {
     }
 
     /**
-     * Método para mapear un Usuario a dto
+     * Mapea un Usuario a dto
      * @param usuario que queremos mapear
      * @return UsuarioDTO mapeado desde Usuario
      */
@@ -45,7 +45,7 @@ public class Mapper {
     //Inscripción
 
     /**
-     * Método para mapear un dto a Inscripción
+     * Mapea un dto a Inscripción
      * @param dto que queremos mapear
      * @return Inscripción mapeado desde dto
      */
@@ -63,7 +63,7 @@ public class Mapper {
     }
 
     /**
-     * Método para mapear una Inscripción a dto
+     * Mapea una Inscripción a dto
      * @param inscripcion que queremos mapear
      * @return InscripciónDTO mapeado desde Inscripción
      */
@@ -84,7 +84,7 @@ public class Mapper {
     //Reserva
 
     /**
-     * Método para mapear un dto a Inscripción
+     * Mapea un dto a Inscripción
      * @param dto que queremos mapear
      * @return Inscripción mapeado desde dto
      */
@@ -101,7 +101,7 @@ public class Mapper {
     }
 
     /**
-     * Método para mapear una Reserva a dto
+     * Mapea una Reserva a dto
      * @param reserva que queremos mapear
      * @return ReservaDTO mapeado desde Reserva
      */
@@ -122,7 +122,7 @@ public class Mapper {
     //Solicitud
 
     /**
-     * Método para mapear un DTO a SolicitudCambioAula
+     * Mapea un DTO a SolicitudCambioAula
      * @param dto que queremos mapear
      * @return SolicitudCambioAula mapeado desde DTO
      */
@@ -137,7 +137,7 @@ public class Mapper {
     }
 
     /**
-     * Método para mapear una SolicitudCambioAula a DTO
+     * Mapea una SolicitudCambioAula a DTO
      * @param solicitud que queremos mapear
      * @return SolicitudCambioAulaDTO mapeado desde SolicitudCambioAula
      */
