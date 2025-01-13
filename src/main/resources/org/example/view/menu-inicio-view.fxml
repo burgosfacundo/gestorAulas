@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ecf8ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.MenuInicioVistaController">
+   <Button fx:id="btnLogin" alignment="CENTER" layoutX="252.0" layoutY="321.0" mnemonicParsing="false" onAction="#iniciarSesion" prefHeight="27.0" prefWidth="95.0" text="Ingresar">
+      <cursor>
+         <Cursor fx:constant="DEFAULT" />
+      </cursor></Button>
+   <ImageView fitHeight="103.0" fitWidth="190.0" layoutX="201.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../image/logoUTN.png" />
+   </ImageView>
+   <Label alignment="CENTER" layoutX="201.0" layoutY="210.0" prefHeight="27.0" prefWidth="190.0" style="-fx-background-color: #005482;" text="Inicio de sesión" textAlignment="CENTER" textFill="WHITE">
+      <font>
+         <Font name="System Bold" size="14.0" />
+      </font>
+   </Label>
+   <Label alignment="CENTER" layoutX="212.0" layoutY="250.0" prefHeight="20.0" prefWidth="58.0" text="Usuario:" textAlignment="CENTER">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <Label alignment="CENTER" layoutX="195.0" layoutY="281.0" prefHeight="20.0" prefWidth="73.0" text="Contraseña:" textAlignment="CENTER">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <TextField fx:id="username" layoutX="275.0" layoutY="247.0" prefHeight="26.0" prefWidth="105.0" />
+   <PasswordField fx:id="password" layoutX="274.0" layoutY="278.0" prefHeight="26.0" prefWidth="106.0" />
+   <Label alignment="CENTER" layoutX="85.0" layoutY="38.0" prefHeight="35.0" prefWidth="430.0" text="Universidad Tecnológica Nacional" textFill="#005080">
+      <font>
+         <Font name="System Bold" size="24.0" />
+      </font>
+   </Label>
+   <Label alignment="CENTER" layoutX="85.0" layoutY="73.0" prefHeight="35.0" prefWidth="430.0" text="  Facultad Regional Mar del Plata" textFill="#005080">
+      <font>
+         <Font name="System Bold" size="24.0" />
+      </font>
+   </Label>
+</AnchorPane>
