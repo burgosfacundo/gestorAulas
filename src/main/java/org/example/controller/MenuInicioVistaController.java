@@ -34,7 +34,7 @@ public class MenuInicioVistaController {
     }
 
     /**
-     * Método para manejar la autenticación de usuario
+     * Maneja la autenticación de usuario
      * y derivar al menu que le corresponde
      */
     @FXML
@@ -44,7 +44,7 @@ public class MenuInicioVistaController {
     }
 
     /**
-     * Método para manejar la redirección al menú correspondiente según el rol del usuario
+     * Maneja la redirección al menú correspondiente según el rol del usuario
      * @param usuario Usuario autenticado
      */
     private void redireccionarSegunRol(Usuario usuario) {
@@ -69,7 +69,7 @@ public class MenuInicioVistaController {
 
 
     /**
-     * Método para autenticar al Usuario
+     * Autentica al Usuario
      * @return Usuario autenticado o null
      */
     private Usuario autenticarUsuario() {
