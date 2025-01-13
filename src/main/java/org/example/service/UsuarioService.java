@@ -37,7 +37,7 @@ public class UsuarioService{
 
 
     /**
-     * Método para getAll todos los usuarios
+     * Lista todos los usuarios
      * @return List<Usuario>
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      */
@@ -54,7 +54,7 @@ public class UsuarioService{
 
 
     /**
-     * Método para save un usuario
+     * Guarda un usuario
      * @param usuario que queremos save
      * @return Usuario que se guarda
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
@@ -83,7 +83,7 @@ public class UsuarioService{
 
 
     /**
-     * Método para eliminar un usuario por ID
+     * Elimina un usuario por ID
      * @param id del usuario que queremos eliminar
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      * @throws NotFoundException si no se encuentra un usuario con ese id
@@ -96,7 +96,7 @@ public class UsuarioService{
     }
 
     /**
-     * Método para obtener Usuario por ID
+     * Obtiene Usuario por ID
      * @param id del usuario a obtener
      * @return Usuario con el ID del parámetro
      * @throws JsonNotFoundException si ocurre un error con el archivo JSON
@@ -115,7 +115,7 @@ public class UsuarioService{
     }
 
     /**
-     * Método para modificar un usuario
+     * Modifica un usuario
      * @param usuario que se quiere modificar
      * @throws JsonNotFoundException si ocurre un error con el archivo JSON
      * @throws NotFoundException si no encuentra el usuario que se quiere modificar
@@ -140,7 +140,7 @@ public class UsuarioService{
     // Validaciones
 
     /**
-     * Método para validar que exista un rol con ese ID
+     * Valida que exista un rol con ese ID
      * @param idRol del rol a validar
      * @return Rol si existe el rol
      * @throws NotFoundException si no existe rol con ese ID
@@ -152,7 +152,7 @@ public class UsuarioService{
     }
 
     /**
-     * Método para validar que exista un usuario con ese ID
+     * Valida que exista un usuario con ese ID
      * @param idUsuario del usuario a validar
      * @return UsuarioDTO si existe el usuario
      * @throws NotFoundException si no existe usuario con ese ID
@@ -164,7 +164,7 @@ public class UsuarioService{
     }
 
     /**
-     * Método para validar si existe un usuario con ese username
+     * Valida si existe un usuario con ese username
      * @param username a validar
      * @throws BadRequestException si existe usuario con ese username
      * @throws JsonNotFoundException sí existe un problema con el archivo JSON
@@ -177,7 +177,7 @@ public class UsuarioService{
     }
 
     /**
-     * Método para validar la existencia de un Profesor por ID
+     * Valida la existencia de un Profesor por ID
      * @param id del profesor que se quiere verificar
      * @return Profesor si existe
      * @throws NotFoundException Si no se encuentra el profesor con ese ID

@@ -26,7 +26,7 @@ public class AsignaturaService{
     }
 
     /**
-     * Método para listar todas las asignaturas
+     * Lista todas las asignaturas
      * @return List<Asignatura>
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      */
@@ -36,7 +36,7 @@ public class AsignaturaService{
 
 
     /**
-     * Método parar guardar una asignatura
+     * Guarda una asignatura
      * @param asignatura que queremos guarde
      * @return Asignatura que se guarda
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
@@ -54,7 +54,7 @@ public class AsignaturaService{
     }
 
     /**
-     * Método para eliminar una asignatura por ID
+     * Elimina una asignatura por ID
      * @param id de la asignatura que queremos eliminar
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      * @throws NotFoundException si no se encuentra una asignatura con ese ID
@@ -66,7 +66,7 @@ public class AsignaturaService{
     }
 
     /**
-     * Método para obtener una asignatura por ID
+     * Obtiene una asignatura por ID
      * @param id de la asignatura que queremos obtener
      * @return Asignatura con ese ID
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
@@ -78,7 +78,7 @@ public class AsignaturaService{
     }
 
     /**
-     * Método para modificar una asignatura
+     * Modifica una asignatura
      * @param asignatura modificado
      * @throws JsonNotFoundException si no encuentra el archivo JSON
      * @throws NotFoundException si no encuentra la asignatura
@@ -92,7 +92,7 @@ public class AsignaturaService{
     // Validaciones
 
     /**
-     * Método para validar la existencia de una Asignatura por ID
+     * Valida la existencia de una Asignatura por ID
      * @param idAsignatura de la asignatura que se quiere verificar
      * @return Asignatura si existe
      * @throws NotFoundException Si no se encuentra la asignatura con ese ID

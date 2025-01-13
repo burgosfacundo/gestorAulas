@@ -24,7 +24,7 @@ public class RolService{
     }
 
     /**
-     * Método para listar todos los roles
+     * Lista todos los roles
      * @return List<Rol>
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      */
@@ -34,7 +34,7 @@ public class RolService{
 
 
     /**
-     * Método parar guardar un rol
+     * Guarda un rol
      * @param rol que queremos guarde
      * @return Rol que se guarda
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
@@ -52,7 +52,7 @@ public class RolService{
     }
 
     /**
-     * Método para eliminar un rol por ID
+     * Elimina un rol por ID
      * @param id del rol que queremos eliminar
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      * @throws NotFoundException si no se encuentra un rol con ese ID
@@ -66,7 +66,7 @@ public class RolService{
     }
 
     /**
-     * Método para obtener un rol por ID
+     * Obtiene un rol por ID
      * @param id del rol que queremos obtener
      * @return Rol con ese ID
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
@@ -78,7 +78,7 @@ public class RolService{
     }
 
     /**
-     * Método para modificar un rol
+     * Modifica un rol
      * @param rol modificado
      * @throws JsonNotFoundException si no encuentra el archivo JSON
      * @throws NotFoundException si no encuentra el rol
@@ -95,7 +95,7 @@ public class RolService{
     // Validaciones
 
     /**
-     * Método para validar que exista un rol con ese ID
+     * Valida que exista un rol con ese ID
      * @param idRol del rol a validar
      * @return Rol si existe el rol
      * @throws NotFoundException si no existe rol con ese ID

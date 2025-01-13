@@ -40,7 +40,7 @@ public class InscripcionService{
 
 
     /**
-     * Método para listar todas las inscripciones
+     * Lista todas las inscripciones
      * @return List<Inscripcion>
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      */
@@ -60,7 +60,7 @@ public class InscripcionService{
 
 
     /**
-     * Método para guardar una inscripción
+     * Guarda una inscripción
      * @param inscripcion que queremos guardar
      * @return Inscripción que se guarda
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
@@ -87,7 +87,7 @@ public class InscripcionService{
 
 
     /**
-     * Método para eliminar una inscripción por ID
+     * Elimina una inscripción por ID
      * @param id de la inscripción que queremos eliminar
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      * @throws NotFoundException si no se encuentra una inscripción con ese ID
@@ -101,7 +101,7 @@ public class InscripcionService{
     }
 
     /**
-     * Método para obtener una inscripción por ID
+     * Obtiene una inscripción por ID
      * @param id de la inscripción
      * @return Inscripcion con ese ID
      * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
@@ -121,7 +121,7 @@ public class InscripcionService{
     }
 
     /**
-     * Método para modificar una inscripción
+     * Modifica una inscripción
      * @param inscripcion que se va a modificar
      * @throws JsonNotFoundException si ocurre un error con el archivo JSON
      * @throws NotFoundException Si no encuentra inscripción o asignatura o profesor
@@ -144,7 +144,7 @@ public class InscripcionService{
 
     //Validaciones
     /**
-     * Método para validar la existencia de una inscripción por ID
+     * Valida la existencia de una inscripción por ID
      * @param id de la inscripción que se quiere verificar
      * @return InscripcionDTO si existe
      * @throws NotFoundException Si no se encuentra la inscripción con ese ID
@@ -156,7 +156,7 @@ public class InscripcionService{
     }
 
     /**
-     * Método para validar la existencia de un Profesor
+     * Valida la existencia de un Profesor
      * @param idProfesor del profesor que se quiere verificar
      * @return Profesor si existe
      * @throws NotFoundException Si no se encuentra el profesor con ese ID
@@ -168,7 +168,7 @@ public class InscripcionService{
     }
 
     /**
-     * Método para validar la existencia de una Asignatura por ID
+     * Valida la existencia de una Asignatura por ID
      * @param idAsignatura de la asignatura que se quiere verificar
      * @return Asignatura si existe
      * @throws NotFoundException Si no se encuentra la asignatura con ese ID

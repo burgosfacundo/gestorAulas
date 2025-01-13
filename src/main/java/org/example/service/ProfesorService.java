@@ -21,7 +21,7 @@ public class ProfesorService {
 
 
     /**
-     * Método para listar todos los profesores
+     * Lista todos los profesores
      * @return List<Profesor>
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      */
@@ -31,7 +31,7 @@ public class ProfesorService {
 
 
     /**
-     * Método parar guardar un profesor
+     * Guarda un profesor
      * @param profesor que queremos guarde
      * @return Profesor que se guarda
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
@@ -49,7 +49,7 @@ public class ProfesorService {
     }
 
     /**
-     * Método para eliminar un profesor por ID
+     * Elimina un profesor por ID
      * @param id del profesor que queremos eliminar
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      * @throws NotFoundException si no se encuentra un profesor con ese ID
@@ -61,7 +61,7 @@ public class ProfesorService {
     }
 
     /**
-     * Método para obtener un profesor por ID
+     * Obtiene un profesor por ID
      * @param id del profesor que queremos obtener
      * @return Profesor con ese ID
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
@@ -73,7 +73,7 @@ public class ProfesorService {
     }
 
     /**
-     * Método para modificar un profesor
+     * Modifica un profesor
      * @param profesor modificado
      * @throws JsonNotFoundException si no encuentra el archivo JSON
      * @throws NotFoundException si no encuentra al profesor
@@ -87,7 +87,7 @@ public class ProfesorService {
     // Validaciones
 
     /**
-     * Método para validar la existencia de un Profesor por ID
+     * Valida la existencia de un Profesor por ID
      * @param id del profesor que se quiere verificar
      * @return Profesor si existe
      * @throws NotFoundException Si no se encuentra el profesor con ese ID

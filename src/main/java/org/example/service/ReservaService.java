@@ -51,7 +51,7 @@ public class ReservaService{
 
 
     /**
-     * Método para listar todas las reservas
+     * Lista todas las reservas
      * @return List<Reserva>
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      */
@@ -73,7 +73,7 @@ public class ReservaService{
 
 
     /**
-     * Método para guardar una reserva
+     * Guarda una reserva
      * @param reserva que queremos guardar
      * @return Reserva que se guarda
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
@@ -108,7 +108,7 @@ public class ReservaService{
 
 
     /**
-     * Método para eliminar una reserva por ID
+     * Elimina una reserva por ID
      * @param id de la reserva que queremos eliminar
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      * @throws NotFoundException si no se encuentra una reserva con ese ID
@@ -120,7 +120,7 @@ public class ReservaService{
     }
 
     /**
-     * Método para obtener una reserva por ID
+     * Obtiene una reserva por ID
      * @param id de la reserva
      * @return Reserva con ese ID
      * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
@@ -141,7 +141,7 @@ public class ReservaService{
     }
 
     /**
-     * Método para modificar una reserva
+     * Modifica una reserva
      * @param reserva que se va a modificar
      * @throws JsonNotFoundException si ocurre un error con el archivo JSON
      * @throws NotFoundException Si no encuentra reserva o aula o inscripción
@@ -175,7 +175,7 @@ public class ReservaService{
 
 
     /**
-     * Método para listar reservas por ID de inscripción
+     * Lista reservas por ID de inscripción
      * @param idInscripcion a filtrar
      * @return  List<Reserva> que tengan ese ID de inscripción
      * @throws NotFoundException si no encuentra reservas con ese ID de inscripción
@@ -207,7 +207,7 @@ public class ReservaService{
 
     // Validaciones
     /**
-     * Método para validar la existencia de una reserva por ID
+     * Valida la existencia de una reserva por ID
      * @param id de la reserva que se quiere verificar
      * @return ReservaDTO si existe
      * @throws NotFoundException Si no se encuentra la reserva con ese ID
@@ -219,7 +219,7 @@ public class ReservaService{
     }
 
     /**
-     * Método para validar la existencia de un Aula por ID
+     * Valida la existencia de un Aula por ID
      * @param idAula del aula que se quiere verificar
      * @return Aula si existe
      * @throws NotFoundException Si no se encuentra el aula con ese ID
@@ -231,7 +231,7 @@ public class ReservaService{
     }
 
     /**
-     * Método para validar la existencia de una Asignatura por ID
+     * Valida la existencia de una Asignatura por ID
      * @param idAsignatura de la asignatura que se quiere verificar
      * @return Asignatura si existe
      * @throws NotFoundException Si no se encuentra la asignatura con ese ID
@@ -244,7 +244,7 @@ public class ReservaService{
 
 
     /**
-     * Método para validar la existencia de una inscripción
+     * Valida la existencia de una inscripción
      * @param idInscripcion de la inscripción que se quiere verificar
      * @return Inscripción si existe
      * @throws NotFoundException Si no se encuentra al inscripción con ese ID
@@ -256,7 +256,7 @@ public class ReservaService{
 
 
     /**
-     * Método para validar la capacidad de un aula con respecto a la cantidad de alumnos de una Inscripción
+     * Valida la capacidad de un aula con respecto a la cantidad de alumnos de una Inscripción
      * @param aula que se quiere validar
      * @param inscripcion que se quiere validar
      * @throws BadRequestException si no alcanza la capacidad del aula para la cantidad de alumnos de la inscripción
@@ -270,7 +270,7 @@ public class ReservaService{
     }
 
     /**
-     * Método para validar la disponibilidad de un aula
+     * Valida la disponibilidad de un aula
      * @param reserva la reserva que contiene el aula y el período que se valida
      * @throws BadRequestException si no está disponible el aula en ese período
      * @throws JsonNotFoundException sí ocurre un problema con el archivo JSON de aulas
@@ -284,7 +284,7 @@ public class ReservaService{
     }
 
     /**
-     * Método para validar las solicitudes pendientes
+     * Valida las solicitudes pendientes
      * @param reserva que contiene la información de la reserva
      * @throws ConflictException si existe alguna solicitud pendiente con los mismos parámetros que la reserva
      * @throws JsonNotFoundException si ocurre un problema con el archivo JSON
@@ -333,7 +333,7 @@ public class ReservaService{
     //filtros
 
     /**
-     * Método para listar las reservas de un profesor
+     * Lista las reservas de un profesor
      * @param idProfe del profesor
      * @return List<Reserva> las reservas que tiene el profesor
      * @throws JsonNotFoundException si ocurre un problema con el archivo JSON
@@ -353,7 +353,7 @@ public class ReservaService{
 
 
     /**
-     * Método para listar las reservas de una comisión
+     * Lista las reservas de una comisión
      * @param comision para filtrar
      * @return List<Reserva> las reservas que tiene esa comisión
      * @throws JsonNotFoundException si ocurre un problema con el archivo JSON
@@ -371,7 +371,7 @@ public class ReservaService{
     }
 
     /**
-     * Método para listar reservas de una asignatura
+     * Lista reservas de una asignatura
      * @param idAsignatura de la asignatura
      * @return List<Reserva> listar de reservas de esa asignatura
      * @throws JsonNotFoundException si ocurre un problema con el archivo JSON

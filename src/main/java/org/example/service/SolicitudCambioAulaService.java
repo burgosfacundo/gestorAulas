@@ -36,7 +36,7 @@ public class SolicitudCambioAulaService{
     }
 
     /**
-     * Método para listar todas las solicitudes
+     * Lista todas las solicitudes
      * @return List<SolicitudCambioAula>
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      */
@@ -58,7 +58,7 @@ public class SolicitudCambioAulaService{
     }
 
     /**
-     * Método para guardar una solicitud
+     * Guarda una solicitud
      * @param solicitud que queremos guardar
      * @return SolicitudCambioAula que se guarda
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
@@ -89,7 +89,7 @@ public class SolicitudCambioAulaService{
 
 
     /**
-     * Método para eliminar una solicitud por ID
+     * Elimina una solicitud por ID
      * @param id de la solicitud que queremos eliminar
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      * @throws NotFoundException si no se encuentra una solicitud con ese ID
@@ -102,7 +102,7 @@ public class SolicitudCambioAulaService{
 
 
     /**
-     * Método para obtener una solicitud por ID
+     * Obtiene una solicitud por ID
      * @param id de la solicitud
      * @return SolicitudCambioAula con ese ID
      * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
@@ -127,7 +127,7 @@ public class SolicitudCambioAulaService{
 
 
     /**
-     * Método para modificar una solicitud
+     * Modifica una solicitud
      * @param solicitud que se va a modificar
      * @throws JsonNotFoundException si ocurre un error con el archivo JSON
      * @throws NotFoundException Si no encuentra solicitud o las clases que contiene
@@ -152,7 +152,7 @@ public class SolicitudCambioAulaService{
     }
 
     /**
-     * Método para aprobar una solicitud pendiente
+     * Aprueba una solicitud pendiente
      * @param id de la solicitud a aprobar
      * @throws NotFoundException si no encuentra la solicitud o reserva
      * @throws JsonNotFoundException si ocurre un problema con el archivo JSON
@@ -182,7 +182,7 @@ public class SolicitudCambioAulaService{
 
         // Si la solicitud es temporal creamos una nueva reserva
         if (dto.tipoSolicitud().equals(TipoSolicitud.TEMPORAL)){
-            reservaService.guardar(new Reserva(null,dto.fechaInicio(),dto.fechaFin(),aula,
+            reservaService.guardar(new Reserva(0,dto.fechaInicio(),dto.fechaFin(),aula,
                     reserva.getInscripcion(),dto.diasYBloques()));
 
             //Si no la reserva es Permanente y modificamos la original
@@ -193,7 +193,7 @@ public class SolicitudCambioAulaService{
     }
 
     /**
-     * Método para rechazar una solicitud pendiente
+     * Rechaza una solicitud pendiente
      * @param id de la solicitud a rechazar
      * @throws NotFoundException si no encuentra la solicitud o reserva
      * @throws JsonNotFoundException si ocurre un problema con el archivo JSON
@@ -222,7 +222,7 @@ public class SolicitudCambioAulaService{
 
     // Validaciones
     /**
-     * Método para validar la existencia de una solicitud
+     * Valida la existencia de una solicitud
      * @param id de la solicitud que se quiere verificar
      * @return SolicitudCambioAulaDTO si existe
      * @throws NotFoundException Si no se encuentra la solicitud con ese ID
@@ -234,7 +234,7 @@ public class SolicitudCambioAulaService{
     }
 
     /**
-     * Método para validar la existencia de un Aula
+     * Valida la existencia de un Aula
      * @param idAula del aula que se quiere verificar
      * @return Aula si existe
      * @throws NotFoundException Si no se encuentra el aula con ese ID
@@ -259,7 +259,7 @@ public class SolicitudCambioAulaService{
 
 
     /**
-     * Método para validar la existencia de una Reserva
+     * Valida la existencia de una Reserva
      * @param idReserva de la reserva que se quiere verificar
      * @return Reserva si existe
      * @throws NotFoundException Si no se encuentra la reserva con ese ID
@@ -270,7 +270,7 @@ public class SolicitudCambioAulaService{
     }
 
     /**
-     * Método para validar la disponibilidad de un aula
+     * Valida la disponibilidad de un aula
      * @param solicitud la solicitud que contiene el aula y el período que se valida
      * @throws BadRequestException si no está disponible el aula en ese período
      * @throws JsonNotFoundException sí ocurre un problema con el archivo JSON de aulas
@@ -285,7 +285,7 @@ public class SolicitudCambioAulaService{
     }
 
     /**
-     * Método para validar la capacidad de un aula con respecto a la cantidad de alumnos de una Inscripción
+     * Valida la capacidad de un aula con respecto a la cantidad de alumnos de una Inscripción
      * @param aula que se quiere validar
      * @param inscripcion que se quiere validar
      * @throws BadRequestException si no alcanza la capacidad del aula para la cantidad de alumnos de la inscripción
@@ -301,7 +301,7 @@ public class SolicitudCambioAulaService{
     //Filtros
 
     /**
-     * Método para listar solicitudes por estado
+     * Lista solicitudes por estado
      * @param estado de las solicitudes a listar
      * @return List<SolicitudCambioAula> con ese estado
      * @throws JsonNotFoundException si ocurre un problema con el archivo JSON
@@ -316,7 +316,7 @@ public class SolicitudCambioAulaService{
 
 
     /**
-     * Método para listar solicitudes por estado y profesor
+     * Lista solicitudes por estado y profesor
      * @param estado de las solicitudes a listar
      * @param idProfesor del profesor a filtrar
      * @return List<SolicitudCambioAula> de ese profesor y con ese estado

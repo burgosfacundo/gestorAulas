@@ -38,7 +38,7 @@ public class AulaService{
     }
 
     /**
-     * Método para listar todas las aulas
+     * Lista todas las aulas
      * @return List<Aula>
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      */
@@ -47,7 +47,7 @@ public class AulaService{
     }
 
     /**
-     * Método parar guardar un aula
+     * Guarda un aula
      * @param aula que queremos guarde
      * @return Aula que se guarda
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
@@ -65,7 +65,7 @@ public class AulaService{
     }
 
     /**
-     * Método para eliminar un aula por ID
+     * Elimina un aula por ID
      * @param id del aula que queremos eliminar
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      * @throws NotFoundException si no se encuentra un aula con ese numero
@@ -79,7 +79,7 @@ public class AulaService{
     }
 
     /**
-     * Método para obtener un aula por ID
+     * Obtiene un aula por ID
      * @param id del aula que queremos obtener
      * @return Aula con ese ID
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
@@ -91,7 +91,7 @@ public class AulaService{
     }
 
     /**
-     * Método para modificar un aula
+     * Modifica un aula
      * @param aula modificada
      * @throws JsonNotFoundException si no encuentra el archivo JSON
      * @throws NotFoundException si no encuentra el aula
@@ -107,7 +107,7 @@ public class AulaService{
     //Filtros
 
     /**
-     * Método para filtrar los laboratorios
+     * Filtra los laboratorios
      * @return List<Laboratorio> laboratorios encontrados
      * @throws JsonNotFoundException si ocurre un problema con el archivo JSON
      */
@@ -119,7 +119,7 @@ public class AulaService{
     }
 
     /**
-     * Método para filtrar solo las Aulas estándar, excluyendo los Laboratorios.
+     * Filtra solo las Aulas estándar, excluyendo los Laboratorios.
      * @return List<Aula> lista de aulas estándar (sin incluir laboratorios)
      * @throws JsonNotFoundException sí existe un problema con el archivo JSON
      */
@@ -130,7 +130,7 @@ public class AulaService{
     }
 
     /**
-     * Método genérico para aplicar filtros en los espacios
+     * Filtra para aplicar filtros en los espacios
      * @param espacios la lista a filtrar
      * @param capacidad mínima del espacio
      * @param tieneProyector si tiene o no proyector
@@ -150,7 +150,7 @@ public class AulaService{
 
 
     /**
-     * Método para filtrar Espacios por capacidad, proyector y TV.
+     * Filtra Espacios por capacidad, proyector y TV.
      * Permite que cualquiera de los parámetros sea null, y solo aplicará el filtro correspondiente si no es null.
      * @param capacidad la capacidad mínima requerida (puede ser null).
      * @param tieneProyector sí debe tener o no proyector (puede ser null).
@@ -164,7 +164,7 @@ public class AulaService{
 
 
     /**
-     * Método para filtrar Aulas estándar por capacidad, proyector y TV.
+     * Filtra Aulas estándar por capacidad, proyector y TV.
      * Permite que cualquiera de los parámetros sea null, y solo aplicará el filtro correspondiente si no es null.
      * @param capacidad la capacidad mínima requerida (puede ser null).
      * @param tieneProyector sí debe tener o no proyector (puede ser null).
@@ -178,7 +178,7 @@ public class AulaService{
 
 
     /**
-     * Método para filtrar Laboratorios por capacidad, proyector y TV.
+     * Filtra Laboratorios por capacidad, proyector y TV.
      * Permite que cualquiera de los parámetros sea null, y solo aplicará el filtro correspondiente si no es null.
      * @param capacidad la capacidad mínima requerida (puede ser null).
      * @param tieneProyector sí debe tener o no proyector (puede ser null).
@@ -194,7 +194,7 @@ public class AulaService{
     }
 
     /**
-     * Método para obtener los id de las aulas ocupadas en ese rango de fecha con esos días y bloques
+     * Obtiene los id de las aulas ocupadas en ese rango de fecha con esos días y bloques
      * @param fechaInicio del rango de fecha
      * @param fechaFin del rango de fecha
      * @param diasYBloques que queremos filtrar
@@ -210,7 +210,7 @@ public class AulaService{
                 .toList();
     }
     /**
-     * Método para filtrar Aulas por fecha, período y días/bloques de la semana.
+     * Filtra Aulas por fecha, período y días/bloques de la semana.
      * @param fechaInicio desde qué fecha debe estar disponible.
      * @param fechaFin hasta qué fecha debe estar disponible.
      * @param diasYBloques mapa con los días de la semana y sus respectivos bloques horarios.
@@ -231,7 +231,7 @@ public class AulaService{
 
 
     /**
-     * Método para filtrar solo Aulas disponibles por fecha, período y días/bloques de la semana.
+     * Filtra solo Aulas disponibles por fecha, período y días/bloques de la semana.
      * @param fechaInicio desde qué fecha debe estar disponible.
      * @param fechaFin hasta qué fecha debe estar disponible.
      * @param diasYBloques mapa con los días de la semana y sus respectivos bloques horarios.
@@ -251,7 +251,7 @@ public class AulaService{
 
 
     /**
-     * Método para filtrar solo Laboratorios disponibles por fecha, período y días/bloques de la semana.
+     * Filtra solo Laboratorios disponibles por fecha, período y días/bloques de la semana.
      * @param fechaInicio desde qué fecha debe estar disponible.
      * @param fechaFin hasta qué fecha debe estar disponible.
      * @param diasYBloques mapa con los días de la semana y sus respectivos bloques horarios.
@@ -270,7 +270,7 @@ public class AulaService{
     }
 
     /**
-     * Método para filtrar espacios disponibles con los filtros
+     * Filtra espacios disponibles con los filtros
      * @param capacidad minima que se necesita
      * @param tieneProyector si tiene o no proyector
      * @param tieneTV si tiene o no TV
@@ -287,7 +287,7 @@ public class AulaService{
 
 
     /**
-     * Método para filtrar aulas disponibles con los filtros
+     * Filtra aulas disponibles con los filtros
      * @param capacidad minima que se necesita
      * @param tieneProyector si tiene o no proyector
      * @param tieneTV si tiene o no TV
@@ -304,7 +304,7 @@ public class AulaService{
 
 
     /**
-     * Método para filtrar laboratorios disponibles con los filtros
+     * Filtra laboratorios disponibles con los filtros
      * @param capacidad minima que se necesita
      * @param tieneProyector si tiene o no proyector
      * @param tieneTV si tiene o no TV
@@ -326,7 +326,7 @@ public class AulaService{
 
     // Validaciones
     /**
-     * Método para validar la existencia de un Aula por ID
+     * Valida la existencia de un Aula por ID
      * @param idAula del aula que se quiere verificar
      * @return Aula si existe
      * @throws NotFoundException Si no se encuentra el aula con ese ID
