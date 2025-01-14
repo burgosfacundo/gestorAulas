@@ -9,12 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Component
 public class MenuProfesorVistaController {
+    private static final Logger logger = Logger.getLogger(MenuProfesorVistaController.class.getName());
     private final VistaUtils vistaUtils;
     @FXML
     public Button btnListarEspacios;
@@ -60,7 +59,7 @@ public class MenuProfesorVistaController {
             vistaUtils.cargarVista("/org/example/view/profesor/menu-profesor-espacios-view.fxml");
             cerrarWindow(actionEvent);
         }catch (IOException e){
-            Logger.getLogger(MenuProfesorVistaController.class.getName()).log(Level.SEVERE,e.getMessage());
+            logger.severe(e.getMessage());
         }
     }
 
@@ -69,7 +68,7 @@ public class MenuProfesorVistaController {
         try {
             vistaUtils.cargarYEsperarVista("/org/example/view/profesor/aulas-view.fxml");
         } catch (IOException e) {
-            Logger.getLogger(MenuProfesorVistaController.class.getName()).log(Level.SEVERE, e.getMessage());
+            logger.severe(e.getMessage());
         }
     }
     @FXML
@@ -77,7 +76,7 @@ public class MenuProfesorVistaController {
         try {
             vistaUtils.cargarYEsperarVista("/org/example/view/profesor/laboratorios-view.fxml");
         } catch (IOException e) {
-            Logger.getLogger(MenuProfesorVistaController.class.getName()).log(Level.SEVERE, e.getMessage());
+            logger.severe(e.getMessage());
         }
     }
 
@@ -86,15 +85,16 @@ public class MenuProfesorVistaController {
         try {
             vistaUtils.cargarVista("/org/example/view/aulas-disponibles-view.fxml");
         } catch (IOException e) {
-            Logger.getLogger(MenuProfesorVistaController.class.getName()).log(Level.SEVERE, e.getMessage());
+            logger.severe(e.getMessage());
         }
     }
+
     @FXML
     public void filtrarLaboratoriosDisponibles(ActionEvent actionEvent) {
         try {
             vistaUtils.cargarVista("/org/example/view/laboratorios-disponibles-view.fxml");
         } catch (IOException e) {
-            Logger.getLogger(MenuProfesorVistaController.class.getName()).log(Level.SEVERE, e.getMessage());
+            logger.severe(e.getMessage());
         }
     }
 
@@ -118,7 +118,7 @@ public class MenuProfesorVistaController {
         try {
             vistaUtils.cargarVista("/org/example/view/cambio-password-view.fxml");
         } catch (IOException e) {
-            Logger.getLogger(MenuProfesorVistaController.class.getName()).log(Level.SEVERE, e.getMessage());
+            logger.severe(e.getMessage());
         }
     }
     @FXML
@@ -126,8 +126,7 @@ public class MenuProfesorVistaController {
         try {
             vistaUtils.cargarVista("/org/example/view/profesor/menu-profesor-view.fxml");
         } catch (IOException e) {
-            Logger.getLogger(MenuProfesorVistaController.class.getName())
-                    .log(Level.SEVERE, e.getMessage());
+            logger.severe(e.getMessage());
         }
         vistaUtils.cerrarVentana(this.btnVolver);
     }

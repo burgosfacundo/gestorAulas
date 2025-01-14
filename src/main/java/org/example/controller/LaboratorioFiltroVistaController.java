@@ -2,7 +2,6 @@ package org.example.controller;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import org.controlsfx.control.CheckComboBox;
 import org.example.enums.BloqueHorario;
@@ -15,13 +14,14 @@ import org.example.utils.VistaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.logging.Logger;
 
 @Component
-public class LaboratorioFiltroVistaController implements Initializable {
+public class LaboratorioFiltroVistaController{
+    private static final Logger logger = Logger.getLogger(LaboratorioFiltroVistaController.class.getName());
     private final VistaUtils vistaUtils;
     private final ConfigurationUtils configurationUtils;
     private final TableUtils tableUtils;
@@ -95,8 +95,8 @@ public class LaboratorioFiltroVistaController implements Initializable {
         this.tableUtils = tableUtils;
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    @FXML
+    public void initialize() {
         //Asocio columnas de la tabla con atributos del modelo
         tableUtils.inicializarTablaLaboratorio(colId,colNum,colCapacidad,colTieneProyector,colTieneTV,colComputadoras);
 
@@ -162,6 +162,7 @@ public class LaboratorioFiltroVistaController implements Initializable {
             this.tblLaboratorios.refresh();
         } catch (JsonNotFoundException e) {
             vistaUtils.mostrarAlerta("Error:",e.getMessage(), Alert.AlertType.ERROR);
+            logger.severe(e.getMessage());
         }
     }
 

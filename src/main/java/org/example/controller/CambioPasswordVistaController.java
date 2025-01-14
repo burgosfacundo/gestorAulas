@@ -19,10 +19,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 
 @Component
 public class CambioPasswordVistaController {
+    private static final Logger logger = Logger.getLogger(CambioPasswordVistaController.class.getName());
     private Usuario usuarioActual;
     private final SesionActual sesionActual;
     private final VistaUtils vistaUtils;
@@ -53,6 +55,7 @@ public class CambioPasswordVistaController {
                     Alert.AlertType.ERROR
             );
             vistaUtils.cerrarVentana(btnCambiar);
+            logger.severe("No hay un usuario logueado.");
         }
     }
 
@@ -103,6 +106,7 @@ public class CambioPasswordVistaController {
                     "Error",
                     "Ocurrió un error al modificar la contraseña",
                     Alert.AlertType.ERROR);
+            logger.severe(e.getMessage());
         }
     }
 }

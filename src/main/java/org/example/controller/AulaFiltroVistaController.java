@@ -3,7 +3,6 @@ package org.example.controller;
 import javafx.collections.FXCollections;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -23,13 +22,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
-import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.logging.Logger;
 
 @Component
-public class AulaFiltroVistaController implements Initializable {
+public class AulaFiltroVistaController{
+    private static final Logger logger = Logger.getLogger(AulaFiltroVistaController.class.getName());
     private final ConfigurationUtils configurationUtils;
     private final TableUtils tableUtils;
     private final VistaUtils vistaUtils;
@@ -99,8 +99,8 @@ public class AulaFiltroVistaController implements Initializable {
         this.diasYBloques = new HashMap<>();
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    @FXML
+    public void initialize() {
         //Asocio columnas de la tabla con atributos del modelo
         tableUtils.inicializarTablaAula(colId,colNum,colCapacidad,colTieneProyector,colTieneTV);
 
@@ -158,6 +158,7 @@ public class AulaFiltroVistaController implements Initializable {
             this.tblAulas.refresh();
         } catch (JsonNotFoundException e) {
             vistaUtils.mostrarAlerta("Error:",e.getMessage(), Alert.AlertType.ERROR);
+            logger.severe(e.getMessage());
         }
     }
 
