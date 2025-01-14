@@ -1,5 +1,6 @@
 package org.example.utils;
 
+import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DateCell;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,21 +25,43 @@ import java.util.Set;
 public class ConfigurationUtils {
 
     public void configurarDiaYBloques(Map<DayOfWeek, Set<BloqueHorario>> diasYBloques,
-                                             CheckBox dia, CheckComboBox<BloqueHorario> comboBox, DayOfWeek day) {
-        dia.selectedProperty().addListener((value, column, isSelected) -> {
-            if (isSelected) {
-                // Llenar el comboBox con bloques de horario al seleccionar el día
+                                      CheckBox dia,
+                                      CheckComboBox<BloqueHorario> comboBox,
+                                      DayOfWeek day) {
+        // Inicialización del Set para este día
+        if (!diasYBloques.containsKey(day)) {
+            diasYBloques.put(day, new HashSet<>());
+        }
+
+        // Listener para el día
+        dia.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) { // Día seleccionado
                 comboBox.getItems().setAll(BloqueHorario.values());
-            } else {
-                comboBox.getCheckModel().getCheckedItems().addListener((ListChangeListener<BloqueHorario>) bloque -> {
-                    diasYBloques.get(day).clear();
-                    diasYBloques.get(day).addAll(comboBox.getCheckModel().getCheckedItems());
+                diasYBloques.putIfAbsent(day, new HashSet<>());
+            } else { // Día deseleccionado
+                // Primero limpiamos el Set de bloques seleccionados
+                diasYBloques.get(day).clear();
+
+                // Luego limpiamos el modelo de selección del ComboBox
+                Platform.runLater(() -> {
+                    comboBox.getCheckModel().clearChecks();
+                    comboBox.getItems().clear();
                 });
-                comboBox.getItems().clear();
-                diasYBloques.get(day).clear(); // Limpiar bloques seleccionados
             }
         });
 
+        // Listener para los bloques horarios seleccionados
+        comboBox.getCheckModel().getCheckedItems().addListener(
+                (ListChangeListener<BloqueHorario>) change -> {
+                    if (dia.isSelected()) {
+                        Set<BloqueHorario> bloques = diasYBloques.get(day);
+                        bloques.clear();
+                        bloques.addAll(comboBox.getCheckModel().getCheckedItems());
+                    }
+                }
+        );
+
+        // Vincular el estado habilitado del comboBox con el checkbox del día
         comboBox.disableProperty().bind(dia.selectedProperty().not());
     }
 
