@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.example.interfaces.InitializableController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -41,28 +40,6 @@ public class VistaUtils {
         }
     }
 
-    /**
-     * Carga una vista con datos iniciales y la muestra en una nueva ventana.
-     */
-    public <T> void cargarVista(String url, T data) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(url));
-        loader.setControllerFactory(springContext::getBean);
-        Parent root = loader.load();
-
-        // Intenta inicializar el controlador con los datos
-        Object controller = loader.getController();
-        if (controller instanceof InitializableController) {
-            @SuppressWarnings("unchecked")
-            InitializableController<T> initializableController = (InitializableController<T>) controller;
-            initializableController.initialize(data);
-        }
-
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setTitle("UTN - Sistema de Gestión de Aulas");
-        stage.setScene(scene);
-        stage.show();
-    }
 
     /**
      * Carga una vista en modo modal y espera a que se cierre.

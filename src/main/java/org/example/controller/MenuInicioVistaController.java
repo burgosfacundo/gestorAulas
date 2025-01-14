@@ -8,6 +8,7 @@ import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
 import org.example.model.Usuario;
 import org.example.security.Seguridad;
+import org.example.security.SesionActual;
 import org.example.utils.VistaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
 @Controller
 public class MenuInicioVistaController {
     private static final Logger logger = Logger.getLogger(MenuInicioVistaController.class.getName());
+    private final SesionActual sesionActual;
     private final VistaUtils vistaUtils;
     private final Seguridad seguridad;
     @FXML
@@ -28,7 +30,8 @@ public class MenuInicioVistaController {
     private Button btnLogin;
 
     @Autowired
-    public MenuInicioVistaController(VistaUtils vistaUtils, Seguridad seguridad) {
+    public MenuInicioVistaController(SesionActual sesionActual, VistaUtils vistaUtils, Seguridad seguridad) {
+        this.sesionActual = sesionActual;
         this.vistaUtils = vistaUtils;
         this.seguridad = seguridad;
     }
@@ -57,7 +60,7 @@ public class MenuInicioVistaController {
             case "administrador" -> System.out.println("Menu admin");
             case "profesor" -> {
                 try{
-                    vistaUtils.cargarVista("/org/example/view/profesor/menu-profesor-view.fxml",usuario);
+                    vistaUtils.cargarVista("/org/example/view/profesor/menu-profesor-view.fxml");
                 }catch (IOException e){
                     logger.severe(e.getMessage());
                 }
@@ -76,6 +79,7 @@ public class MenuInicioVistaController {
         Usuario usuario = null;
         try {
             usuario = seguridad.autenticar(username.getText(), password.getText());
+            sesionActual.setUsuarioActual(usuario);
         } catch (AutenticacionException | JsonNotFoundException | NotFoundException e) {
             vistaUtils.mostrarAlerta("Error:",e.getMessage(), Alert.AlertType.ERROR);
         }
