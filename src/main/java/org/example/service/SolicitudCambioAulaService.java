@@ -1,5 +1,6 @@
 package org.example.service;
 
+import lombok.AllArgsConstructor;
 import org.example.enums.EstadoSolicitud;
 import org.example.enums.TipoSolicitud;
 import org.example.exception.BadRequestException;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class SolicitudCambioAulaService{
     private final SolicitudCambioAulaRepository repositorio;
     private final AulaRepository aulaRepository;
@@ -27,13 +29,6 @@ public class SolicitudCambioAulaService{
     private final ReservaService reservaService;
     private final ProfesorRepository profesorRepository;
 
-    public SolicitudCambioAulaService(SolicitudCambioAulaRepository repositorio, AulaRepository aulaRepository, AulaService aulaService, ReservaService reservaService, ProfesorRepository profesorRepository) {
-        this.repositorio = repositorio;
-        this.aulaRepository = aulaRepository;
-        this.aulaService = aulaService;
-        this.reservaService = reservaService;
-        this.profesorRepository = profesorRepository;
-    }
 
     /**
      * Lista todas las solicitudes

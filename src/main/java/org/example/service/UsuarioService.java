@@ -1,6 +1,7 @@
 package org.example.service;
 
 
+import lombok.AllArgsConstructor;
 import org.example.exception.BadRequestException;
 import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
@@ -24,18 +25,11 @@ import java.util.List;
  * y aplicar la lógica de negocio para manipular usuarios
  */
 @Service
+@AllArgsConstructor
 public class UsuarioService{
     private final UsuarioRepository repositorioUsuario;
     private final RolRepository repositorioRol;
     private final ProfesorRepository profesorRepository;
-
-    public UsuarioService(UsuarioRepository repositorioUsuario, RolRepository repositorioRol, ProfesorRepository profesorRepository) {
-        this.repositorioUsuario = repositorioUsuario;
-        this.repositorioRol = repositorioRol;
-        this.profesorRepository = profesorRepository;
-    }
-
-
     /**
      * Lista todos los usuarios
      * @return List<Usuario>

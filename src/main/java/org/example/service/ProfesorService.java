@@ -2,6 +2,7 @@ package org.example.service;
 
 
 
+import lombok.AllArgsConstructor;
 import org.example.exception.BadRequestException;
 import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
@@ -12,13 +13,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ProfesorService {
     private final ProfesorRepository repositorio;
-
-    public ProfesorService(ProfesorRepository repositorio) {
-        this.repositorio = repositorio;
-    }
-
 
     /**
      * Lista todos los profesores

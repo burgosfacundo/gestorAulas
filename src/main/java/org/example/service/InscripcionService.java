@@ -3,6 +3,7 @@ package org.example.service;
 
 
 
+import lombok.AllArgsConstructor;
 import org.example.exception.BadRequestException;
 import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
@@ -27,16 +28,11 @@ import java.util.List;
  * y aplicar la lógica de negocio para manipular inscripciones
  */
 @Service
+@AllArgsConstructor
 public class InscripcionService{
     private final InscripcionRepository repositorio;
     private final AsignaturaRepository asignaturaRepository;
     private final ProfesorRepository profesorRepository;
-
-    public InscripcionService(InscripcionRepository repositorio, AsignaturaRepository asignaturaRepository, ProfesorRepository profesorRepository) {
-        this.repositorio = repositorio;
-        this.asignaturaRepository = asignaturaRepository;
-        this.profesorRepository = profesorRepository;
-    }
 
 
     /**

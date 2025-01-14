@@ -2,6 +2,7 @@ package org.example.service;
 
 
 
+import lombok.AllArgsConstructor;
 import org.example.exception.BadRequestException;
 import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
@@ -18,12 +19,9 @@ import java.util.List;
  * y aplicar la lógica de negocio para manipular asignaturas
  */
 @Service
+@AllArgsConstructor
 public class AsignaturaService{
     private final AsignaturaRepository repositorio;
-
-    public AsignaturaService(AsignaturaRepository repositorio) {
-        this.repositorio = repositorio;
-    }
 
     /**
      * Lista todas las asignaturas

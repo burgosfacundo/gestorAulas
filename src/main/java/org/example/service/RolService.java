@@ -1,6 +1,7 @@
 package org.example.service;
 
 
+import lombok.AllArgsConstructor;
 import org.example.exception.BadRequestException;
 import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
@@ -16,12 +17,9 @@ import java.util.List;
  * y aplicar la lógica de negocio para manipular roles
  */
 @Service
+@AllArgsConstructor
 public class RolService{
     private final RolRepository repositorio;
-
-    public RolService(RolRepository repositorio) {
-        this.repositorio = repositorio;
-    }
 
     /**
      * Lista todos los roles

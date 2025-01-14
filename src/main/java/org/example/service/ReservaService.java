@@ -2,6 +2,7 @@ package org.example.service;
 
 
 
+import lombok.AllArgsConstructor;
 import org.example.enums.BloqueHorario;
 import org.example.enums.EstadoSolicitud;
 import org.example.exception.BadRequestException;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
  * y aplicar la lógica de negocio para manipular inscripciones
  */
 @Service
+@AllArgsConstructor
 public class ReservaService{
     private final ReservaRepository repositorio;
     private final AulaRepository aulaRepository;
@@ -38,16 +40,6 @@ public class ReservaService{
     private final ProfesorRepository profesorRepository;
     private final AsignaturaRepository asignaturaRepository;
     private final SolicitudCambioAulaRepository solicitudRepository;
-
-    public ReservaService(ReservaRepository repositorio, AulaRepository aulaRepository, AulaService aulaService, InscripcionService inscripcionService, ProfesorRepository profesorRepository, AsignaturaRepository asignaturaRepository, SolicitudCambioAulaRepository solicitudRepository) {
-        this.repositorio = repositorio;
-        this.aulaRepository = aulaRepository;
-        this.aulaService = aulaService;
-        this.inscripcionService = inscripcionService;
-        this.profesorRepository = profesorRepository;
-        this.asignaturaRepository = asignaturaRepository;
-        this.solicitudRepository = solicitudRepository;
-    }
 
 
     /**
