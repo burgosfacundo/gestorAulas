@@ -41,9 +41,9 @@
       <padding>
          <Insets bottom="20" left="20" right="20" top="20" />
       </padding>
-      <Button fx:id="btnSolicitudesPendientes" onAction="#listarMisSolicitudes" text="Listar mis solicitudes pendientes" />
-      <Button fx:id="btnSolicitudesAprobadas" onAction="#listarMisSolicitudes" text="Listar mis solicitudes aprobadas" />
-      <Button fx:id="btnSolicitudesRechazadas" onAction="#listarMisSolicitudes" text="Listar mis solicitudes rechazadas" />
+      <Button fx:id="btnSolicitudesPendientes" onAction="#listarMisSolicitudesPendientes" text="Listar mis solicitudes pendientes" />
+      <Button fx:id="btnSolicitudesAprobadas" onAction="#listarMisSolicitudesAprobadas" text="Listar mis solicitudes aprobadas" />
+      <Button fx:id="btnSolicitudesRechazadas" onAction="#listarMisSolicitudesRechazadas" text="Listar mis solicitudes rechazadas" />
       <Button fx:id="btnCerrarSesion" onAction="#cerrarWindow" text="Cerrar sesión" />
    </VBox>
 </AnchorPane>
