@@ -16,4 +16,9 @@ public class Asignatura {
     @EqualsAndHashCode.Include
     private int codigo;
     boolean requiereLaboratorio;
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
 }

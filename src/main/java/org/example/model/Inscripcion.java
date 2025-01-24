@@ -17,4 +17,9 @@ public class Inscripcion {
     private String comision;
     @EqualsAndHashCode.Include
     private Profesor profesor;
+
+    @Override
+    public String toString() {
+        return String.valueOf(id);
+    }
 }

@@ -24,4 +24,9 @@ public class Reserva {
     @NonNull
     private Inscripcion inscripcion;
     private Map<DayOfWeek, Set<BloqueHorario>> diasYBloques;
+
+    @Override
+    public String toString() {
+        return String.valueOf(id);
+    }
 }

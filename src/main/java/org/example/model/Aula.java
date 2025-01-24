@@ -21,4 +21,9 @@ public class Aula {
         this.tieneProyector = aula.isTieneProyector();
         this.tieneTV = aula.isTieneTV();
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(numero);
+    }
 }

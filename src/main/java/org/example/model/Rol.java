@@ -19,4 +19,9 @@ public class Rol {
     public boolean tienePermiso(Permisos permiso) {
         return this.permisos.contains(permiso);
     }
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
 }

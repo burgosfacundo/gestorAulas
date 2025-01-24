@@ -69,6 +69,11 @@ public class SolicitudCambioAula {
         this.fechaHoraSolicitud = fechaHoraSolicitud;
     }
 
+
+    @Override
+    public String toString() {
+        return String.valueOf(id);
+    }
 }
 
 

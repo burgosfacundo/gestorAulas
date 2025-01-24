@@ -13,4 +13,9 @@ public class Usuario {
     private String password;
     private Rol rol;
     private Profesor profesor;
+
+    @Override
+    public String toString() {
+        return username;
+    }
 }

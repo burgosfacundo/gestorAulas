@@ -16,4 +16,9 @@ public class Profesor {
     private String apellido;
     @NonNull
     private String matricula;
+
+    @Override
+    public String toString() {
+        return nombre + " " + apellido;
+    }
 }
