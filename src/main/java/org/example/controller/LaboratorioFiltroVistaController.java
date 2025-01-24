@@ -3,6 +3,7 @@ package org.example.controller;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import lombok.extern.slf4j.Slf4j;
 import org.controlsfx.control.CheckComboBox;
 import org.example.enums.BloqueHorario;
 import org.example.exception.JsonNotFoundException;
@@ -16,11 +17,11 @@ import org.springframework.stereotype.Component;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.logging.Logger;
 
+@Slf4j
 @Component
 public class LaboratorioFiltroVistaController{
-    private static final Logger logger = Logger.getLogger(LaboratorioFiltroVistaController.class.getName());
+
     private final VistaUtils vistaUtils;
     private final ConfigurationUtils configurationUtils;
     private final TableUtils tableUtils;
@@ -160,7 +161,7 @@ public class LaboratorioFiltroVistaController{
             this.tblLaboratorios.refresh();
         } catch (JsonNotFoundException e) {
             vistaUtils.mostrarAlerta("Error:",e.getMessage(), Alert.AlertType.ERROR);
-            logger.severe(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 

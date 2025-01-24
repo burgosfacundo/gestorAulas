@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
 import org.example.model.Usuario;
@@ -19,12 +20,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class CambioPasswordVistaController {
-    private static final Logger logger = Logger.getLogger(CambioPasswordVistaController.class.getName());
     private Usuario usuarioActual;
     private final SesionActual sesionActual;
     private final VistaUtils vistaUtils;
@@ -48,7 +48,7 @@ public class CambioPasswordVistaController {
                     Alert.AlertType.ERROR
             );
             vistaUtils.cerrarVentana(btnCambiar);
-            logger.severe("No hay un usuario logueado.");
+            log.error("No hay un usuario logueado.");
         }
     }
 
@@ -99,7 +99,7 @@ public class CambioPasswordVistaController {
                     "Error",
                     "Ocurrió un error al modificar la contraseña",
                     Alert.AlertType.ERROR);
-            logger.severe(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 }

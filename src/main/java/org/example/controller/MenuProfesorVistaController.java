@@ -5,17 +5,18 @@ import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.enums.EstadoSolicitud;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
+
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class MenuProfesorVistaController {
-    private static final Logger logger = Logger.getLogger(MenuProfesorVistaController.class.getName());
     private final VistaUtils vistaUtils;
     @FXML
     public Button btnListarEspacios;
@@ -56,7 +57,7 @@ public class MenuProfesorVistaController {
             vistaUtils.cargarVista("/org/example/view/profesor/menu-profesor-espacios-view.fxml");
             cerrarWindow(actionEvent);
         }catch (IOException e){
-            logger.severe(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -65,7 +66,7 @@ public class MenuProfesorVistaController {
         try {
             vistaUtils.cargarYEsperarVista("/org/example/view/profesor/aulas-view.fxml");
         } catch (IOException e) {
-            logger.severe(e.getMessage());
+            log.error(e.getMessage());
         }
     }
     @FXML
@@ -73,7 +74,7 @@ public class MenuProfesorVistaController {
         try {
             vistaUtils.cargarYEsperarVista("/org/example/view/profesor/laboratorios-view.fxml");
         } catch (IOException e) {
-            logger.severe(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -82,7 +83,7 @@ public class MenuProfesorVistaController {
         try {
             vistaUtils.cargarVista("/org/example/view/aulas-disponibles-view.fxml");
         } catch (IOException e) {
-            logger.severe(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -91,7 +92,7 @@ public class MenuProfesorVistaController {
         try {
             vistaUtils.cargarVista("/org/example/view/laboratorios-disponibles-view.fxml");
         } catch (IOException e) {
-            logger.severe(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -101,7 +102,7 @@ public class MenuProfesorVistaController {
             vistaUtils.cargarVista("/org/example/view/profesor/solicitudes-view.fxml",
                     (SolicitudesVistaController controller) -> controller.setEstadoSolicitud(EstadoSolicitud.PENDIENTE));
         } catch (IOException e) {
-            logger.severe(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -111,7 +112,7 @@ public class MenuProfesorVistaController {
             vistaUtils.cargarVista("/org/example/view/profesor/solicitudes-view.fxml",
                     (SolicitudesVistaController controller) -> controller.setEstadoSolicitud(EstadoSolicitud.APROBADA));
         } catch (IOException e) {
-            logger.severe(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -121,7 +122,7 @@ public class MenuProfesorVistaController {
             vistaUtils.cargarVista("/org/example/view/profesor/solicitudes-view.fxml",
                     (SolicitudesVistaController controller) -> controller.setEstadoSolicitud(EstadoSolicitud.RECHAZADA));
         } catch (IOException e) {
-            logger.severe(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -140,7 +141,7 @@ public class MenuProfesorVistaController {
         try {
             vistaUtils.cargarVista("/org/example/view/cambio-password-view.fxml");
         } catch (IOException e) {
-            logger.severe(e.getMessage());
+            log.error(e.getMessage());
         }
     }
     @FXML
@@ -148,7 +149,7 @@ public class MenuProfesorVistaController {
         try {
             vistaUtils.cargarVista("/org/example/view/profesor/menu-profesor-view.fxml");
         } catch (IOException e) {
-            logger.severe(e.getMessage());
+            log.error(e.getMessage());
         }
         vistaUtils.cerrarVentana(this.btnVolver);
     }

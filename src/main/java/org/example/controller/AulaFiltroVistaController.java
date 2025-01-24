@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.controlsfx.control.CheckComboBox;
 import org.example.enums.BloqueHorario;
 
@@ -24,11 +25,10 @@ import org.springframework.stereotype.Component;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.logging.Logger;
 
+@Slf4j
 @Component
 public class AulaFiltroVistaController{
-    private static final Logger logger = Logger.getLogger(AulaFiltroVistaController.class.getName());
     private final ConfigurationUtils configurationUtils;
     private final TableUtils tableUtils;
     private final VistaUtils vistaUtils;
@@ -156,7 +156,7 @@ public class AulaFiltroVistaController{
             this.tblAulas.refresh();
         } catch (JsonNotFoundException e) {
             vistaUtils.mostrarAlerta("Error:",e.getMessage(), Alert.AlertType.ERROR);
-            logger.severe(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 

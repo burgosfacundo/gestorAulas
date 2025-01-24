@@ -9,18 +9,18 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.exception.JsonNotFoundException;
 import org.example.model.Laboratorio;
 import org.example.service.AulaService;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.logging.Logger;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class LaboratorioVistaController {
-    private static final Logger logger = Logger.getLogger(LaboratorioVistaController.class.getName());
     private final VistaUtils vistaUtils;
     @FXML
     public TableView<Laboratorio> tblLaboratorios;
@@ -92,7 +92,7 @@ public class LaboratorioVistaController {
             laboratorioObservableList.addAll(laboratorios);
             this.tblLaboratorios.setItems(laboratorioObservableList);
         } catch (JsonNotFoundException e) {
-            logger.severe(e.getMessage());
+            log.error(e.getMessage());
             vistaUtils.mostrarAlerta("Error al cargar laboratorios", e.getMessage(), Alert.AlertType.ERROR);
         }
     }

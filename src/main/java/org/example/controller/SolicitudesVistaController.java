@@ -12,6 +12,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.enums.BloqueHorario;
 import org.example.enums.EstadoSolicitud;
 import org.example.exception.JsonNotFoundException;
@@ -29,12 +30,11 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class SolicitudesVistaController{
-    private static final Logger logger = Logger.getLogger(SolicitudesVistaController.class.getName());
     private final TableUtils tableUtils;
     private final SolicitudCambioAulaService solicitudCambioAulaService;
     private final SesionActual sesionActual;
@@ -106,7 +106,7 @@ public class SolicitudesVistaController{
             solicitudesObservableList.addAll(solicitudes);
             tblSolicitudes.setItems(solicitudesObservableList);
         } catch (JsonNotFoundException | NotFoundException e) {
-            logger.severe("Error al actualizar la tabla: " + e.getMessage());
+            log.error("Error al actualizar la tabla: {}", e.getMessage());
         }
     }
 
@@ -137,7 +137,7 @@ public class SolicitudesVistaController{
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            logger.severe(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -156,7 +156,7 @@ public class SolicitudesVistaController{
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            logger.severe(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 

@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.exception.AutenticacionException;
 import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
@@ -14,12 +15,11 @@ import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 public class MenuInicioVistaController {
-    private static final Logger logger = Logger.getLogger(MenuInicioVistaController.class.getName());
     private final SesionActual sesionActual;
     private final VistaUtils vistaUtils;
     private final Seguridad seguridad;
@@ -46,7 +46,7 @@ public class MenuInicioVistaController {
      */
     private void redireccionarSegunRol(Usuario usuario) {
         if (usuario == null || usuario.getRol() == null) {
-            logger.severe("Usuario no encontrado");
+            log.error("Usuario no encontrado");
             return;
         }
         String rol = usuario.getRol().getNombre().toLowerCase();
@@ -56,11 +56,11 @@ public class MenuInicioVistaController {
                 try{
                     vistaUtils.cargarVista("/org/example/view/profesor/menu-profesor-view.fxml");
                 }catch (IOException e){
-                    logger.severe(e.getMessage());
+                    log.error(e.getMessage());
                 }
                 vistaUtils.cerrarVentana(btnLogin);
             }
-            default -> logger.severe("Rol no encontrado");
+            default -> log.error("Rol no encontrado");
         }
     }
 
