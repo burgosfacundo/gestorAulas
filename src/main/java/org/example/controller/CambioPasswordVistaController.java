@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import lombok.RequiredArgsConstructor;
 import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
 import org.example.model.Usuario;
@@ -14,14 +15,13 @@ import org.example.security.SesionActual;
 import org.example.service.UsuarioService;
 import org.example.utils.VistaUtils;
 import org.mindrot.jbcrypt.BCrypt;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-
+@RequiredArgsConstructor
 @Component
 public class CambioPasswordVistaController {
     private static final Logger logger = Logger.getLogger(CambioPasswordVistaController.class.getName());
@@ -38,16 +38,9 @@ public class CambioPasswordVistaController {
     @FXML
     private PasswordField repeatPassword;
 
-    @Autowired
-    public CambioPasswordVistaController(SesionActual sesionActual, VistaUtils vistaUtils, UsuarioService usuarioService) {
-        this.sesionActual = sesionActual;
-        this.vistaUtils = vistaUtils;
-        this.usuarioService = usuarioService;
-    }
-
     @FXML
     public void initialize() {
-        this.usuarioActual = sesionActual.getUsuarioActual();
+        this.usuarioActual = sesionActual.getUsuario();
         if (usuarioActual == null) {
             vistaUtils.mostrarAlerta(
                     "Error",

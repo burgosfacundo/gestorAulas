@@ -1,6 +1,6 @@
 package org.example.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.example.enums.EstadoSolicitud;
 import org.example.enums.TipoSolicitud;
 import org.example.exception.BadRequestException;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SolicitudCambioAulaService{
     private final SolicitudCambioAulaRepository repositorio;
     private final AulaRepository aulaRepository;

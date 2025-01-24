@@ -6,16 +6,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import lombok.RequiredArgsConstructor;
 import org.example.exception.JsonNotFoundException;
 import org.example.model.Aula;
 import org.example.service.AulaService;
 import org.example.utils.TableUtils;
 import org.example.utils.VistaUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.logging.Logger;
 
+@RequiredArgsConstructor
 @Component
 public class AulaVistaController{
     private static final Logger logger = Logger.getLogger(AulaVistaController.class.getName());
@@ -35,13 +36,7 @@ public class AulaVistaController{
     public TableColumn<Aula,Boolean> colTieneTV;
 
     private final AulaService aulaService;
-
-    @Autowired
-    public AulaVistaController(AulaService aulaService, VistaUtils vistaUtils, TableUtils tableUtils) {
-        this.aulaService = aulaService;
-        this.vistaUtils = vistaUtils;
-        this.tableUtils = tableUtils;
-    }
+    
 
     @FXML
     public void initialize(){

@@ -11,7 +11,6 @@ import org.example.service.AulaService;
 import org.example.utils.ConfigurationUtils;
 import org.example.utils.TableUtils;
 import org.example.utils.VistaUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
@@ -86,7 +85,6 @@ public class LaboratorioFiltroVistaController{
 
     private final Map<DayOfWeek, Set<BloqueHorario>> diasYBloques;
 
-    @Autowired
     public LaboratorioFiltroVistaController(AulaService aulaService, VistaUtils vistaUtils, ConfigurationUtils configurationUtils, TableUtils tableUtils) {
         this.aulaService = aulaService;
         this.diasYBloques = new HashMap<>();

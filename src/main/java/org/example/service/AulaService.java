@@ -2,7 +2,7 @@ package org.example.service;
 
 
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.example.enums.BloqueHorario;
 import org.example.exception.BadRequestException;
 import org.example.exception.JsonNotFoundException;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  * y aplicar la lógica de negocio para manipular aulas
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AulaService{
     private final AulaRepository repositorio;
     private final ReservaRepository reservaRepository;

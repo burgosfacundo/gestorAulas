@@ -2,7 +2,7 @@ package org.example.service;
 
 
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.example.enums.BloqueHorario;
 import org.example.enums.EstadoSolicitud;
 import org.example.exception.BadRequestException;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * y aplicar la lógica de negocio para manipular inscripciones
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ReservaService{
     private final ReservaRepository repositorio;
     private final AulaRepository aulaRepository;

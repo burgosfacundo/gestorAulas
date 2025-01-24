@@ -18,7 +18,6 @@ import org.example.service.AulaService;
 import org.example.utils.ConfigurationUtils;
 import org.example.utils.TableUtils;
 import org.example.utils.VistaUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
@@ -90,7 +89,6 @@ public class AulaFiltroVistaController{
 
     private final Map<DayOfWeek, Set<BloqueHorario>> diasYBloques;
 
-    @Autowired
     public AulaFiltroVistaController(AulaService aulaService, ConfigurationUtils configurationUtils, TableUtils tableUtils, VistaUtils vistaUtils) {
         this.aulaService = aulaService;
         this.configurationUtils = configurationUtils;

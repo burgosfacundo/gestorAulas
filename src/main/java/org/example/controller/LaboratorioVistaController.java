@@ -8,15 +8,16 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lombok.RequiredArgsConstructor;
 import org.example.exception.JsonNotFoundException;
 import org.example.model.Laboratorio;
 import org.example.service.AulaService;
 import org.example.utils.VistaUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.logging.Logger;
 
+@RequiredArgsConstructor
 @Component
 public class LaboratorioVistaController {
     private static final Logger logger = Logger.getLogger(LaboratorioVistaController.class.getName());
@@ -38,11 +39,6 @@ public class LaboratorioVistaController {
 
     private final AulaService aulaService;
 
-    @Autowired
-    public LaboratorioVistaController(AulaService aulaService, VistaUtils vistaUtils) {
-        this.aulaService = aulaService;
-        this.vistaUtils = vistaUtils;
-    }
 
     @FXML
     public void initialize(){

@@ -4,13 +4,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
+import lombok.RequiredArgsConstructor;
+import org.example.enums.EstadoSolicitud;
 import org.example.utils.VistaUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.logging.Logger;
 
+@RequiredArgsConstructor
 @Component
 public class MenuProfesorVistaController {
     private static final Logger logger = Logger.getLogger(MenuProfesorVistaController.class.getName());
@@ -41,11 +43,6 @@ public class MenuProfesorVistaController {
     public Button btnFiltrarLaboratorios;
     @FXML
     public Button btnVolver;
-
-    @Autowired
-    public MenuProfesorVistaController(VistaUtils vistaUtils) {
-        this.vistaUtils = vistaUtils;
-    }
 
 
     @FXML
@@ -99,8 +96,33 @@ public class MenuProfesorVistaController {
     }
 
     @FXML
-    public void listarMisSolicitudes(ActionEvent actionEvent) {
+    public void listarMisSolicitudesPendientes(ActionEvent actionEvent) {
+        try {
+            vistaUtils.cargarVista("/org/example/view/profesor/solicitudes-view.fxml",
+                    (SolicitudesVistaController controller) -> controller.setEstadoSolicitud(EstadoSolicitud.PENDIENTE));
+        } catch (IOException e) {
+            logger.severe(e.getMessage());
+        }
+    }
 
+    @FXML
+    public void listarMisSolicitudesAprobadas(ActionEvent actionEvent) {
+        try {
+            vistaUtils.cargarVista("/org/example/view/profesor/solicitudes-view.fxml",
+                    (SolicitudesVistaController controller) -> controller.setEstadoSolicitud(EstadoSolicitud.APROBADA));
+        } catch (IOException e) {
+            logger.severe(e.getMessage());
+        }
+    }
+
+    @FXML
+    public void listarMisSolicitudesRechazadas(ActionEvent actionEvent) {
+        try {
+            vistaUtils.cargarVista("/org/example/view/profesor/solicitudes-view.fxml",
+                    (SolicitudesVistaController controller) -> controller.setEstadoSolicitud(EstadoSolicitud.RECHAZADA));
+        } catch (IOException e) {
+            logger.severe(e.getMessage());
+        }
     }
 
     @FXML
@@ -130,7 +152,4 @@ public class MenuProfesorVistaController {
         }
         vistaUtils.cerrarVentana(this.btnVolver);
     }
-
-
-
 }

@@ -3,6 +3,7 @@ package org.example.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import lombok.RequiredArgsConstructor;
 import org.example.exception.AutenticacionException;
 import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
@@ -10,12 +11,12 @@ import org.example.model.Usuario;
 import org.example.security.Seguridad;
 import org.example.security.SesionActual;
 import org.example.utils.VistaUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 import java.util.logging.Logger;
 
+@RequiredArgsConstructor
 @Controller
 public class MenuInicioVistaController {
     private static final Logger logger = Logger.getLogger(MenuInicioVistaController.class.getName());
@@ -28,13 +29,6 @@ public class MenuInicioVistaController {
     private PasswordField password;
     @FXML
     private Button btnLogin;
-
-    @Autowired
-    public MenuInicioVistaController(SesionActual sesionActual, VistaUtils vistaUtils, Seguridad seguridad) {
-        this.sesionActual = sesionActual;
-        this.vistaUtils = vistaUtils;
-        this.seguridad = seguridad;
-    }
 
     /**
      * Maneja la autenticación de usuario
@@ -79,7 +73,7 @@ public class MenuInicioVistaController {
         Usuario usuario = null;
         try {
             usuario = seguridad.autenticar(username.getText(), password.getText());
-            sesionActual.setUsuarioActual(usuario);
+            sesionActual.setUsuario(usuario);
         } catch (AutenticacionException | JsonNotFoundException | NotFoundException e) {
             vistaUtils.mostrarAlerta("Error:",e.getMessage(), Alert.AlertType.ERROR);
         }
