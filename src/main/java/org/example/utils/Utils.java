@@ -18,6 +18,7 @@ public class Utils {
     public static String obtenerDiasEnEspaniol(Set<DayOfWeek> diasSemana) {
         return diasSemana.stream()
                 .map(day -> day.getDisplayName(TextStyle.FULL, Locale.forLanguageTag("es")))
+                .map(day -> day.substring(0, 1).toUpperCase() + day.substring(1))
                 .collect(Collectors.joining(", "));
     }
 
@@ -46,10 +47,10 @@ public class Utils {
             // Usamos obtenerDiasEnEspaniol para obtener el nombre del día en español
             var diaEnEspaniol = obtenerDiasEnEspaniol(Set.of(dia));
             var bloquesFormateados = bloques.stream()
-                    .map(BloqueHorario::name)
+                    .map(BloqueHorario::toString)
                     .collect(Collectors.joining(", "));
 
-            sb.append(String.format("   - %s: %s\n", diaEnEspaniol, bloquesFormateados));
+            sb.append(String.format("[ %s: %s ]\n", diaEnEspaniol, bloquesFormateados));
         });
         return sb.toString().trim(); // Eliminar último salto de línea
     }

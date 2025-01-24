@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 
 @Component
 public class VistaUtils {
@@ -31,6 +32,35 @@ public class VistaUtils {
             loader.setControllerFactory(springContext::getBean);
             Parent root = loader.load();
 
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("UTN - Sistema de Gestión de Aulas");
+            stage.show();
+        } catch (IOException e) {
+            throw new IOException("Error al cargar la vista: " + url, e);
+        }
+    }
+
+    /**
+     * Carga una vista y la muestra en una nueva ventana, opcionalmente pasando datos al controlador.
+     *
+     * @param url la ruta del archivo FXML dentro del classpath
+     * @param configurador un Consumer que permite configurar el controlador después de cargar la vista
+     * @throws IOException si ocurre un error al cargar la vista
+     */
+    public <T> void cargarVista(String url, Consumer<T> configurador) throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(url));
+            loader.setControllerFactory(springContext::getBean);
+            Parent root = loader.load();
+
+            // Configurar el controlador si se pasa un configurador
+            T controller = loader.getController();
+            if (configurador != null) {
+                configurador.accept(controller);
+            }
+
+            // Mostrar la vista
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("UTN - Sistema de Gestión de Aulas");
