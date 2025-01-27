@@ -17,6 +17,8 @@ target/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/inspectionProfiles
+.idea/shelf
 *.iws
 *.iml
 *.ipr
