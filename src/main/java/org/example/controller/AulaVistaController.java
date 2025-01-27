@@ -21,19 +21,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class AulaVistaController{
     private final VistaUtils vistaUtils;
-    private final TableUtils tableUtils;
     @FXML
-    public TableView<Aula> tblAulas;
+    private TableView<Aula> tblAulas;
     @FXML
-    public TableColumn<Aula,Integer> colId;
+    private TableColumn<Aula,Integer> colId;
     @FXML
-    public TableColumn<Aula,Integer> colNum;
+    private TableColumn<Aula,Integer> colNum;
     @FXML
-    public TableColumn<Aula,Integer> colCapacidad;
+    private TableColumn<Aula,Integer> colCapacidad;
     @FXML
-    public TableColumn<Aula,Boolean> colTieneProyector;
+    private TableColumn<Aula,Boolean> colTieneProyector;
     @FXML
-    public TableColumn<Aula,Boolean> colTieneTV;
+    private TableColumn<Aula,Boolean> colTieneTV;
 
     private final AulaService aulaService;
 
@@ -43,7 +42,7 @@ public class AulaVistaController{
         try {
             var aulas = aulaService.listarAulas();
             //Asocio columnas de la tabla con atributos del modelo
-            tableUtils.inicializarTablaAula(colId,colNum,colCapacidad,colTieneProyector,colTieneTV);
+            TableUtils.inicializarTablaAula(colId,colNum,colCapacidad,colTieneProyector,colTieneTV);
             //Agrego las aulas a la tabla de la vista
             ObservableList<Aula> aulaObservableList = FXCollections.observableArrayList();
             aulaObservableList.addAll(aulas);

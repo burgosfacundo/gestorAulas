@@ -21,10 +21,7 @@ import java.util.*;
 @Slf4j
 @Component
 public class LaboratorioFiltroVistaController{
-
     private final VistaUtils vistaUtils;
-    private final ConfigurationUtils configurationUtils;
-    private final TableUtils tableUtils;
     @FXML
     private TextField computadoras;
     @FXML
@@ -86,18 +83,16 @@ public class LaboratorioFiltroVistaController{
 
     private final Map<DayOfWeek, Set<BloqueHorario>> diasYBloques;
 
-    public LaboratorioFiltroVistaController(AulaService aulaService, VistaUtils vistaUtils, ConfigurationUtils configurationUtils, TableUtils tableUtils) {
+    public LaboratorioFiltroVistaController(AulaService aulaService, VistaUtils vistaUtils) {
         this.aulaService = aulaService;
-        this.diasYBloques = new HashMap<>();
+        this.diasYBloques = new EnumMap<>(DayOfWeek.class);
         this.vistaUtils = vistaUtils;
-        this.configurationUtils = configurationUtils;
-        this.tableUtils = tableUtils;
     }
 
     @FXML
     public void initialize() {
         //Asocio columnas de la tabla con atributos del modelo
-        tableUtils.inicializarTablaLaboratorio(colId,colNum,colCapacidad,colTieneProyector,colTieneTV,colComputadoras);
+        TableUtils.inicializarTablaLaboratorio(colId,colNum,colCapacidad,colTieneProyector,colTieneTV,colComputadoras);
 
         // Inicializar Map con días de la semana
         for (DayOfWeek day : DayOfWeek.values()) {
@@ -105,16 +100,16 @@ public class LaboratorioFiltroVistaController{
         }
 
         // Configurar acciones de los CheckBox y CheckComboBox
-        configurationUtils.configurarDiaYBloques(diasYBloques,cbLunes, checkComboBoxBloquesLunes, DayOfWeek.MONDAY);
-        configurationUtils.configurarDiaYBloques(diasYBloques,cbMartes, checkComboBoxBloquesMartes, DayOfWeek.TUESDAY);
-        configurationUtils.configurarDiaYBloques(diasYBloques,cbMiercoles, checkComboBoxBloquesMiercoles, DayOfWeek.WEDNESDAY);
-        configurationUtils.configurarDiaYBloques(diasYBloques,cbJueves, checkComboBoxBloquesJueves, DayOfWeek.THURSDAY);
-        configurationUtils.configurarDiaYBloques(diasYBloques,cbViernes, checkComboBoxBloquesViernes, DayOfWeek.FRIDAY);
-        configurationUtils.configurarDiaYBloques(diasYBloques,cbSabado, checkComboBoxBloquesSabado, DayOfWeek.SATURDAY);
-        configurationUtils.configurarDiaYBloques(diasYBloques,cbDomingo, checkComboBoxBloquesDomingo, DayOfWeek.SUNDAY);
+        ConfigurationUtils.configurarDiaYBloques(diasYBloques,cbLunes, checkComboBoxBloquesLunes, DayOfWeek.MONDAY);
+        ConfigurationUtils.configurarDiaYBloques(diasYBloques,cbMartes, checkComboBoxBloquesMartes, DayOfWeek.TUESDAY);
+        ConfigurationUtils.configurarDiaYBloques(diasYBloques,cbMiercoles, checkComboBoxBloquesMiercoles, DayOfWeek.WEDNESDAY);
+        ConfigurationUtils.configurarDiaYBloques(diasYBloques,cbJueves, checkComboBoxBloquesJueves, DayOfWeek.THURSDAY);
+        ConfigurationUtils.configurarDiaYBloques(diasYBloques,cbViernes, checkComboBoxBloquesViernes, DayOfWeek.FRIDAY);
+        ConfigurationUtils.configurarDiaYBloques(diasYBloques,cbSabado, checkComboBoxBloquesSabado, DayOfWeek.SATURDAY);
+        ConfigurationUtils.configurarDiaYBloques(diasYBloques,cbDomingo, checkComboBoxBloquesDomingo, DayOfWeek.SUNDAY);
 
         //Configurar fecha de inicio y de fin
-        configurationUtils.configurarCalendarios(fechaInicio,fechaFin);
+        ConfigurationUtils.configurarCalendarios(fechaInicio,fechaFin);
     }
 
     @FXML
