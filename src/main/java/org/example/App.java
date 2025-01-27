@@ -3,6 +3,7 @@ package org.example;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import org.example.utils.VistaUtils;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -10,7 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.IOException;
 
-
+@Slf4j
 @SpringBootApplication
 public class App extends Application {
 
@@ -32,7 +33,7 @@ public class App extends Application {
             VistaUtils vistaUtils = springContext.getBean(VistaUtils.class);
             vistaUtils.cargarVista("/org/example/view/menu-inicio-view.fxml");
         } catch (IOException e) {
-            System.err.println("Error al cargar la vista inicial:");
+            log.error("Error al cargar la vista inicial:");
             Platform.exit();
         }
     }
