@@ -20,7 +20,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 
@@ -111,9 +110,9 @@ public class AulaService{
      */
     public List<Laboratorio> listarLaboratorios() throws JsonNotFoundException {
         return listar().stream()
-                .filter(aula -> aula instanceof Laboratorio)
-                .map(aula -> (Laboratorio) aula)// Filtra si es instancia de Laboratorio
-                .collect(Collectors.toList());
+                .filter(Laboratorio.class::isInstance)
+                .map(Laboratorio.class::cast)// Filtra si es instancia de Laboratorio
+                .toList();
     }
 
     /**

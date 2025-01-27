@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -306,7 +305,7 @@ public class SolicitudCambioAulaService{
             throws JsonNotFoundException, NotFoundException {
         return listar().stream()
                 .filter(s -> s.getEstado().equals(estado))
-                .collect(Collectors.toList());
+                .toList();
     }
 
 
@@ -330,6 +329,6 @@ public class SolicitudCambioAulaService{
         return listar().stream()
                 .filter(s -> s.getEstado().equals(estado))
                 .filter(s -> s.getProfesor().getId().equals(idProfesor))
-                .collect(Collectors.toList());
+                .toList();
     }
 }

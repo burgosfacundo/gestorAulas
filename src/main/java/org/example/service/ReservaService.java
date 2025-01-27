@@ -340,7 +340,7 @@ public class ReservaService{
 
         return listar().stream()
                 .filter(r -> r.getInscripcion().getProfesor().getId() == idProfe)
-                .collect(Collectors.toList());
+                .toList();
     }
 
 
@@ -359,7 +359,7 @@ public class ReservaService{
 
         return listar().stream()
                 .filter(r -> r.getInscripcion().getComision().equals(comision))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -375,7 +375,7 @@ public class ReservaService{
 
         return listar().stream()
                 .filter(r -> r.getInscripcion().getAsignatura().getId().equals(idAsignatura))
-                .collect(Collectors.toList());
+                .toList();
     }
 
 }
