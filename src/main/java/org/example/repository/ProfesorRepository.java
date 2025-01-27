@@ -22,7 +22,8 @@ import java.util.Optional;
  */
 @Repository
 public class ProfesorRepository implements JSONRepository<Integer, Profesor>{
-    private final String ruta = "./json/profesores.json";
+    private static final String RUTA = "./json/profesores.json";
+    private static final String ERROR = String.format("No se encontró el archivo JSON: %s", RUTA);
     /**
      * Retorna la ruta al json
      * que se quiere utilizar en el default
@@ -31,7 +32,7 @@ public class ProfesorRepository implements JSONRepository<Integer, Profesor>{
      */
     @Override
     public String getRuta() {
-        return ruta;
+        return RUTA;
     }
 
     /**
@@ -52,7 +53,7 @@ public class ProfesorRepository implements JSONRepository<Integer, Profesor>{
         try (FileWriter writer = new FileWriter(getRuta())) {
             getGson().toJson(list, writer);
         } catch (IOException e) {
-            throw new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", ruta));
+            throw new JsonNotFoundException(ERROR);
         }
     }
 
@@ -89,12 +90,12 @@ public class ProfesorRepository implements JSONRepository<Integer, Profesor>{
      */
     @Override
     public List<Profesor> getAll() throws JsonNotFoundException {
-        try (FileReader reader = new FileReader(ruta)) {
+        try (FileReader reader = new FileReader(RUTA)) {
             //Indico que el tipo va a ser una Lista de profesores
             var rolListType = new TypeToken<List<Profesor>>() {}.getType();
             return getGson().fromJson(reader, rolListType);
         } catch (IOException e) {
-            throw new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", ruta));
+            throw new JsonNotFoundException(ERROR);
         }
     }
 
@@ -147,7 +148,7 @@ public class ProfesorRepository implements JSONRepository<Integer, Profesor>{
         var exist = profesores.stream()
                 .filter(p -> Objects.equals(p.getId(), profesor.getId()))
                 .findFirst()
-                .orElseThrow(() -> new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", ruta)));
+                .orElseThrow(() -> new JsonNotFoundException(ERROR));
 
         // Actualiza los atributos del profesor existente con los del nuevo objeto
         exist.setId(profesor.getId());

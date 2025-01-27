@@ -25,7 +25,8 @@ import java.util.Optional;
  */
 @Repository
 public class AulaRepository implements JSONRepository<Integer, Aula> {
-    private final String ruta = "./json/aulas.json";
+    private static final String RUTA = "./json/aulas.json";
+    private static final String ERROR = String.format("No se encontró el archivo JSON: %s", RUTA);
 
     /**
      * Retorna la ruta al json
@@ -35,7 +36,7 @@ public class AulaRepository implements JSONRepository<Integer, Aula> {
      */
     @Override
     public String getRuta() {
-        return this.ruta;
+        return RUTA;
     }
 
     @Override
@@ -58,7 +59,7 @@ public class AulaRepository implements JSONRepository<Integer, Aula> {
 
             gsonEspecializado.toJson(jsonArray, writer);
         } catch (IOException e) {
-            throw new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", ruta));
+            throw new JsonNotFoundException(ERROR);
         }
     }
 
@@ -94,12 +95,12 @@ public class AulaRepository implements JSONRepository<Integer, Aula> {
      */
     @Override
     public List<Aula> getAll() throws JsonNotFoundException {
-        try (FileReader reader = new FileReader(ruta)) {
+        try (FileReader reader = new FileReader(RUTA)) {
             // Gson deserializará automáticamente a Aula o Laboratorio usando RuntimeTypeAdapterFactory
             var listType = new TypeToken<List<Aula>>() {}.getType();
             return getGson().fromJson(reader, listType);
         } catch (IOException e) {
-            throw new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", ruta));
+            throw new JsonNotFoundException(ERROR);
         }
     }
 

@@ -24,7 +24,8 @@ import java.util.Optional;
  */
 @Repository
 public class InscripcionRepository implements JSONRepository<Integer, InscripcionDTO> {
-    private final String ruta = "./json/inscripciones.json";
+    private static final String RUTA = "./json/inscripciones.json";
+    private static final String ERROR = String.format("No se encontró el archivo JSON: %s", RUTA);
     /**
      * Retorna la ruta al json
      * que se quiere utilizar en el default
@@ -33,7 +34,7 @@ public class InscripcionRepository implements JSONRepository<Integer, Inscripcio
      */
     @Override
     public String getRuta() {
-        return this.ruta;
+        return RUTA;
     }
 
     /**
@@ -55,7 +56,7 @@ public class InscripcionRepository implements JSONRepository<Integer, Inscripcio
         try (FileWriter writer = new FileWriter(getRuta())) {
             getGson().toJson(list, writer);
         } catch (IOException e) {
-            throw new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", ruta));
+            throw new JsonNotFoundException(ERROR);
         }
     }
 
@@ -92,13 +93,13 @@ public class InscripcionRepository implements JSONRepository<Integer, Inscripcio
      */
     @Override
     public List<InscripcionDTO> getAll() throws JsonNotFoundException {
-        try (FileReader reader = new FileReader(ruta)) {
-            //Usamos InscripcionDTO porque guardamos solo los id de otras entidades
+        try (FileReader reader = new FileReader(RUTA)) {
+            //Usamos InscripcionDTO porque guardamos solo los ID de otras entidades
             // que corresponde a la inscripción en este json
             var listType = new TypeToken<List<InscripcionDTO>>() {}.getType();
             return getGson().fromJson(reader, listType);
         } catch (IOException e) {
-            throw new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", ruta));
+            throw new JsonNotFoundException(ERROR);
         }
     }
 
@@ -154,7 +155,7 @@ public class InscripcionRepository implements JSONRepository<Integer, Inscripcio
         }
         // Si no se encuentra el índice, lanza la excepción
         if (index == -1) {
-            throw new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", ruta));
+            throw new JsonNotFoundException(ERROR);
         }
         // Reemplaza el objeto en la lista con una nueva instancia actualizada
         var nuevoDTO = new InscripcionDTO(dto.id(), dto.cantidadAlumnos(),dto.margenAlumnos(),

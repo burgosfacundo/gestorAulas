@@ -18,16 +18,16 @@ Si no fuese por el adaptador, se lanzaría una excepción y no permitiría el re
  */
 
 public class AdaptadorLocalDate extends TypeAdapter<LocalDate> {
-    private final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;
 
     @Override
     public void write(JsonWriter out, LocalDate value) throws IOException {
-        out.value(value != null ? value.format(formatter) : null);
+        out.value(value != null ? value.format(FORMATTER) : null);
     }
 
     @Override
     public LocalDate read(JsonReader in) throws IOException {
         String date = in.nextString();
-        return date != null ? LocalDate.parse(date, formatter) : null;
+        return date != null ? LocalDate.parse(date, FORMATTER) : null;
     }
 }
