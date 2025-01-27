@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -13,9 +14,11 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.function.Consumer;
 
+@Slf4j
 @Component
 public class VistaUtils {
 
+    private static final String TITLE = "UTN - Sistema de Gestión de Aulas";
     private final ApplicationContext springContext;
 
     @Autowired
@@ -34,7 +37,7 @@ public class VistaUtils {
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setTitle("UTN - Sistema de Gestión de Aulas");
+            stage.setTitle(TITLE);
             stage.show();
         } catch (IOException e) {
             throw new IOException("Error al cargar la vista: " + url, e);
@@ -63,9 +66,10 @@ public class VistaUtils {
             // Mostrar la vista
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setTitle("UTN - Sistema de Gestión de Aulas");
+            stage.setTitle(TITLE);
             stage.show();
         } catch (IOException e) {
+            log.error(e.getMessage());
             throw new IOException("Error al cargar la vista: " + url, e);
         }
     }
@@ -82,7 +86,7 @@ public class VistaUtils {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL); // Configura el modo modal
-        stage.setTitle("UTN - Sistema de Gestión de Aulas");
+        stage.setTitle(TITLE);
         stage.setScene(scene);
         stage.showAndWait(); // Espera a que se cierre antes de continuar
     }
