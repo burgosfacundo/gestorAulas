@@ -51,7 +51,7 @@ public class MenuInicioVistaController {
         }
         String rol = usuario.getRol().getNombre().toLowerCase();
         switch (rol) {
-            case "administrador" -> System.out.println("Menu admin");
+            case "administrador" -> throw new UnsupportedOperationException("Menu Administrador no desarrollado aún");
             case "profesor" -> {
                 try{
                     vistaUtils.cargarVista("/org/example/view/profesor/menu-profesor-view.fxml");

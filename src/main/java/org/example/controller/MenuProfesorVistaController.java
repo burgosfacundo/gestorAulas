@@ -19,31 +19,31 @@ import java.io.IOException;
 public class MenuProfesorVistaController {
     private final VistaUtils vistaUtils;
     @FXML
-    public Button btnListarEspacios;
+    private Button btnListarEspacios;
     @FXML
-    public Button btnSolicitarCambio;
+    private Button btnSolicitarCambio;
     @FXML
-    public Button btnListarReservas;
+    private Button btnListarReservas;
     @FXML
-    public Button btnCambiarcontrasenia;
+    private Button btnCambiarcontrasenia;
     @FXML
-    public Button btnSolicitudesPendientes;
+    private Button btnSolicitudesPendientes;
     @FXML
-    public Button btnSolicitudesAprobadas;
+    private Button btnSolicitudesAprobadas;
     @FXML
-    public Button btnSolicitudesRechazadas;
+    private Button btnSolicitudesRechazadas;
     @FXML
-    public Button btnCerrarSesion;
+    private Button btnCerrarSesion;
     @FXML
-    public Button btnListarLaboratorios ;
+    private Button btnListarLaboratorios ;
     @FXML
-    public Button btnFiltrarAulas;
+    private Button btnFiltrarAulas;
     @FXML
-    public Button btnListarAulas;
+    private Button btnListarAulas;
     @FXML
-    public Button btnFiltrarLaboratorios;
+    private Button btnFiltrarLaboratorios;
     @FXML
-    public Button btnVolver;
+    private Button btnVolver;
 
 
     @FXML
@@ -128,12 +128,12 @@ public class MenuProfesorVistaController {
 
     @FXML
     public void solicitarCambio(ActionEvent actionEvent) {
-
+        throw new UnsupportedOperationException("Aun no esta desarrollada esta función");
     }
 
     @FXML
     public void listarMisReservas(ActionEvent actionEvent) {
-
+        throw new UnsupportedOperationException("Aun no esta desarrollada esta función");
     }
 
     @FXML
