@@ -7,17 +7,21 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.enums.BloqueHorario;
 import org.example.model.Aula;
 import org.example.model.Laboratorio;
+import org.example.model.Reserva;
 import org.example.model.SolicitudCambioAula;
-import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
 
-@Component
 public class TableUtils {
-    public void inicializarTablaAula(TableColumn<Aula, Integer> colId,
+
+    private TableUtils() {
+        throw new UnsupportedOperationException("Esta es una clase de utilidad y no debe ser instanciada.");
+    }
+
+    public static void inicializarTablaAula(TableColumn<Aula, Integer> colId,
                                             TableColumn<Aula, Integer> colNum,
                                             TableColumn<Aula, Integer> colCapacidad,
                                             TableColumn<Aula, Boolean> colTieneProyector,
@@ -27,44 +31,12 @@ public class TableUtils {
         colCapacidad.setCellValueFactory(new PropertyValueFactory<>("capacidad"));
         colTieneProyector.setCellValueFactory(new PropertyValueFactory<>("tieneProyector"));
         colTieneTV.setCellValueFactory(new PropertyValueFactory<>("tieneTV"));
+        colTieneProyector.setCellFactory(TableUtils::columnTic);
 
-        // Personalizo las columnas booleanas (tieneProyector y tieneTV)
-        colTieneProyector.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(Boolean item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null); // Si no hay datos, la celda estará vacía
-                } else {
-                    setText(item ? "✓" : "✗"); // Mostrar tick o cruz
-                    if (item) {
-                        setStyle("-fx-text-fill: green; -fx-font-weight: bold;"); // Color verde y texto en negrita
-                    } else {
-                        setStyle("-fx-text-fill: red; -fx-font-weight: bold;"); // Color rojo y texto en negrita
-                    }
-                }
-            }
-        });
-
-        colTieneTV.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(Boolean item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null); // Si no hay datos, la celda estará vacía
-                } else {
-                    setText(item ? "✓" : "✗"); // Mostrar tick o cruz
-                    if (item) {
-                        setStyle("-fx-text-fill: green; -fx-font-weight: bold;"); // Color verde y texto en negrita
-                    } else {
-                        setStyle("-fx-text-fill: red; -fx-font-weight: bold;"); // Color rojo y texto en negrita
-                    }
-                }
-            }
-        });
+        colTieneTV.setCellFactory(TableUtils::columnTic);
     }
 
-    public void inicializarTablaLaboratorio(TableColumn<Laboratorio, Integer> colId,
+    public static void inicializarTablaLaboratorio(TableColumn<Laboratorio, Integer> colId,
                                                    TableColumn<Laboratorio, Integer> colNum,
                                                    TableColumn<Laboratorio, Integer> colCapacidad,
                                                    TableColumn<Laboratorio, Boolean> colTieneProyector,
@@ -78,42 +50,12 @@ public class TableUtils {
         colTieneTV.setCellValueFactory(new PropertyValueFactory<>("tieneTV"));
 
         // Personalizo las columnas booleanas (tieneProyector y tieneTV)
-        colTieneProyector.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(Boolean item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null); // Si no hay datos, la celda estará vacía
-                } else {
-                    setText(item ? "✓" : "✗"); // Mostrar tick o cruz
-                    if (item) {
-                        setStyle("-fx-text-fill: green; -fx-font-weight: bold;"); // Color verde y texto en negrita
-                    } else {
-                        setStyle("-fx-text-fill: red; -fx-font-weight: bold;"); // Color rojo y texto en negrita
-                    }
-                }
-            }
-        });
+        colTieneProyector.setCellFactory(TableUtils::columnTic);
 
-        colTieneTV.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(Boolean item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null); // Si no hay datos, la celda estará vacía
-                } else {
-                    setText(item ? "✓" : "✗"); // Mostrar tick o cruz
-                    if (item) {
-                        setStyle("-fx-text-fill: green; -fx-font-weight: bold;"); // Color verde y texto en negrita
-                    } else {
-                        setStyle("-fx-text-fill: red; -fx-font-weight: bold;"); // Color rojo y texto en negrita
-                    }
-                }
-            }
-        });
+        colTieneTV.setCellFactory(TableUtils::columnTic);
     }
 
-    public void inicializarTablaSolicitudes(TableColumn<SolicitudCambioAula,Integer> colId,
+    public static void inicializarTablaSolicitudes(TableColumn<SolicitudCambioAula,Integer> colId,
                                             TableColumn<SolicitudCambioAula,String> colReserva,
                                             TableColumn<SolicitudCambioAula,String> colAula,
                                             TableColumn<SolicitudCambioAula, String> colEstado,
@@ -146,4 +88,49 @@ public class TableUtils {
         colComenProfe.setCellValueFactory(new PropertyValueFactory<>("comentarioProfesor"));
         colComenAdmin.setCellValueFactory(new PropertyValueFactory<>("comentarioEstado"));
     }
+
+    public static void inicializarTablaReserva(TableColumn<Reserva,Integer> colId,
+                                               TableColumn<Reserva, LocalDate> colFechaInicio,
+                                               TableColumn<Reserva,LocalDate> colFechaFin,
+                                               TableColumn<Reserva,String> colAula,
+                                               TableColumn<Reserva,String> colInscripcion,
+                                               TableColumn<SolicitudCambioAula, Map<DayOfWeek, Set<BloqueHorario>>> colDiaHorario){
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));
+        colFechaFin.setCellValueFactory(new PropertyValueFactory<>("fechaFin"));
+        colAula.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAula().toString()));
+        colInscripcion.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getInscripcion().toString()));
+        colDiaHorario.setCellValueFactory(new PropertyValueFactory<>("diasYBloques"));
+        colDiaHorario.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Map<DayOfWeek, Set<BloqueHorario>> item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(Utils.formatDiasYBloques(item));
+                }
+            }
+        });
+    }
+
+    private static <T extends Aula> TableCell<T, Boolean> columnTic(TableColumn<T, Boolean> column) {
+        return new TableCell<>() {
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(Boolean.TRUE.equals(item) ? "✓" : "✗");
+                    if (Boolean.TRUE.equals(item)) {
+                        setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
+                    } else {
+                        setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+                    }
+                }
+            }
+        };
+    }
+
 }

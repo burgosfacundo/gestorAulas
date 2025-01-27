@@ -10,6 +10,9 @@ import org.example.model.Aula;
  * Clase para configurar GSON
  */
 public class GsonConfig {
+    private GsonConfig() {
+        throw new UnsupportedOperationException("Esta es una clase de configuración y no debe ser instanciada.");
+    }
     /**
      * Crea un GSON que use AulaTypeAdapter para serialización y deserialización polimórfica
      * @return Gson configurado para Aula y Laboratorio

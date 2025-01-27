@@ -8,6 +8,10 @@ import org.example.model.dto.UsuarioDTO;
 
 public class Mapper {
 
+    private Mapper() {
+        throw new UnsupportedOperationException("Esta es una clase de utilidad y no debe ser instanciada.");
+    }
+
     //Usuario
 
     /**

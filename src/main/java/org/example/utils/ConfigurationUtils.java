@@ -12,7 +12,6 @@ import javafx.scene.paint.Paint;
 import javafx.util.converter.LocalDateStringConverter;
 import org.controlsfx.control.CheckComboBox;
 import org.example.enums.BloqueHorario;
-import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -21,21 +20,22 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-@Component
 public class ConfigurationUtils {
 
-    public void configurarDiaYBloques(Map<DayOfWeek, Set<BloqueHorario>> diasYBloques,
+    private ConfigurationUtils() {
+        throw new UnsupportedOperationException("Esta es una clase de utilidad y no debe ser instanciada.");
+    }
+
+    public static void configurarDiaYBloques(Map<DayOfWeek, Set<BloqueHorario>> diasYBloques,
                                       CheckBox dia,
                                       CheckComboBox<BloqueHorario> comboBox,
                                       DayOfWeek day) {
         // Inicialización del Set para este día
-        if (!diasYBloques.containsKey(day)) {
-            diasYBloques.put(day, new HashSet<>());
-        }
+        diasYBloques.computeIfAbsent(day, k -> new HashSet<>());
 
         // Listener para el día
         dia.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) { // Día seleccionado
+            if (Boolean.TRUE.equals(newValue)) { // Día seleccionado
                 comboBox.getItems().setAll(BloqueHorario.values());
                 diasYBloques.putIfAbsent(day, new HashSet<>());
             } else { // Día deseleccionado
@@ -65,7 +65,7 @@ public class ConfigurationUtils {
         comboBox.disableProperty().bind(dia.selectedProperty().not());
     }
 
-    public void configurarCalendarios(DatePicker fechaInicio, DatePicker fechaFin){
+    public static void configurarCalendarios(DatePicker fechaInicio, DatePicker fechaFin){
         //Configurando fechas
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 
