@@ -16,10 +16,8 @@ public class Laboratorio extends Aula {
     public void actualizar(Aula aula){
         super.actualizar(aula);
 
-        //Verifico que sea una instancia de Laboratorio
-        if (aula instanceof Laboratorio){
-            //Modifico la cantidad de computadoras
-            this.computadoras = ((Laboratorio) aula ).getComputadoras();
+        if (aula instanceof Laboratorio laboratorio) {
+            this.computadoras = laboratorio.getComputadoras();
         }
     }
 }
