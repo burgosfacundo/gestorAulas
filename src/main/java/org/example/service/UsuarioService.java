@@ -157,18 +157,6 @@ public class UsuarioService{
                 .orElseThrow(() -> new NotFoundException(String.format("No existe un usuario con el id: %d", idUsuario)));
     }
 
-    /**
-     * Valida si existe un usuario con ese username
-     * @param username a validar
-     * @throws BadRequestException si existe usuario con ese username
-     * @throws JsonNotFoundException sí existe un problema con el archivo JSON
-     */
-    private void validarUsernameUnico(String username) throws JsonNotFoundException, BadRequestException {
-        var user = repositorioUsuario.findByUsername(username);
-        if (user.isPresent()){
-            throw new BadRequestException("El username ya esta en uso");
-        }
-    }
 
     /**
      * Valida la existencia de un Profesor por ID
