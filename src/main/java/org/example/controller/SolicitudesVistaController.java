@@ -3,14 +3,10 @@ package org.example.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.enums.BloqueHorario;
@@ -18,11 +14,13 @@ import org.example.enums.EstadoSolicitud;
 import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
 import org.example.model.Aula;
+import org.example.model.Laboratorio;
 import org.example.model.Reserva;
 import org.example.model.SolicitudCambioAula;
 import org.example.security.SesionActual;
 import org.example.service.SolicitudCambioAulaService;
 import org.example.utils.TableUtils;
+import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -35,37 +33,37 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Component
 public class SolicitudesVistaController{
-    private final TableUtils tableUtils;
     private final SolicitudCambioAulaService solicitudCambioAulaService;
     private final SesionActual sesionActual;
+    private final VistaUtils vistaUtils;
     private EstadoSolicitud estadoSolicitud;
     @FXML
-    public TableView<SolicitudCambioAula> tblSolicitudes;
+    private TableView<SolicitudCambioAula> tblSolicitudes;
     @FXML
-    public TableColumn<SolicitudCambioAula,Integer> colId;
+    private TableColumn<SolicitudCambioAula,Integer> colId;
     @FXML
-    public TableColumn<SolicitudCambioAula,String> colReserva;
+    private TableColumn<SolicitudCambioAula,String> colReserva;
     @FXML
-    public TableColumn<SolicitudCambioAula,String> colAula;
+    private TableColumn<SolicitudCambioAula,String> colAula;
     @FXML
-    public TableColumn<SolicitudCambioAula, String> colEstado;
+    private TableColumn<SolicitudCambioAula, String> colEstado;
     @FXML
-    public TableColumn<SolicitudCambioAula, String> colTipo;
+    private TableColumn<SolicitudCambioAula, String> colTipo;
     @FXML
-    public TableColumn<SolicitudCambioAula, LocalDate> colInicio;
+    private TableColumn<SolicitudCambioAula, LocalDate> colInicio;
     @FXML
-    public TableColumn<SolicitudCambioAula, LocalDate> colFin;
+    private TableColumn<SolicitudCambioAula, LocalDate> colFin;
     @FXML
-    public TableColumn<SolicitudCambioAula, Map<DayOfWeek, Set<BloqueHorario>>> colDiaHorario;
+    private TableColumn<SolicitudCambioAula, Map<DayOfWeek, Set<BloqueHorario>>> colDiaHorario;
     @FXML
-    public TableColumn<SolicitudCambioAula,String> colComenProfe;
+    private TableColumn<SolicitudCambioAula,String> colComenProfe;
     @FXML
-    public TableColumn<SolicitudCambioAula,String> colComenAdmin;
+    private TableColumn<SolicitudCambioAula,String> colComenAdmin;
 
 
     @FXML
     public void initialize() {
-        tableUtils.inicializarTablaSolicitudes(
+        TableUtils.inicializarTablaSolicitudes(
                 colId, colReserva, colAula, colEstado, colTipo,
                 colInicio, colFin, colDiaHorario, colComenProfe, colComenAdmin
         );
@@ -96,7 +94,7 @@ public class SolicitudesVistaController{
 
             // Configurar la tabla si no se ha hecho antes
             if (tblSolicitudes.getColumns().isEmpty()) {
-                tableUtils.inicializarTablaSolicitudes(
+                TableUtils.inicializarTablaSolicitudes(
                         colId, colReserva, colAula, colEstado, colTipo,
                         colInicio, colFin, colDiaHorario, colComenProfe, colComenAdmin
                 );
@@ -110,32 +108,25 @@ public class SolicitudesVistaController{
         }
     }
 
-
-    private void handleRowDoubleClick(SolicitudCambioAula solicitud, MouseEvent event) {
+    private void handleRowDoubleClick(SolicitudCambioAula solicitud, MouseEvent ignoredEvent) {
         // Determinar la columna del click
-        TableColumn clickedColumn = tblSolicitudes.getFocusModel().getFocusedCell().getTableColumn();
+        var clickedColumn = tblSolicitudes.getFocusModel().getFocusedCell().getTableColumn();
 
         if (clickedColumn == colReserva) {
             mostrarVistaReserva(solicitud.getReservaOriginal());
         } else if (clickedColumn == colAula) {
-            mostrarVistaAula(solicitud.getNuevaAula());
+            if (solicitud.getNuevaAula() instanceof Laboratorio laboratorio) {
+                mostrarVistaLaboratorio(laboratorio);
+            }else {
+                mostrarVistaAula(solicitud.getNuevaAula());
+            }
         }
     }
 
     private void mostrarVistaReserva(Reserva reserva) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/view/profesor/reserva-detalle-view.fxml"));
-            Parent root = loader.load();
-
-            // Pasar los datos al controlador
-            ReservaDetalleController controller = loader.getController();
-            controller.setReserva(reserva);
-
-            // Mostrar la vista en un nuevo Stage
-            Stage stage = new Stage();
-            stage.setTitle("Detalle de Reserva");
-            stage.setScene(new Scene(root));
-            stage.show();
+            vistaUtils.cargarVista("/org/example/view/profesor/reserva-detalle-view.fxml",
+                    (ReservaDetalleController controller) -> controller.setReserva(reserva));
         } catch (IOException e) {
             log.error(e.getMessage());
         }
@@ -143,18 +134,17 @@ public class SolicitudesVistaController{
 
     private void mostrarVistaAula(Aula aula) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/view/profesor/aula-detalle-view.fxml"));
-            Parent root = loader.load();
+            vistaUtils.cargarVista("/org/example/view/profesor/aula-detalle-view.fxml",
+                    (AulaDetalleController controller) -> controller.setAula(aula));
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+    }
 
-            // Pasar los datos al controlador
-            AulaDetalleController controller = loader.getController();
-            controller.setAula(aula);
-
-            // Mostrar la vista en un nuevo Stage
-            Stage stage = new Stage();
-            stage.setTitle("Detalle de Aula");
-            stage.setScene(new Scene(root));
-            stage.show();
+    private void mostrarVistaLaboratorio(Laboratorio laboratorio) {
+        try {
+            vistaUtils.cargarVista("/org/example/view/profesor/laboratorio-detalle-view.fxml",
+                    (LaboratorioDetalleController controller) -> controller.setLaboratorio(laboratorio));
         } catch (IOException e) {
             log.error(e.getMessage());
         }
