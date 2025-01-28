@@ -1,4 +1,4 @@
-package org.example.controller;
+package org.example.controller.menus;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,7 +54,7 @@ public class MenuInicioVistaController {
             case "administrador" -> throw new UnsupportedOperationException("Menu Administrador no desarrollado aún");
             case "profesor" -> {
                 try{
-                    vistaUtils.cargarVista("/org/example/view/profesor/menu-profesor-view.fxml");
+                    vistaUtils.cargarVista("/org/example/view/menus/menu-profesor-view.fxml");
                 }catch (IOException e){
                     log.error(e.getMessage());
                 }

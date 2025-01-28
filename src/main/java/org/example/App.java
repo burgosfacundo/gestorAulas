@@ -31,7 +31,7 @@ public class App extends Application {
     public void start(Stage stage) {
         try {
             VistaUtils vistaUtils = springContext.getBean(VistaUtils.class);
-            vistaUtils.cargarVista("/org/example/view/menu-inicio-view.fxml");
+            vistaUtils.cargarVista("/org/example/view/menus/menu-inicio-view.fxml");
         } catch (IOException e) {
             log.error("Error al cargar la vista inicial:");
             Platform.exit();

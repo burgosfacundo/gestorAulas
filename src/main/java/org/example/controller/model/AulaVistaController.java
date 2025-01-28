@@ -1,19 +1,23 @@
-package org.example.controller;
+package org.example.controller.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.model.Aula;
 import org.example.utils.TableUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 
 @Slf4j
+@RequiredArgsConstructor
 @Component
-public class AulaDetalleController {
+public class AulaVistaController{
     @FXML
     private TableView<Aula> tblAulas;
     @FXML
@@ -26,11 +30,11 @@ public class AulaDetalleController {
     private TableColumn<Aula,Boolean> colTieneProyector;
     @FXML
     private TableColumn<Aula,Boolean> colTieneTV;
-    private Aula aula;
+    private List<Aula> aulas;
 
 
-    public void setAula(Aula aula) {
-        this.aula = aula;
+    public void setAulas(List<Aula> aulas) {
+        this.aulas = aulas;
         actualizarTabla();
     }
 
@@ -41,7 +45,7 @@ public class AulaDetalleController {
         }
 
         ObservableList<Aula> aulaObservableList = FXCollections.observableArrayList();
-        aulaObservableList.add(aula);
+        aulaObservableList.addAll(aulas);
         tblAulas.setItems(aulaObservableList);
     }
 

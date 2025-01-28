@@ -1,26 +1,23 @@
-package org.example.controller;
+package org.example.controller.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.exception.JsonNotFoundException;
 import org.example.model.Laboratorio;
-import org.example.service.AulaService;
 import org.example.utils.TableUtils;
-import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class LaboratorioVistaController {
-    private final VistaUtils vistaUtils;
     @FXML
     private TableView<Laboratorio> tblLaboratorios;
     @FXML
@@ -35,25 +32,27 @@ public class LaboratorioVistaController {
     private TableColumn<Laboratorio,Boolean> colTieneTV;
     @FXML
     private TableColumn<Laboratorio,Integer> colComputadoras;
+    private List<Laboratorio> laboratorios;
 
-    private final AulaService aulaService;
+    public void setLaboratorios(List<Laboratorio> laboratorios) {
+        this.laboratorios = laboratorios;
+        actualizarTabla();
+    }
 
+    private void actualizarTabla() {
+        // Configurar la tabla si no se ha hecho antes
+        if (tblLaboratorios.getColumns().isEmpty()) {
+            TableUtils.inicializarTablaLaboratorio(colId,colNum,colCapacidad,colTieneProyector,colTieneTV,colComputadoras);
+        }
 
+        ObservableList<Laboratorio> laboratorioObservableList = FXCollections.observableArrayList();
+        laboratorioObservableList.addAll(laboratorios);
+        tblLaboratorios.setItems(laboratorioObservableList);
+    }
 
     @FXML
     public void initialize(){
-        try {
-            var laboratorios = aulaService.listarLaboratorios();
-            TableUtils.inicializarTablaLaboratorio(colId,colNum,colCapacidad,colTieneProyector,colTieneTV,colComputadoras);
-
-            //Agrego las aulas a la tabla de la vista
-            ObservableList<Laboratorio> laboratorioObservableList = FXCollections.observableArrayList();
-            laboratorioObservableList.addAll(laboratorios);
-            this.tblLaboratorios.setItems(laboratorioObservableList);
-        } catch (JsonNotFoundException e) {
-            log.error(e.getMessage());
-            vistaUtils.mostrarAlerta("Error al cargar laboratorios", e.getMessage(), Alert.AlertType.ERROR);
-        }
+        //Asocio columnas de la tabla con atributos del modelo
+        TableUtils.inicializarTablaLaboratorio(colId,colNum,colCapacidad,colTieneProyector,colTieneTV,colComputadoras);
     }
-
 }

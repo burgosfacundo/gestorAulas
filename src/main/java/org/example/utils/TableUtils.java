@@ -5,10 +5,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.enums.BloqueHorario;
-import org.example.model.Aula;
-import org.example.model.Laboratorio;
-import org.example.model.Reserva;
-import org.example.model.SolicitudCambioAula;
+import org.example.model.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -113,6 +110,24 @@ public class TableUtils {
             }
         });
     }
+
+    public static void inicializarTablaInscripcion(TableColumn<Inscripcion, Integer> colId,
+                                                   TableColumn<Inscripcion, Integer> colAlumnos,
+                                                   TableColumn<Inscripcion, Integer> colMargenAlumnos,
+                                                   TableColumn<Inscripcion, LocalDate> colFechaFinInscripcion,
+                                                   TableColumn<Inscripcion, String> colAsignatura,
+                                                   TableColumn<Inscripcion, String> colComision,
+                                                   TableColumn<Inscripcion, String> colProfesor){
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colAlumnos.setCellValueFactory(new PropertyValueFactory<>("cantidadAlumnos"));
+        colMargenAlumnos.setCellValueFactory(new PropertyValueFactory<>("margenAlumnos"));
+        colFechaFinInscripcion.setCellValueFactory(new PropertyValueFactory<>("fechaFinInscripcion"));
+        colAsignatura.setCellValueFactory(new PropertyValueFactory<>("asignatura"));
+        colComision.setCellValueFactory(new PropertyValueFactory<>("comision"));
+        colProfesor.setCellValueFactory(new PropertyValueFactory<>("profesor"));
+    }
+
+
 
     private static <T extends Aula> TableCell<T, Boolean> columnTic(TableColumn<T, Boolean> column) {
         return new TableCell<>() {

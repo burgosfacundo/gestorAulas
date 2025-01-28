@@ -1,18 +1,26 @@
-package org.example.controller;
+package org.example.controller.filtros;
 
 import javafx.collections.FXCollections;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+
+
 import lombok.extern.slf4j.Slf4j;
 import org.controlsfx.control.CheckComboBox;
 import org.example.enums.BloqueHorario;
+
 import org.example.exception.JsonNotFoundException;
-import org.example.model.Laboratorio;
+import org.example.model.Aula;
 import org.example.service.AulaService;
+
 import org.example.utils.ConfigurationUtils;
 import org.example.utils.TableUtils;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
+
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -20,10 +28,8 @@ import java.util.*;
 
 @Slf4j
 @Component
-public class LaboratorioFiltroVistaController{
+public class AulaFiltroVistaController{
     private final VistaUtils vistaUtils;
-    @FXML
-    private TextField computadoras;
     @FXML
     private TextField capacidad;
     @FXML
@@ -63,19 +69,17 @@ public class LaboratorioFiltroVistaController{
     @FXML
     private CheckComboBox<BloqueHorario> checkComboBoxBloquesDomingo;
     @FXML
-    private TableView<Laboratorio> tblLaboratorios;
+    private TableView<Aula> tblAulas;
     @FXML
-    private TableColumn<Laboratorio,Integer> colComputadoras;
+    private TableColumn<Aula, Integer> colId;
     @FXML
-    private TableColumn<Laboratorio, Integer> colId;
+    private TableColumn<Aula, Integer> colNum;
     @FXML
-    private TableColumn<Laboratorio, Integer> colNum;
+    private TableColumn<Aula, Integer> colCapacidad;
     @FXML
-    private TableColumn<Laboratorio, Integer> colCapacidad;
+    private TableColumn<Aula, Boolean> colTieneProyector;
     @FXML
-    private TableColumn<Laboratorio, Boolean> colTieneProyector;
-    @FXML
-    private TableColumn<Laboratorio, Boolean> colTieneTV;
+    private TableColumn<Aula, Boolean> colTieneTV;
     @FXML
     private Button btnBuscar;
 
@@ -83,16 +87,16 @@ public class LaboratorioFiltroVistaController{
 
     private final Map<DayOfWeek, Set<BloqueHorario>> diasYBloques;
 
-    public LaboratorioFiltroVistaController(AulaService aulaService, VistaUtils vistaUtils) {
+    public AulaFiltroVistaController(AulaService aulaService,VistaUtils vistaUtils) {
         this.aulaService = aulaService;
-        this.diasYBloques = new EnumMap<>(DayOfWeek.class);
         this.vistaUtils = vistaUtils;
+        this.diasYBloques = new EnumMap<>(DayOfWeek.class);
     }
 
     @FXML
     public void initialize() {
         //Asocio columnas de la tabla con atributos del modelo
-        TableUtils.inicializarTablaLaboratorio(colId,colNum,colCapacidad,colTieneProyector,colTieneTV,colComputadoras);
+        TableUtils.inicializarTablaAula(colId,colNum,colCapacidad,colTieneProyector,colTieneTV);
 
         // Inicializar Map con días de la semana
         for (DayOfWeek day : DayOfWeek.values()) {
@@ -113,7 +117,7 @@ public class LaboratorioFiltroVistaController{
     }
 
     @FXML
-    private void filtrarLaboratoriosDisponibles() {
+    private void filtrarAulasDisponibles() {
         try {
             var errores = validarCampos();
             if (errores.isPresent()) {
@@ -121,20 +125,12 @@ public class LaboratorioFiltroVistaController{
                 return;
             }
 
-            var textComputadoras = computadoras.getText();
-            Integer computadorasMin;
-            if (textComputadoras.isEmpty()) {
-                computadorasMin = null;
-            }else {
-                computadorasMin = Integer.parseInt(textComputadoras);
-            }
-
-            var textCapacidad = capacidad.getText();
+            var text = capacidad.getText();
             Integer capacidadMin;
-            if (textCapacidad.isEmpty()) {
+            if (text.isEmpty()) {
                 capacidadMin = null;
             }else {
-                capacidadMin = Integer.parseInt(textCapacidad);
+                capacidadMin = Integer.parseInt(text);
             }
             Boolean proyectorRequerido = tieneProyector.isSelected() ? true : null;
             Boolean tvRequerido = tieneTV.isSelected() ? true : null;
@@ -150,10 +146,10 @@ public class LaboratorioFiltroVistaController{
             if (cbSabado.isSelected()) diasYBloques.put(DayOfWeek.SATURDAY, new HashSet<>(checkComboBoxBloquesSabado.getCheckModel().getCheckedItems()));
             if (cbDomingo.isSelected()) diasYBloques.put(DayOfWeek.SUNDAY, new HashSet<>(checkComboBoxBloquesDomingo.getCheckModel().getCheckedItems()));
 
-            var labsFiltrados = aulaService.listarLaboratoriosDisponiblesConCondiciones(computadorasMin,capacidadMin, proyectorRequerido, tvRequerido, inicio, fin, diasYBloques);
-            var labsObservableList = FXCollections.observableArrayList(labsFiltrados);
-            this.tblLaboratorios.setItems(labsObservableList);
-            this.tblLaboratorios.refresh();
+            var aulasFiltradas = aulaService.listarAulasDisponiblesConCondiciones(capacidadMin, proyectorRequerido, tvRequerido, inicio, fin, diasYBloques);
+            var aulaObservableList = FXCollections.observableArrayList(aulasFiltradas);
+            this.tblAulas.setItems(aulaObservableList);
+            this.tblAulas.refresh();
         } catch (JsonNotFoundException e) {
             vistaUtils.mostrarAlerta("Error:",e.getMessage(), Alert.AlertType.ERROR);
             log.error(e.getMessage());
@@ -163,25 +159,6 @@ public class LaboratorioFiltroVistaController{
 
     private Optional<List<String>> validarCampos() {
         List<String> errores = new ArrayList<>();
-
-        // Validar computadoras
-        if (computadoras.isVisible()){
-            String text = computadoras.getText();
-            if (text.isEmpty()) {
-                computadoras.setStyle("-fx-border-color: transparent;");
-            }else if (!text.matches("\\d+")) {
-                computadoras.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                errores.add("La cantidad de computadoras debe ser un número válido.");
-            } else {
-                int number = Integer.parseInt(text);
-                if (number < 0) {
-                    computadoras.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                    errores.add("La cantidad de computadoras debe ser mayor o igual que 0.");
-                } else {
-                    computadoras.setStyle("-fx-border-color: transparent;");
-                }
-            }
-        }
 
         // Validar capacidad
         String texto = capacidad.getText();
@@ -257,4 +234,5 @@ public class LaboratorioFiltroVistaController{
 
         return errores.isEmpty() ? Optional.empty() : Optional.of(errores);
     }
+
 }

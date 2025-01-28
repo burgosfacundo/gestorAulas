@@ -10,13 +10,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ecf8ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.MenuInicioVistaController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ecf8ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.menus.MenuInicioVistaController">
    <Button fx:id="btnLogin" alignment="CENTER" layoutX="252.0" layoutY="321.0" mnemonicParsing="false" onAction="#iniciarSesion" prefHeight="27.0" prefWidth="95.0" text="Ingresar">
       <cursor>
          <Cursor fx:constant="DEFAULT" />
       </cursor></Button>
    <ImageView fitHeight="103.0" fitWidth="190.0" layoutX="201.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="@../image/logoUTN.png" />
+      <Image url="@../../image/logoUTN.png" />
    </ImageView>
    <Label alignment="CENTER" layoutX="201.0" layoutY="210.0" prefHeight="27.0" prefWidth="190.0" style="-fx-background-color: #005482;" text="Inicio de sesión" textAlignment="CENTER" textFill="WHITE">
       <font>

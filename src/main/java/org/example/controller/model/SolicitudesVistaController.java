@@ -1,4 +1,4 @@
-package org.example.controller;
+package org.example.controller.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -79,7 +80,6 @@ public class SolicitudesVistaController{
         });
     }
 
-
     public void setEstadoSolicitud(EstadoSolicitud estadoSolicitud) {
         this.estadoSolicitud = estadoSolicitud;
         actualizarTabla();
@@ -125,8 +125,8 @@ public class SolicitudesVistaController{
 
     private void mostrarVistaReserva(Reserva reserva) {
         try {
-            vistaUtils.cargarVista("/org/example/view/profesor/reserva-detalle-view.fxml",
-                    (ReservaDetalleController controller) -> controller.setReserva(reserva));
+            vistaUtils.cargarVista("/org/example/view/model/reserva-view.fxml",
+                    (ReservaVistaController controller) -> controller.setReservas(List.of(reserva)));
         } catch (IOException e) {
             log.error(e.getMessage());
         }
@@ -134,8 +134,8 @@ public class SolicitudesVistaController{
 
     private void mostrarVistaAula(Aula aula) {
         try {
-            vistaUtils.cargarVista("/org/example/view/profesor/aula-detalle-view.fxml",
-                    (AulaDetalleController controller) -> controller.setAula(aula));
+            vistaUtils.cargarVista("/org/example/view/aula-detalle-view.fxml",
+                    (AulaVistaController controller) -> controller.setAulas(List.of(aula)));
         } catch (IOException e) {
             log.error(e.getMessage());
         }
@@ -143,11 +143,10 @@ public class SolicitudesVistaController{
 
     private void mostrarVistaLaboratorio(Laboratorio laboratorio) {
         try {
-            vistaUtils.cargarVista("/org/example/view/profesor/laboratorio-detalle-view.fxml",
-                    (LaboratorioDetalleController controller) -> controller.setLaboratorio(laboratorio));
+            vistaUtils.cargarVista("/org/example/view/model/laboratorio-view.fxml",
+                    (LaboratorioVistaController controller) -> controller.setLaboratorios(List.of(laboratorio)));
         } catch (IOException e) {
             log.error(e.getMessage());
         }
     }
-
 }
