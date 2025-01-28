@@ -1,4 +1,4 @@
-package org.example.controller;
+package org.example.controller.menus;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -6,7 +6,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.controller.model.AulaVistaController;
+import org.example.controller.model.LaboratorioVistaController;
+import org.example.controller.model.ReservaVistaController;
+import org.example.controller.model.SolicitudesVistaController;
 import org.example.enums.EstadoSolicitud;
+import org.example.exception.JsonNotFoundException;
+import org.example.exception.NotFoundException;
+import org.example.security.SesionActual;
+import org.example.service.AulaService;
+import org.example.service.ReservaService;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
@@ -44,6 +53,9 @@ public class MenuProfesorVistaController {
     private Button btnFiltrarLaboratorios;
     @FXML
     private Button btnVolver;
+    private final AulaService aulaService;
+    private final ReservaService reservaService;
+    private final SesionActual sesionActual;
 
 
     @FXML
@@ -54,7 +66,7 @@ public class MenuProfesorVistaController {
     @FXML
     public void menuListarEspacios(ActionEvent actionEvent) {
         try{
-            vistaUtils.cargarVista("/org/example/view/profesor/menu-profesor-espacios-view.fxml");
+            vistaUtils.cargarVista("/org/example/view/menus/menu-profesor-espacios-view.fxml");
             cerrarWindow(actionEvent);
         }catch (IOException e){
             log.error(e.getMessage());
@@ -64,16 +76,21 @@ public class MenuProfesorVistaController {
     @FXML
     public void listarAulas(ActionEvent actionEvent) {
         try {
-            vistaUtils.cargarYEsperarVista("/org/example/view/profesor/aulas-view.fxml");
-        } catch (IOException e) {
+            var aulas = aulaService.listarAulas();
+            vistaUtils.cargarVista("/org/example/view/model/aula-view.fxml",
+                    (AulaVistaController controller) -> controller.setAulas(aulas));
+        } catch (IOException | JsonNotFoundException e) {
             log.error(e.getMessage());
         }
     }
+
     @FXML
     public void listarLaboratorios(ActionEvent actionEvent) {
         try {
-            vistaUtils.cargarYEsperarVista("/org/example/view/profesor/laboratorios-view.fxml");
-        } catch (IOException e) {
+            var laboratorios = aulaService.listarLaboratorios();
+            vistaUtils.cargarVista("/org/example/view/model/laboratorio-view.fxml",
+                    (LaboratorioVistaController controller) -> controller.setLaboratorios(laboratorios));
+        } catch (IOException | JsonNotFoundException e) {
             log.error(e.getMessage());
         }
     }
@@ -81,7 +98,7 @@ public class MenuProfesorVistaController {
     @FXML
     public void filtrarAulasDisponibles(ActionEvent actionEvent) {
         try {
-            vistaUtils.cargarVista("/org/example/view/aulas-disponibles-view.fxml");
+            vistaUtils.cargarVista("/org/example/view/filtros/aula-disponibles-view.fxml");
         } catch (IOException e) {
             log.error(e.getMessage());
         }
@@ -90,7 +107,7 @@ public class MenuProfesorVistaController {
     @FXML
     public void filtrarLaboratoriosDisponibles(ActionEvent actionEvent) {
         try {
-            vistaUtils.cargarVista("/org/example/view/laboratorios-disponibles-view.fxml");
+            vistaUtils.cargarVista("/org/example/view/filtros/laboratorio-disponibles-view.fxml");
         } catch (IOException e) {
             log.error(e.getMessage());
         }
@@ -99,7 +116,7 @@ public class MenuProfesorVistaController {
     @FXML
     public void listarMisSolicitudesPendientes(ActionEvent actionEvent) {
         try {
-            vistaUtils.cargarVista("/org/example/view/profesor/solicitudes-view.fxml",
+            vistaUtils.cargarVista("/org/example/view/model/solicitud-view.fxml",
                     (SolicitudesVistaController controller) -> controller.setEstadoSolicitud(EstadoSolicitud.PENDIENTE));
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -109,7 +126,7 @@ public class MenuProfesorVistaController {
     @FXML
     public void listarMisSolicitudesAprobadas(ActionEvent actionEvent) {
         try {
-            vistaUtils.cargarVista("/org/example/view/profesor/solicitudes-view.fxml",
+            vistaUtils.cargarVista("/org/example/view/model/solicitud-view.fxml",
                     (SolicitudesVistaController controller) -> controller.setEstadoSolicitud(EstadoSolicitud.APROBADA));
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -119,7 +136,7 @@ public class MenuProfesorVistaController {
     @FXML
     public void listarMisSolicitudesRechazadas(ActionEvent actionEvent) {
         try {
-            vistaUtils.cargarVista("/org/example/view/profesor/solicitudes-view.fxml",
+            vistaUtils.cargarVista("/org/example/view/model/solicitud-view.fxml",
                     (SolicitudesVistaController controller) -> controller.setEstadoSolicitud(EstadoSolicitud.RECHAZADA));
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -133,7 +150,14 @@ public class MenuProfesorVistaController {
 
     @FXML
     public void listarMisReservas(ActionEvent actionEvent) {
-        throw new UnsupportedOperationException("Aun no esta desarrollada esta función");
+        try {
+            var idProfesor = sesionActual.getUsuario().getProfesor().getId();
+            var reservas = reservaService.listarReservasPorProfesor(idProfesor);
+            vistaUtils.cargarVista("/org/example/view/model/reserva-view.fxml",
+                    (ReservaVistaController controller) -> controller.setReservas(reservas));
+        } catch (IOException | JsonNotFoundException | NotFoundException e) {
+            log.error(e.getMessage());
+        }
     }
 
     @FXML
@@ -147,7 +171,7 @@ public class MenuProfesorVistaController {
     @FXML
     public void volverMenuPrincipal(ActionEvent actionEvent) {
         try {
-            vistaUtils.cargarVista("/org/example/view/profesor/menu-profesor-view.fxml");
+            vistaUtils.cargarVista("/org/example/view/menus/menu-profesor-view.fxml");
         } catch (IOException e) {
             log.error(e.getMessage());
         }
