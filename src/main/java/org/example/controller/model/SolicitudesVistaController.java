@@ -134,7 +134,7 @@ public class SolicitudesVistaController{
 
     private void mostrarVistaAula(Aula aula) {
         try {
-            vistaUtils.cargarVista("/org/example/view/aula-detalle-view.fxml",
+            vistaUtils.cargarVista("/org/example/view/model/aula-view.fxml",
                     (AulaVistaController controller) -> controller.setAulas(List.of(aula)));
         } catch (IOException e) {
             log.error(e.getMessage());
