@@ -10,6 +10,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.util.converter.LocalDateStringConverter;
+import lombok.experimental.UtilityClass;
 import org.controlsfx.control.CheckComboBox;
 import org.example.enums.BloqueHorario;
 
@@ -20,13 +21,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+@UtilityClass
 public class ConfigurationUtils {
 
-    private ConfigurationUtils() {
-        throw new UnsupportedOperationException("Esta es una clase de utilidad y no debe ser instanciada.");
-    }
-
-    public static void configurarDiaYBloques(Map<DayOfWeek, Set<BloqueHorario>> diasYBloques,
+    public void configurarDiaYBloques(Map<DayOfWeek, Set<BloqueHorario>> diasYBloques,
                                       CheckBox dia,
                                       CheckComboBox<BloqueHorario> comboBox,
                                       DayOfWeek day) {
@@ -65,7 +63,7 @@ public class ConfigurationUtils {
         comboBox.disableProperty().bind(dia.selectedProperty().not());
     }
 
-    public static void configurarCalendarios(DatePicker fechaInicio, DatePicker fechaFin){
+    public void configurarCalendarios(DatePicker fechaInicio, DatePicker fechaFin){
         //Configurando fechas
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 

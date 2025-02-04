@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lombok.experimental.UtilityClass;
 import org.example.enums.BloqueHorario;
 import org.example.model.*;
 
@@ -12,13 +13,10 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
 
+@UtilityClass
 public class TableUtils {
 
-    private TableUtils() {
-        throw new UnsupportedOperationException("Esta es una clase de utilidad y no debe ser instanciada.");
-    }
-
-    public static void inicializarTablaAula(TableColumn<Aula, Integer> colId,
+    public void inicializarTablaAula(TableColumn<Aula, Integer> colId,
                                             TableColumn<Aula, Integer> colNum,
                                             TableColumn<Aula, Integer> colCapacidad,
                                             TableColumn<Aula, Boolean> colTieneProyector,
@@ -33,7 +31,7 @@ public class TableUtils {
         colTieneTV.setCellFactory(TableUtils::columnTic);
     }
 
-    public static void inicializarTablaLaboratorio(TableColumn<Laboratorio, Integer> colId,
+    public void inicializarTablaLaboratorio(TableColumn<Laboratorio, Integer> colId,
                                                    TableColumn<Laboratorio, Integer> colNum,
                                                    TableColumn<Laboratorio, Integer> colCapacidad,
                                                    TableColumn<Laboratorio, Boolean> colTieneProyector,
@@ -52,7 +50,7 @@ public class TableUtils {
         colTieneTV.setCellFactory(TableUtils::columnTic);
     }
 
-    public static void inicializarTablaSolicitudes(TableColumn<SolicitudCambioAula,Integer> colId,
+    public void inicializarTablaSolicitudes(TableColumn<SolicitudCambioAula,Integer> colId,
                                             TableColumn<SolicitudCambioAula,String> colReserva,
                                             TableColumn<SolicitudCambioAula,String> colAula,
                                             TableColumn<SolicitudCambioAula, String> colEstado,
@@ -86,7 +84,7 @@ public class TableUtils {
         colComenAdmin.setCellValueFactory(new PropertyValueFactory<>("comentarioEstado"));
     }
 
-    public static void inicializarTablaReserva(TableColumn<Reserva,Integer> colId,
+    public void inicializarTablaReserva(TableColumn<Reserva,Integer> colId,
                                                TableColumn<Reserva, LocalDate> colFechaInicio,
                                                TableColumn<Reserva,LocalDate> colFechaFin,
                                                TableColumn<Reserva,String> colAula,
@@ -111,7 +109,7 @@ public class TableUtils {
         });
     }
 
-    public static void inicializarTablaInscripcion(TableColumn<Inscripcion, Integer> colId,
+    public void inicializarTablaInscripcion(TableColumn<Inscripcion, Integer> colId,
                                                    TableColumn<Inscripcion, Integer> colAlumnos,
                                                    TableColumn<Inscripcion, Integer> colMargenAlumnos,
                                                    TableColumn<Inscripcion, LocalDate> colFechaFinInscripcion,
@@ -129,7 +127,7 @@ public class TableUtils {
 
 
 
-    private static <T extends Aula> TableCell<T, Boolean> columnTic(TableColumn<T, Boolean> column) {
+    private <T extends Aula> TableCell<T, Boolean> columnTic(TableColumn<T, Boolean> column) {
         return new TableCell<>() {
             @Override
             protected void updateItem(Boolean item, boolean empty) {

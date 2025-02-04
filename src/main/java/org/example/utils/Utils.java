@@ -1,5 +1,6 @@
 package org.example.utils;
 
+import lombok.experimental.UtilityClass;
 import org.example.enums.BloqueHorario;
 
 import java.time.DayOfWeek;
@@ -8,18 +9,14 @@ import java.time.format.TextStyle;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
+@UtilityClass
 public class Utils {
-
-    private Utils() {
-        throw new UnsupportedOperationException("Esta es una clase de utilidad y no debe ser instanciada.");
-    }
     /**
      * Obtiene los nombres de los días de la semana en español.
      * @param diasSemana Set de DayOfWeek con los días de la semana.
      * @return String con los nombres de los días separados por coma.
      */
-    public static String obtenerDiasEnEspaniol(Set<DayOfWeek> diasSemana) {
+    public String obtenerDiasEnEspaniol(Set<DayOfWeek> diasSemana) {
         return diasSemana.stream()
                 .map(day -> day.getDisplayName(TextStyle.FULL, Locale.forLanguageTag("es")))
                 .map(day -> day.substring(0, 1).toUpperCase() + day.substring(1))
@@ -32,7 +29,7 @@ public class Utils {
      * @param diasYBloques Mapa de DayOfWeek a Set de BloqueHorario.
      * @return String con el formato de días y bloques horarios.
      */
-    public static String formatDiasYBloques(Map<DayOfWeek, Set<BloqueHorario>> diasYBloques) {
+    public String formatDiasYBloques(Map<DayOfWeek, Set<BloqueHorario>> diasYBloques) {
         var sb = new StringBuilder();
         diasYBloques.forEach((dia, bloques) -> {
             // Usamos obtenerDiasEnEspaniol para obtener el nombre del día en español
@@ -54,7 +51,7 @@ public class Utils {
      * @param fechaFin2 fin del segundo período.
      * @return boolean si los períodos se solapan o no.
      */
-    public static boolean seSolapanFechas(LocalDate fechaInicio1, LocalDate fechaFin1, LocalDate fechaInicio2, LocalDate fechaFin2) {
+    public boolean seSolapanFechas(LocalDate fechaInicio1, LocalDate fechaFin1, LocalDate fechaInicio2, LocalDate fechaFin2) {
         return !fechaFin1.isBefore(fechaInicio2) && !fechaInicio1.isAfter(fechaFin2);
     }
 
@@ -64,7 +61,7 @@ public class Utils {
      * @param diasYBloquesSolicitados días y bloques horarios solicitados para disponibilidad.
      * @return boolean si existe al menos un día y bloque horario común.
      */
-    public static boolean tieneSolapamientoEnDiasYBloques(Map<DayOfWeek, Set<BloqueHorario>> diasYBloquesReserva,
+    public boolean tieneSolapamientoEnDiasYBloques(Map<DayOfWeek, Set<BloqueHorario>> diasYBloquesReserva,
                                                           Map<DayOfWeek, Set<BloqueHorario>> diasYBloquesSolicitados) {
         for (var entry : diasYBloquesSolicitados.entrySet()) {
             var diaSolicitado = entry.getKey();

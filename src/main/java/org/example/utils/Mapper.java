@@ -1,17 +1,14 @@
 package org.example.utils;
 
+import lombok.experimental.UtilityClass;
 import org.example.model.*;
 import org.example.model.dto.InscripcionDTO;
 import org.example.model.dto.ReservaDTO;
 import org.example.model.dto.SolicitudCambioAulaDTO;
 import org.example.model.dto.UsuarioDTO;
 
+@UtilityClass
 public class Mapper {
-
-    private Mapper() {
-        throw new UnsupportedOperationException("Esta es una clase de utilidad y no debe ser instanciada.");
-    }
-
     //Usuario
 
     /**
@@ -19,7 +16,7 @@ public class Mapper {
      * @param dto que queremos mapear
      * @return Usuario mapeado desde dto
      */
-    public static Usuario toUsuario(UsuarioDTO dto, Rol rol, Profesor profesor){
+    public Usuario toUsuario(UsuarioDTO dto, Rol rol, Profesor profesor){
         //Retornamos el usuario mapeado desde DTO, incluyendo su rol y el profesor que representa
         return new Usuario(
                 dto.id(),
@@ -35,7 +32,7 @@ public class Mapper {
      * @param usuario que queremos mapear
      * @return UsuarioDTO mapeado desde Usuario
      */
-    public static UsuarioDTO usuarioToDto(Usuario usuario) {
+    public UsuarioDTO usuarioToDto(Usuario usuario) {
         //Retornamos el dto mapeado desde Usuario
         return new UsuarioDTO(
                 usuario.getId(),
@@ -53,7 +50,7 @@ public class Mapper {
      * @param dto que queremos mapear
      * @return Inscripción mapeado desde dto
      */
-    public static Inscripcion toInscripcion(InscripcionDTO dto, Asignatura asignatura, Profesor profesor){
+    public Inscripcion toInscripcion(InscripcionDTO dto, Asignatura asignatura, Profesor profesor){
         //Retornamos la inscripción mapeando desde DTO, incluyendo su asignatura y profesor
         return new Inscripcion(
                 dto.id(),
@@ -71,7 +68,7 @@ public class Mapper {
      * @param inscripcion que queremos mapear
      * @return InscripciónDTO mapeado desde Inscripción
      */
-    public static InscripcionDTO inscripcionToDTO(Inscripcion inscripcion) {
+    public InscripcionDTO inscripcionToDTO(Inscripcion inscripcion) {
         //Retornamos el DTO mapeado desde InscripciÓn
         return new InscripcionDTO(
                 inscripcion.getId(),
@@ -92,7 +89,7 @@ public class Mapper {
      * @param dto que queremos mapear
      * @return Inscripción mapeado desde dto
      */
-    public static Reserva toReserva(ReservaDTO dto, Aula aula, Inscripcion inscripcion){
+    public Reserva toReserva(ReservaDTO dto, Aula aula, Inscripcion inscripcion){
         //Retornamos la inscripción mapeando desde DTO, incluyendo su asignatura y profesor
         return new Reserva(
                 dto.id(),
@@ -109,7 +106,7 @@ public class Mapper {
      * @param reserva que queremos mapear
      * @return ReservaDTO mapeado desde Reserva
      */
-    public static ReservaDTO reservaToDTO(Reserva reserva) {
+    public ReservaDTO reservaToDTO(Reserva reserva) {
         //Retornamos el DTO mapeado desde Reserva
         return new ReservaDTO(
                 reserva.getId(),
@@ -130,7 +127,7 @@ public class Mapper {
      * @param dto que queremos mapear
      * @return SolicitudCambioAula mapeado desde DTO
      */
-    public static SolicitudCambioAula toSolicitud(SolicitudCambioAulaDTO dto, Profesor profesor, Aula aula,
+    public SolicitudCambioAula toSolicitud(SolicitudCambioAulaDTO dto, Profesor profesor, Aula aula,
                                             Reserva reserva){
         //Retornamos la solicitud mapeando desde DTO, incluyendo su aula, profesor y reserva original
         return new SolicitudCambioAula(
@@ -145,7 +142,7 @@ public class Mapper {
      * @param solicitud que queremos mapear
      * @return SolicitudCambioAulaDTO mapeado desde SolicitudCambioAula
      */
-    public static SolicitudCambioAulaDTO solicitudToDTO(SolicitudCambioAula solicitud) {
+    public SolicitudCambioAulaDTO solicitudToDTO(SolicitudCambioAula solicitud) {
         //Retornamos el DTO mapeado desde SolicitudCambioAula
         return new SolicitudCambioAulaDTO(
                 solicitud.getId(), solicitud.getProfesor().getId(), solicitud.getReservaOriginal().getId(),
