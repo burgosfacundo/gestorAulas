@@ -13,6 +13,7 @@ module org.example.gestoraulas {
     requires javafx.controls;
     requires spring.core;
     requires static lombok;
+    requires java.naming;
 
     opens org.example.model to com.google.gson, javafx.base;
     opens org.example.model.dto to com.google.gson;
@@ -43,4 +44,8 @@ module org.example.gestoraulas {
     opens org.example.controller.menus to javafx.fxml, org.slf4j, spring.context, spring.core;
     exports org.example.controller.model;
     opens org.example.controller.model to javafx.fxml, org.slf4j, spring.context, spring.core;
+    exports org.example.controller.model.solicitud.crearSolicitud;
+    opens org.example.controller.model.solicitud.crearSolicitud to javafx.fxml, org.slf4j, spring.context, spring.core;
+    exports org.example.controller.model.solicitud;
+    opens org.example.controller.model.solicitud to javafx.fxml, org.slf4j, spring.context, spring.core;
 }
