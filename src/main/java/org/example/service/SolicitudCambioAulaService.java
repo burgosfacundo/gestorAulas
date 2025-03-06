@@ -53,12 +53,12 @@ public class SolicitudCambioAulaService{
 
     /**
      * Guarda una solicitud
+     *
      * @param solicitud que queremos guardar
-     * @return SolicitudCambioAula que se guarda
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
-     * @throws BadRequestException si existe una solicitud, o no se encuentra las clases que contiene
+     * @throws BadRequestException   si existe una solicitud, o no se encuentra las clases que contiene
      */
-    public SolicitudCambioAula guardar(SolicitudCambioAula solicitud) throws JsonNotFoundException, NotFoundException, BadRequestException {
+    public void guardar(SolicitudCambioAula solicitud) throws JsonNotFoundException, NotFoundException, BadRequestException {
         var idAula = solicitud.getNuevaAula().getId();
         var idProfesor = solicitud.getProfesor().getId();
         var idReserva = solicitud.getReservaOriginal().getId();
@@ -77,7 +77,6 @@ public class SolicitudCambioAulaService{
         validarReservaExistente(idReserva);
 
         repositorio.save(Mapper.solicitudToDTO(solicitud));
-        return solicitud;
     }
 
 

@@ -94,10 +94,10 @@ public class VistaUtils {
     /**
      * Muestra una alerta con el título y contenido especificados.
      */
-    public void mostrarAlerta(String title, String content, Alert.AlertType type) {
+    public void mostrarAlerta(String content, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setHeaderText(null);
-        alert.setTitle(title);
+        alert.setTitle(TITLE);
         alert.setContentText(content);
         alert.showAndWait();
     }
