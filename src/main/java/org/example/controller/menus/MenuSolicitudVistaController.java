@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.controller.model.SolicitudesVistaController;
+import org.example.controller.model.solicitud.SolicitudVistaController;
 import org.example.enums.EstadoSolicitud;
 import org.example.security.SesionActual;
 import org.example.utils.VistaUtils;
@@ -17,7 +17,7 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class MenuSolicitudesVistaController {
+public class MenuSolicitudVistaController {
     private final SesionActual sesionActual;
     private final VistaUtils vistaUtils;
     @FXML
@@ -37,23 +37,28 @@ public class MenuSolicitudesVistaController {
 
     @FXML
     public void crearSolicitud(ActionEvent actionEvent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try{
+            vistaUtils.cargarVista("/org/example/view/model/solicitud/crearSolicitud/seleccionar-reserva-view.fxml");
+        }catch (IOException e) {
+            log.error(e.getMessage());
+        }
     }
 
     @FXML
     public void eliminarSolicitud(ActionEvent actionEvent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try{
+            vistaUtils.cargarVista("/org/example/view/model/solicitud/eliminar-solicitud-view.fxml");
+        }catch (IOException e) {
+            log.error(e.getMessage());
+        }
     }
 
-    @FXML
-    public void modificarSolicitud(ActionEvent actionEvent) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+
     @FXML
     public void listarMisSolicitudesPendientes(ActionEvent actionEvent) {
         try {
-            vistaUtils.cargarVista("/org/example/view/model/solicitud-view.fxml",
-                    (SolicitudesVistaController controller) -> controller.setEstadoSolicitud(EstadoSolicitud.PENDIENTE));
+            vistaUtils.cargarVista("/org/example/view/model/solicitud/solicitud-view.fxml",
+                    (SolicitudVistaController controller) -> controller.setEstadoSolicitud(EstadoSolicitud.PENDIENTE));
         } catch (IOException e) {
             log.error(e.getMessage());
         }
@@ -62,8 +67,8 @@ public class MenuSolicitudesVistaController {
     @FXML
     public void listarMisSolicitudesAprobadas(ActionEvent actionEvent) {
         try {
-            vistaUtils.cargarVista("/org/example/view/model/solicitud-view.fxml",
-                    (SolicitudesVistaController controller) -> controller.setEstadoSolicitud(EstadoSolicitud.APROBADA));
+            vistaUtils.cargarVista("/org/example/view/model/solicitud/solicitud-view.fxml",
+                    (SolicitudVistaController controller) -> controller.setEstadoSolicitud(EstadoSolicitud.APROBADA));
         } catch (IOException e) {
             log.error(e.getMessage());
         }
@@ -72,8 +77,8 @@ public class MenuSolicitudesVistaController {
     @FXML
     public void listarMisSolicitudesRechazadas(ActionEvent actionEvent) {
         try {
-            vistaUtils.cargarVista("/org/example/view/model/solicitud-view.fxml",
-                    (SolicitudesVistaController controller) -> controller.setEstadoSolicitud(EstadoSolicitud.RECHAZADA));
+            vistaUtils.cargarVista("/org/example/view/model/solicitud/solicitud-view.fxml",
+                    (SolicitudVistaController controller) -> controller.setEstadoSolicitud(EstadoSolicitud.RECHAZADA));
         } catch (IOException e) {
             log.error(e.getMessage());
         }

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="743.0" style="-fx-background-color: #ecf8ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.model.solicitud.crearSolicitud.SeleccionarTipoSolicitudVistaController">
+    <Label alignment="CENTER" layoutX="290.0" layoutY="25.0" prefHeight="35.0" prefWidth="430.0" text="Universidad Tecnológica Nacional" textFill="#005080">
+        <font>
+          <Font name="System Bold" size="24.0" />
+        </font>
+    </Label>
+    <Label alignment="CENTER" layoutX="283.0" layoutY="60.0" prefHeight="35.0" prefWidth="430.0" text="  Facultad Regional Mar del Plata" textFill="#005080">
+        <font>
+          <Font name="System Bold" size="24.0" />
+        </font>
+    </Label>
+    <ImageView fitHeight="139.0" fitWidth="224.0" layoutX="8.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../../../../image/logoUTN.png" />
+    </ImageView>
+    <HBox layoutX="476.0" layoutY="189.0" prefHeight="25.0" prefWidth="238.0" spacing="10">
+        <Label style="-fx-font-size: 14px;" text="Tipo de Solicitud:"/>
+        <ComboBox fx:id="tipoSolicitudComboBox" prefHeight="25.0" prefWidth="120.0"/>
+    </HBox>
+    <Button fx:id="btnBuscar" layoutX="476.0" layoutY="313.0" onAction="#actualizarListaAulas" style="-fx-background-color: #005080; -fx-text-fill: white; -fx-font-size: 14px;" text="Buscar Espacio" />
+    <TableView fx:id="tblAulas" layoutX="13.0" layoutY="154.0" prefHeight="197.0" prefWidth="456.0">
+        <columns>
+          <TableColumn fx:id="colId" prefWidth="31.0" text="Id" />
+          <TableColumn fx:id="colNum" prefWidth="67.0" text="Número" />
+          <TableColumn fx:id="colCapacidad" prefWidth="76.0" text="Capacidad" />
+          <TableColumn fx:id="colTieneProyector" prefWidth="111.0" text="Tiene Proyector" />
+          <TableColumn fx:id="colTieneTV" prefWidth="71.0" text="Tiene TV" />
+          <TableColumn fx:id="colComputadoras" prefWidth="99.0" text="Computadoras" />
+        </columns>
+    </TableView>
+    <VBox layoutX="476.0" layoutY="236.0" prefHeight="61.0" prefWidth="214.0" spacing="10.0">
+        <HBox prefHeight="25.0" prefWidth="240.0" spacing="10">
+            <Label style="-fx-font-size: 14px;" text="Fecha Inicio:"/>
+            <DatePicker fx:id="fechaInicioPicker" prefWidth="120"/>
+        </HBox>
+        <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+            <Label style="-fx-font-size: 14px;" text="Fecha Fin:"/>
+            <DatePicker fx:id="fechaFinPicker" prefWidth="120"/>
+        </HBox>
+    </VBox>
+    <Label layoutX="13.0" layoutY="371.0" style="-fx-font-size: 14px;" text="Comentario:" />
+    <TextArea fx:id="comentarioProfesorTextArea" layoutX="14.0" layoutY="399.0" prefHeight="80" prefWidth="456.0" />
+    <Button fx:id="btnEnviarSolicitudButton" layoutX="479.0" layoutY="449.0" onAction="#enviarSolicitud" style="-fx-background-color: #005080; -fx-text-fill: white; -fx-font-size: 14px;" text="Enviar Solicitud" />
+    <Label alignment="CENTER" layoutX="22.0" layoutY="109.0" prefHeight="35.0" prefWidth="238.0" text="Seleccionar espacio:">
+        <font>
+          <Font name="System Bold" size="24.0" />
+        </font>
+    </Label>
+</AnchorPane>
