@@ -75,7 +75,7 @@ public class MenuInicioVistaController {
             usuario = seguridad.autenticar(username.getText(), password.getText());
             sesionActual.setUsuario(usuario);
         } catch (AutenticacionException | JsonNotFoundException | NotFoundException e) {
-            vistaUtils.mostrarAlerta("Error:",e.getMessage(), Alert.AlertType.ERROR);
+            vistaUtils.mostrarAlerta(e.getMessage(), Alert.AlertType.ERROR);
         }
         return usuario;
     }

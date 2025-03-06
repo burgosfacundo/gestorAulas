@@ -43,7 +43,6 @@ public class CambioPasswordVistaController {
         this.usuarioActual = sesionActual.getUsuario();
         if (usuarioActual == null) {
             vistaUtils.mostrarAlerta(
-                    "Error",
                     "No hay un usuario logueado. Cierra y vuelve a iniciar sesión.",
                     Alert.AlertType.ERROR
             );
@@ -80,7 +79,6 @@ public class CambioPasswordVistaController {
 
             if (!errores.isEmpty()) {
                 vistaUtils.mostrarAlerta(
-                        "Error en el formulario",
                         String.join("\n", errores),
                         Alert.AlertType.ERROR);
                 return;
@@ -90,13 +88,11 @@ public class CambioPasswordVistaController {
             usuarioService.modificar(user);
 
             vistaUtils.mostrarAlerta(
-                    "Éxito",
                     "La contraseña fue modificada correctamente",
                     Alert.AlertType.INFORMATION);
             vistaUtils.cerrarVentana(btnCambiar);
         } catch (NotFoundException | JsonNotFoundException e) {
             vistaUtils.mostrarAlerta(
-                    "Error",
                     "Ocurrió un error al modificar la contraseña",
                     Alert.AlertType.ERROR);
             log.error(e.getMessage());

@@ -9,7 +9,10 @@
     "fechaInicio": "2025-03-01",
     "fechaFin": "2025-04-30",
     "diasYBloques": {
-      "TUESDAY": ["TARDE_PRIMER_BLOQUE", "TARDE_SEGUNDO_BLOQUE"]
+      "TUESDAY": [
+        "TARDE_PRIMER_BLOQUE",
+        "TARDE_SEGUNDO_BLOQUE"
+      ]
     },
     "comentarioEstado": "",
     "comentarioProfesor": "Prefiero una aula con proyector",
@@ -25,7 +28,10 @@
     "fechaInicio": "2025-04-01",
     "fechaFin": "2025-04-05",
     "diasYBloques": {
-      "WEDNESDAY": ["TARDE_PRIMER_BLOQUE", "TARDE_SEGUNDO_BLOQUE"]
+      "WEDNESDAY": [
+        "TARDE_PRIMER_BLOQUE",
+        "TARDE_SEGUNDO_BLOQUE"
+      ]
     },
     "comentarioEstado": "",
     "comentarioProfesor": "Necesito más capacidad",
@@ -41,7 +47,10 @@
     "fechaInicio": "2025-03-01",
     "fechaFin": "2025-06-30",
     "diasYBloques": {
-      "MONDAY": ["TARDE_PRIMER_BLOQUE", "TARDE_SEGUNDO_BLOQUE"]
+      "MONDAY": [
+        "TARDE_PRIMER_BLOQUE",
+        "TARDE_SEGUNDO_BLOQUE"
+      ]
     },
     "comentarioEstado": "No hay laboratorios disponibles",
     "comentarioProfesor": "Requiero computadoras para mi clase",

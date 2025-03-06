@@ -1,4 +1,4 @@
-package org.example.controller.model;
+package org.example.controller.model.solicitud;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +9,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.controller.model.AulaVistaController;
+import org.example.controller.model.LaboratorioVistaController;
+import org.example.controller.model.ReservaVistaController;
 import org.example.enums.BloqueHorario;
 import org.example.enums.EstadoSolicitud;
 import org.example.exception.JsonNotFoundException;
@@ -33,7 +36,7 @@ import java.util.Set;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class SolicitudesVistaController{
+public class SolicitudVistaController {
     private final SolicitudCambioAulaService solicitudCambioAulaService;
     private final SesionActual sesionActual;
     private final VistaUtils vistaUtils;

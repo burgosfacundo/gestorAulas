@@ -121,7 +121,9 @@ public class AulaFiltroVistaController{
         try {
             var errores = validarCampos();
             if (errores.isPresent()) {
-                vistaUtils.mostrarAlerta("Error en el formulario",String.join("\n", errores.get()), Alert.AlertType.ERROR);
+                vistaUtils.mostrarAlerta(
+                        String.join("\n", errores.get()),
+                        Alert.AlertType.ERROR);
                 return;
             }
 
@@ -151,7 +153,7 @@ public class AulaFiltroVistaController{
             this.tblAulas.setItems(aulaObservableList);
             this.tblAulas.refresh();
         } catch (JsonNotFoundException e) {
-            vistaUtils.mostrarAlerta("Error:",e.getMessage(), Alert.AlertType.ERROR);
+            vistaUtils.mostrarAlerta(e.getMessage(), Alert.AlertType.ERROR);
             log.error(e.getMessage());
         }
     }

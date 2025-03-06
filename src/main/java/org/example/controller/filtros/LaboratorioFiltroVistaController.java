@@ -117,7 +117,7 @@ public class LaboratorioFiltroVistaController{
         try {
             var errores = validarCampos();
             if (errores.isPresent()) {
-                vistaUtils.mostrarAlerta("Error en el formulario",String.join("\n", errores.get()), Alert.AlertType.ERROR);
+                vistaUtils.mostrarAlerta(String.join("\n", errores.get()), Alert.AlertType.ERROR);
                 return;
             }
 
@@ -155,7 +155,7 @@ public class LaboratorioFiltroVistaController{
             this.tblLaboratorios.setItems(labsObservableList);
             this.tblLaboratorios.refresh();
         } catch (JsonNotFoundException e) {
-            vistaUtils.mostrarAlerta("Error:",e.getMessage(), Alert.AlertType.ERROR);
+            vistaUtils.mostrarAlerta(e.getMessage(), Alert.AlertType.ERROR);
             log.error(e.getMessage());
         }
     }

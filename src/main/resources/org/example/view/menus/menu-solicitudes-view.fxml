@@ -6,15 +6,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="743.0" style="-fx-background-color: #ecf8ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.menus.MenuSolicitudesVistaController">
-   <VBox alignment="CENTER" layoutX="379.0" layoutY="286.0" prefHeight="189.0" prefWidth="230.0" spacing="10">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="743.0" style="-fx-background-color: #ecf8ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.menus.MenuSolicitudVistaController">
+   <VBox alignment="CENTER" layoutX="216.0" layoutY="295.0" prefHeight="147.0" prefWidth="156.0" spacing="10">
       <padding>
          <Insets bottom="20" left="20" right="20" top="20" />
       </padding>
-      <Button fx:id="btnSolicitudesAprobadas" onAction="#listarMisSolicitudesAprobadas" text="Listar mis solicitudes aprobadas" />
-      <Button fx:id="btnSolicitudesPendientes" onAction="#listarMisSolicitudesPendientes" text="Listar mis solicitudes pendientes" />
-      <Button fx:id="btnSolicitudesRechazadas" onAction="#listarMisSolicitudesRechazadas" text="Listar mis solicitudes rechazadas" />
-      <Button fx:id="btnVolver" onAction="#volverMenuPrincipal" text="Volver al menú principal" />
+      <Button fx:id="btnSolicitudesPendientes" onAction="#listarMisSolicitudesPendientes" text="Listar pendientes" />
+      <Button fx:id="btnSolicitudesRechazadas" onAction="#listarMisSolicitudesRechazadas" text="Listar rechazadas" />
+      <Button fx:id="btnSolicitudesAprobadas" onAction="#listarMisSolicitudesAprobadas" prefHeight="26.0" prefWidth="110.0" text="Listar aprobadas" />
    </VBox>
    <ImageView fitHeight="139.0" fitWidth="224.0" layoutX="256.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true">
       <Image url="@../../image/logoUTN.png" />
@@ -29,17 +28,17 @@
          <Font name="System Bold" size="24.0" />
       </font>
    </Label>
-   <Label alignment="CENTER" layoutX="273.0" layoutY="259.0" prefHeight="27.0" prefWidth="190.0" style="-fx-background-color: #005482;" text="Menú" textAlignment="CENTER" textFill="WHITE">
+   <Label alignment="CENTER" layoutX="273.0" layoutY="259.0" prefHeight="27.0" prefWidth="190.0" style="-fx-background-color: #005482;" text="Menú Solicitudes" textAlignment="CENTER" textFill="WHITE">
       <font>
          <Font name="System Bold" size="14.0" />
       </font>
    </Label>
-   <VBox alignment="CENTER" layoutX="141.0" layoutY="273.0" prefHeight="178.0" prefWidth="230.0" spacing="10">
+   <VBox alignment="CENTER" layoutX="368.0" layoutY="300.0" prefHeight="138.0" prefWidth="156.0" spacing="10">
       <padding>
          <Insets bottom="20" left="20" right="20" top="20" />
       </padding>
-      <Button fx:id="btnCrear" onAction="#crearSolicitud" text="Solicitar cambio" />
+      <Button fx:id="btnCrear" onAction="#crearSolicitud" prefHeight="26.0" prefWidth="107.0" text="Solicitar cambio" />
       <Button fx:id="btnEliminar" onAction="#eliminarSolicitud" text="Eliminar solicitud" />
-      <Button fx:id="btnModificar" onAction="#modificarSolicitud" text="Modificar solicitud" />
+      <Button fx:id="btnVolver" onAction="#volverMenuPrincipal" prefHeight="26.0" prefWidth="111.0" text="Volver" />
    </VBox>
 </AnchorPane>
