@@ -25,8 +25,6 @@ public class MenuSolicitudVistaController {
     @FXML
     private Button btnEliminar;
     @FXML
-    private Button btnModificar;
-    @FXML
     private Button btnSolicitudesPendientes;
     @FXML
     private Button btnSolicitudesAprobadas;
