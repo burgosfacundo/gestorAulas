@@ -1,0 +1,167 @@
+package org.example.controller.model.espacio;
+
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.example.exception.BadRequestException;
+import org.example.exception.GlobalExceptionHandler;
+import org.example.exception.JsonNotFoundException;
+import org.example.model.Aula;
+import org.example.model.Laboratorio;
+import org.example.service.AulaService;
+import org.example.utils.VistaUtils;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Slf4j
+@RequiredArgsConstructor
+@Component
+public class CrearEspacioVistaController {
+    private final VistaUtils vistaUtils;
+    private final AulaService aulaService;
+    private final GlobalExceptionHandler globalExceptionHandler;
+    @FXML
+    private ComboBox<String> tipoEspacioComboBox;
+    @FXML
+    private TextField numeroField;
+    @FXML
+    private TextField computadorasField;
+    @FXML
+    private TextField capacidadField;
+    @FXML
+    private CheckBox tieneProyectorCheckBox;
+    @FXML
+    private CheckBox tieneTVCheckBox;
+    @FXML
+    private Button btnCrear;
+
+    @FXML
+    public void initialize() {
+        tipoEspacioComboBox.getItems().setAll(List.of("Aula","Laboratorio"));
+        numeroField.setDisable(true);
+        computadorasField.setDisable(true);
+        capacidadField.setDisable(true);
+        tieneProyectorCheckBox.setDisable(true);
+        tieneTVCheckBox.setDisable(true);
+        btnCrear.setDisable(true);
+
+        tipoEspacioComboBox.setOnAction(event -> {
+            boolean isLaboratorio = tipoEspacioComboBox.getSelectionModel().getSelectedItem().equals("Laboratorio");
+            computadorasField.setDisable(!isLaboratorio);
+            if (!isLaboratorio) {
+                computadorasField.setStyle("-fx-border-color: transparent;");
+                computadorasField.clear();
+            }
+            numeroField.setDisable(false);
+            capacidadField.setDisable(false);
+            tieneProyectorCheckBox.setDisable(false);
+            tieneTVCheckBox.setDisable(false);
+            btnCrear.setDisable(false);
+        });
+    }
+
+    @FXML
+    private void crear(ActionEvent actionEvent) {
+        try {
+            var errores = validarCampos();
+            if (errores.isPresent()) {
+                vistaUtils.mostrarAlerta(String.join("\n", errores.get()), Alert.AlertType.ERROR);
+                return;
+            }
+
+            var numero = Integer.parseInt(numeroField.getText());
+            var capacidad = Integer.parseInt(capacidadField.getText());
+            boolean tieneProyector = tieneProyectorCheckBox.isSelected();
+            boolean tieneTv = tieneTVCheckBox.isSelected();
+
+            var tipo = tipoEspacioComboBox.getSelectionModel().getSelectedItem();
+            switch (tipo){
+                case "Aula":
+                    aulaService.guardar(new Aula(0,numero,capacidad,tieneProyector,tieneTv));
+                    vistaUtils.mostrarAlerta("Se creo el aula " + numero + " correctamente.", Alert.AlertType.INFORMATION);
+                    break;
+                case "Laboratorio":
+                    var computadoras = Integer.parseInt(computadorasField.getText());
+                    aulaService.guardar(new Laboratorio(0,numero,capacidad,
+                            tieneProyector,tieneTv,computadoras));
+                    vistaUtils.mostrarAlerta("Se creo el laboratorio " + numero + " correctamente.", Alert.AlertType.INFORMATION);
+                    break;
+                default:
+                    throw new BadRequestException("Tipo de espacio no valido");
+            }
+        } catch (BadRequestException e) {
+            globalExceptionHandler.handleBadRequestException(e);
+        } catch (JsonNotFoundException e) {
+            globalExceptionHandler.handleJsonNotFoundException(e);
+        }
+    }
+
+
+    private Optional<List<String>> validarCampos() {
+        List<String> errores = new ArrayList<>();
+
+        // Validar computadoras
+        if (tipoEspacioComboBox.getSelectionModel().getSelectedItem().equals("Laboratorio")){
+            String text = computadorasField.getText();
+            if (text.isEmpty()) {
+                computadorasField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                errores.add("Debes ingresar una cantidad de computadoras.");
+            } else if (!text.matches("\\d+")) {
+                computadorasField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                errores.add("La cantidad de computadoras debe ser un número válido.");
+            } else {
+                int number = Integer.parseInt(text);
+                if (number <= 0) {
+                    computadorasField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                    errores.add("La cantidad de computadoras debe ser mayor o igual que 0.");
+                } else {
+                    computadorasField.setStyle("-fx-border-color: transparent;");
+                }
+            }
+        }
+
+        // Validar capacidad
+        String capacidadText = capacidadField.getText();
+        if (capacidadText.isEmpty()) {
+            capacidadField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            errores.add("Debes ingresar una capacidad.");
+        } else if (!capacidadText.matches("\\d+")) {
+            capacidadField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            errores.add("La capacidad debe ser un número válido.");
+        } else {
+            int number = Integer.parseInt(capacidadText);
+            if (number <= 0) {
+                capacidadField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                errores.add("La capacidad debe ser mayor o igual que 0.");
+            } else {
+                capacidadField.setStyle("-fx-border-color: transparent;");
+            }
+        }
+
+        // Validar número
+        String numeroText = numeroField.getText();
+        if (numeroText.isEmpty()) {
+            numeroField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            errores.add("Debes ingresar un número.");
+        } else if (!numeroText.matches("\\d+")) {
+            numeroField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            errores.add("El número debe ser válido.");
+        } else {
+            int number = Integer.parseInt(numeroText);
+            if (number < 0) {
+                numeroField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                errores.add("El número debe ser mayor o igual que 0.");
+            } else {
+                numeroField.setStyle("-fx-border-color: transparent;");
+            }
+        }
+
+        return errores.isEmpty() ? Optional.empty() : Optional.of(errores);
+    }
+}

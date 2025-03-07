@@ -38,7 +38,11 @@ public class MenuEspacioVistaController {
 
     @FXML
     public void crearEspacio(ActionEvent actionEvent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try{
+            vistaUtils.cargarVista("/org/example/view/model/espacio/crear-espacio-view.fxml");
+        }catch (IOException e){
+            log.error(e.getMessage());
+        }
     }
 
     @FXML
