@@ -107,7 +107,7 @@ public class ProfesorRepository implements JSONRepository<Integer, Profesor>{
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      */
     @Override
-    public Optional<Profesor> findById(Integer id) throws JsonNotFoundException {
+    public Optional<Profesor> find(Integer id) throws JsonNotFoundException {
         //Usamos stream para filtrar por ID
         //Devuelve el profesor si existe
         //Devuelve optional.empty() sino

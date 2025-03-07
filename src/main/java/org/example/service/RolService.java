@@ -100,7 +100,7 @@ public class RolService{
      * @throws JsonNotFoundException sí existe un problema con el archivo JSON
      */
     private Rol validarRolExistente(Integer idRol) throws NotFoundException, JsonNotFoundException {
-        return repositorio.findById(idRol)
+        return repositorio.find(idRol)
                 .orElseThrow(() -> new NotFoundException(String.format("No existe un rol con el id: %d", idRol)));
     }
 }

@@ -115,7 +115,7 @@ public class ReservaRepository implements JSONRepository<Integer, ReservaDTO> {
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      */
     @Override
-    public Optional<ReservaDTO> findById(Integer id) throws JsonNotFoundException {
+    public Optional<ReservaDTO> find(Integer id) throws JsonNotFoundException {
         //Usamos stream para filtrar por id
         //Devuelve la reserva si existe
         //Devuelve optional.empty() sino

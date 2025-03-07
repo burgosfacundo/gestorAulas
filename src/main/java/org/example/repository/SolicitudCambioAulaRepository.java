@@ -20,7 +20,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 /**
@@ -30,7 +29,7 @@ import java.util.stream.Collectors;
  */
 @Repository
 public class SolicitudCambioAulaRepository implements JSONRepository<Integer, SolicitudCambioAulaDTO>{
-    private final String ruta = "./json/solicitudes.json";
+    private static final String RUTA = "./json/solicitudes.json";
     /**
      * Retorna la ruta al json
      * que se quiere utilizar en el default
@@ -39,7 +38,7 @@ public class SolicitudCambioAulaRepository implements JSONRepository<Integer, So
      */
     @Override
     public String getRuta() {
-        return this.ruta;
+        return RUTA;
     }
 
     /**
@@ -63,7 +62,7 @@ public class SolicitudCambioAulaRepository implements JSONRepository<Integer, So
         try (FileWriter writer = new FileWriter(getRuta())) {
             getGson().toJson(list, writer);
         } catch (IOException e) {
-            throw new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", ruta));
+            throw new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", RUTA));
         }
     }
 
@@ -101,12 +100,12 @@ public class SolicitudCambioAulaRepository implements JSONRepository<Integer, So
      */
     @Override
     public List<SolicitudCambioAulaDTO> getAll() throws JsonNotFoundException {
-        try (FileReader reader = new FileReader(ruta)) {
+        try (FileReader reader = new FileReader(RUTA)) {
             //Usamos SolicitudCambioAulaDTO porque guardamos solo el ID de Clases que contiene en el json
             var listType = new TypeToken<List<SolicitudCambioAulaDTO>>() {}.getType();
             return getGson().fromJson(reader, listType);
         } catch (IOException e) {
-            throw new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", ruta));
+            throw new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", RUTA));
         }
     }
 
@@ -117,7 +116,7 @@ public class SolicitudCambioAulaRepository implements JSONRepository<Integer, So
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      */
     @Override
-    public Optional<SolicitudCambioAulaDTO> findById(Integer id) throws JsonNotFoundException {
+    public Optional<SolicitudCambioAulaDTO> find(Integer id) throws JsonNotFoundException {
         //Usamos stream para filtrar por id
         //Devuelve la solicitud si existe
         //Devuelve optional.empty() sino
@@ -161,7 +160,7 @@ public class SolicitudCambioAulaRepository implements JSONRepository<Integer, So
         }
         // Si no se encuentra el índice, lanza la excepción
         if (index == -1) {
-            throw new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", ruta));
+            throw new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", RUTA));
         }
         // Reemplaza el objeto en la lista con una nueva instancia actualizada
         var nuevoDTO = new SolicitudCambioAulaDTO(dto.id(), dto.idProfesor(),dto.idReserva(),dto.idAula(),dto.estadoSolicitud(),
@@ -218,7 +217,7 @@ public class SolicitudCambioAulaRepository implements JSONRepository<Integer, So
                         dto.fechaFin().equals(fechaFin) &&
                         dto.diasYBloques().equals(diasYBloques) &&
                         dto.estadoSolicitud().equals(estadoSolicitud))
-                .collect(Collectors.toList());
+                .toList();
     }
 
 

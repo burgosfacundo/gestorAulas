@@ -52,9 +52,9 @@ public class AulaService{
      */
     public Aula guardar(Aula aula) throws JsonNotFoundException, BadRequestException {
         // Verificamos que no existe esa aula y si existe lanzamos la excepción
-        var optional = repositorio.findById(aula.getId());
+        var optional = repositorio.find(aula.getNumero());
         if (optional.isPresent()){
-            throw new BadRequestException(String.format("Ya existe el aula o laboratorio %s", aula.getId()));
+            throw new BadRequestException(String.format("Ya existe el aula o laboratorio %s", aula.getNumero()));
         }
 
         repositorio.save(aula);
@@ -330,7 +330,7 @@ public class AulaService{
      * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
      */
     private Aula validarAulaExistenteById(Integer idAula) throws NotFoundException, JsonNotFoundException {
-        return repositorio.findById(idAula)
+        return repositorio.find(idAula)
                 .orElseThrow(() -> new NotFoundException(String.format("No existe un aula con el id: %s", idAula)));
     }
 }

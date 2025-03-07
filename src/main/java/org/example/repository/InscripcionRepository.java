@@ -111,7 +111,7 @@ public class InscripcionRepository implements JSONRepository<Integer, Inscripcio
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      */
     @Override
-    public Optional<InscripcionDTO> findById(Integer id) throws JsonNotFoundException {
+    public Optional<InscripcionDTO> find(Integer id) throws JsonNotFoundException {
         //Usamos stream para filtrar por id
         //Devuelve la Inscripción si existe
         //Devuelve Optional.empty() si no existe

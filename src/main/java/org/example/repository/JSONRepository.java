@@ -17,7 +17,7 @@ public interface JSONRepository <ID,T>{
     void write(List<T> list) throws JsonNotFoundException;
     void save(T t) throws JsonNotFoundException;
     List<T> getAll() throws JsonNotFoundException;
-    Optional<T> findById(ID id) throws JsonNotFoundException;
+    Optional<T> find(ID id) throws JsonNotFoundException;
     void deleteById(ID id) throws JsonNotFoundException;
     void modify(T t) throws JsonNotFoundException;
 }

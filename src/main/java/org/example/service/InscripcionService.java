@@ -145,7 +145,7 @@ public class InscripcionService{
      * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
      */
     private InscripcionDTO validarInscripcionExistente(Integer id) throws NotFoundException, JsonNotFoundException {
-        return repositorio.findById(id)
+        return repositorio.find(id)
                 .orElseThrow(() -> new NotFoundException(String.format("No existe una inscripción con el id: %d", id)));
     }
 
@@ -157,7 +157,7 @@ public class InscripcionService{
      * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
      */
     private Profesor validarProfesorExistente(Integer idProfesor) throws NotFoundException, JsonNotFoundException {
-        return profesorRepository.findById(idProfesor)
+        return profesorRepository.find(idProfesor)
                 .orElseThrow(() -> new NotFoundException(String.format("No existe un profesor con el id: %d", idProfesor)));
     }
 
@@ -169,7 +169,7 @@ public class InscripcionService{
      * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
      */
     private Asignatura validarAsignaturaExistente(Integer idAsignatura) throws NotFoundException, JsonNotFoundException {
-        return asignaturaRepository.findById(idAsignatura)
+        return asignaturaRepository.find(idAsignatura)
                 .orElseThrow(() -> new NotFoundException(String.format("No existe una asignatura con el id: %d", idAsignatura)));
     }
 }

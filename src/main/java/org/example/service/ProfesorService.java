@@ -91,7 +91,7 @@ public class ProfesorService {
      * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
      */
     private Profesor validarProfesorExistente(Integer id) throws NotFoundException, JsonNotFoundException {
-        return repositorio.findById(id)
+        return repositorio.find(id)
                 .orElseThrow(() -> new NotFoundException("No existe un profesor con el id: " + id));
     }
 }

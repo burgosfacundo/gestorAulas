@@ -111,12 +111,12 @@ public class AulaRepository implements JSONRepository<Integer, Aula> {
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      */
     @Override
-    public Optional<Aula> findById(Integer id) throws JsonNotFoundException {
+    public Optional<Aula> find(Integer id) throws JsonNotFoundException {
         //Usamos stream para filtrar por id
         //Devuelve el aula si existe
         //Devuelve optional.empty() sino
         return getAll().stream()
-                .filter(aula -> Objects.equals(aula.getId(), id))
+                .filter(aula -> Objects.equals(aula.getNumero(), id))
                 .findFirst();
     }
 

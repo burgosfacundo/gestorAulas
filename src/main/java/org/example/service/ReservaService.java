@@ -140,7 +140,7 @@ public class ReservaService{
      */
     public void modificar(Reserva reserva) throws JsonNotFoundException, NotFoundException, BadRequestException, ConflictException {
         // Validamos que existe la reserva que se quiere modificar
-        repositorio.findById(reserva.getId())
+        repositorio.find(reserva.getId())
                 .orElseThrow(()-> new NotFoundException(String.format("No existe una reserva con el id: %d", reserva.getId())));
 
         //Validamos y obtenemos la inscripción de la reserva
@@ -206,7 +206,7 @@ public class ReservaService{
      * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
      */
     private ReservaDTO validarReservaExistente(Integer id) throws NotFoundException, JsonNotFoundException {
-        return repositorio.findById(id)
+        return repositorio.find(id)
                 .orElseThrow(()-> new NotFoundException(String.format("No existe una reserva con el id: %d", id)));
     }
 
@@ -218,7 +218,7 @@ public class ReservaService{
      * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
      */
     private Aula validarAulaExistenteById(Integer idAula) throws NotFoundException, JsonNotFoundException {
-        return aulaRepository.findById(idAula)
+        return aulaRepository.find(idAula)
                 .orElseThrow(() -> new NotFoundException(String.format("No existe un aula con el id: %d", idAula)));
     }
 
@@ -230,7 +230,7 @@ public class ReservaService{
      * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
      */
     private Asignatura validarAsignaturaExistente(Integer idAsignatura) throws NotFoundException, JsonNotFoundException {
-        return asignaturaRepository.findById(idAsignatura)
+        return asignaturaRepository.find(idAsignatura)
                 .orElseThrow(()-> new NotFoundException(String.format("No existe una asignatura con el id: %d", idAsignatura)));
     }
 
@@ -333,7 +333,7 @@ public class ReservaService{
      */
     public List<Reserva> listarReservasPorProfesor(int idProfe)
             throws JsonNotFoundException, NotFoundException {
-        var optionalProfesor = profesorRepository.findById(idProfe);
+        var optionalProfesor = profesorRepository.find(idProfe);
         if(optionalProfesor.isEmpty()){
             throw new NotFoundException(String.format("El profesor con el id: %d no existe", idProfe));
         }

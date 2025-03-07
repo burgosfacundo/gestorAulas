@@ -141,7 +141,7 @@ public class UsuarioService{
      * @throws JsonNotFoundException sí existe un problema con el archivo JSON
      */
     private Rol validarRolExistente(Integer idRol) throws NotFoundException, JsonNotFoundException {
-        return repositorioRol.findById(idRol)
+        return repositorioRol.find(idRol)
                 .orElseThrow(() -> new NotFoundException(String.format("No existe un rol con el id: %d", idRol)));
     }
 
@@ -153,7 +153,7 @@ public class UsuarioService{
      * @throws JsonNotFoundException sí existe un problema con el archivo JSON
      */
     private UsuarioDTO validarUsuarioExistente(Integer idUsuario) throws NotFoundException, JsonNotFoundException {
-        return repositorioUsuario.findById(idUsuario)
+        return repositorioUsuario.find(idUsuario)
                 .orElseThrow(() -> new NotFoundException(String.format("No existe un usuario con el id: %d", idUsuario)));
     }
 
@@ -166,7 +166,7 @@ public class UsuarioService{
      * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
      */
     private Profesor validarProfesorExistente(Integer id) throws NotFoundException, JsonNotFoundException {
-        return profesorRepository.findById(id)
+        return profesorRepository.find(id)
                 .orElseThrow(() -> new NotFoundException(String.format("No existe un profesor con el id: %d", id)));
     }
 }

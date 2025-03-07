@@ -23,7 +23,7 @@ import java.util.Optional;
  */
 @Repository
 public class RolRepository implements JSONRepository<Integer, Rol>{
-    private final String ruta = "./json/roles.json";
+    private static final String RUTA = "./json/roles.json";
 
     /**
      * Retorna la ruta al json
@@ -33,7 +33,7 @@ public class RolRepository implements JSONRepository<Integer, Rol>{
      */
     @Override
     public String getRuta() {
-        return ruta;
+        return RUTA;
     }
 
     /**
@@ -54,7 +54,7 @@ public class RolRepository implements JSONRepository<Integer, Rol>{
         try (FileWriter writer = new FileWriter(getRuta())) {
             getGson().toJson(list, writer);
         } catch (IOException e) {
-            throw new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", ruta));
+            throw new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", RUTA));
         }
     }
 
@@ -91,12 +91,12 @@ public class RolRepository implements JSONRepository<Integer, Rol>{
      */
     @Override
     public List<Rol> getAll() throws JsonNotFoundException {
-        try (FileReader reader = new FileReader(ruta)) {
+        try (FileReader reader = new FileReader(RUTA)) {
             //Indico que el tipo va a ser una Lista de Roles
             var rolListType = new TypeToken<List<Rol>>() {}.getType();
             return getGson().fromJson(reader, rolListType);
         } catch (IOException e) {
-            throw new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", ruta));
+            throw new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", RUTA));
         }
     }
 
@@ -108,7 +108,7 @@ public class RolRepository implements JSONRepository<Integer, Rol>{
      * @throws JsonNotFoundException si no se encuentra el archivo JSON
      */
     @Override
-    public Optional<Rol> findById(Integer id) throws JsonNotFoundException {
+    public Optional<Rol> find(Integer id) throws JsonNotFoundException {
         //Usamos stream para filtrar por ID
         //Devuelve el rol si existe
         //Devuelve optional.empty() sino
@@ -148,7 +148,7 @@ public class RolRepository implements JSONRepository<Integer, Rol>{
         var exist = roles.stream()
                 .filter(r -> Objects.equals(r.getId(), rol.getId()))
                 .findFirst()
-                .orElseThrow(() -> new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", ruta)));
+                .orElseThrow(() -> new JsonNotFoundException(String.format("No se encontró el archivo JSON: %s", RUTA)));
 
         // Actualiza los atributos del rol existente con los del nuevo objeto
         exist.setId(rol.getId());

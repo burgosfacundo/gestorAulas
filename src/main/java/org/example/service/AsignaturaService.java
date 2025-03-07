@@ -97,7 +97,7 @@ public class AsignaturaService{
      * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
      */
     private Asignatura validarAsignaturaExistente(Integer idAsignatura) throws NotFoundException, JsonNotFoundException {
-        return repositorio.findById(idAsignatura)
+        return repositorio.find(idAsignatura)
                 .orElseThrow(() -> new NotFoundException(String.format("No existe una asignatura con el id: %d", idAsignatura)));
     }
 }

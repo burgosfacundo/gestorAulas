@@ -222,7 +222,7 @@ public class SolicitudCambioAulaService{
      * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
      */
     private SolicitudCambioAulaDTO validarSolicitudExistente(Integer id) throws NotFoundException, JsonNotFoundException {
-        return repositorio.findById(id)
+        return repositorio.find(id)
                 .orElseThrow(() -> new NotFoundException(String.format("No existe una solicitud con el id: %d", id)));
     }
 
@@ -234,7 +234,7 @@ public class SolicitudCambioAulaService{
      * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
      */
     private Aula validarAulaExistente(Integer idAula) throws NotFoundException, JsonNotFoundException {
-        return aulaRepository.findById(idAula)
+        return aulaRepository.find(idAula)
                 .orElseThrow(() -> new NotFoundException(String.format("No existe un aula con el id: %d", idAula)));
     }
 
@@ -246,7 +246,7 @@ public class SolicitudCambioAulaService{
      * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
      */
     private Profesor validarProfesorExistente(Integer idProfesor) throws NotFoundException, JsonNotFoundException {
-        return profesorRepository.findById(idProfesor)
+        return profesorRepository.find(idProfesor)
                 .orElseThrow(() -> new NotFoundException(String.format("No existe un profesor con el id: %d", idProfesor)));
     }
 
@@ -319,7 +319,7 @@ public class SolicitudCambioAulaService{
     public List<SolicitudCambioAula> listarSolicitudesPorEstadoYProfesor(EstadoSolicitud estado, Integer idProfesor)
             throws JsonNotFoundException, NotFoundException {
 
-        var optionalProfesor = profesorRepository.findById(idProfesor);
+        var optionalProfesor = profesorRepository.find(idProfesor);
 
         if(optionalProfesor.isEmpty()){
             throw new NotFoundException(String.format("El profesor con el id: %d no existe", idProfesor));
