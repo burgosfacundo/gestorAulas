@@ -9,6 +9,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.controller.model.espacio.AulaVistaController;
 import org.example.enums.BloqueHorario;
 import org.example.model.Aula;
 import org.example.model.Inscripcion;
@@ -100,7 +101,7 @@ public class ReservaVistaController {
 
     private void mostrarVistaAula(Aula aula) {
         try {
-            vistaUtils.cargarVista("/org/example/view/model/aula-view.fxml",
+            vistaUtils.cargarVista("/org/example/view/model/espacio/aula-view.fxml",
                     (AulaVistaController controller) -> controller.setAulas(List.of(aula)));
         } catch (IOException e) {
             log.error(e.getMessage());

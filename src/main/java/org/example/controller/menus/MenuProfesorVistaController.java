@@ -39,7 +39,7 @@ public class MenuProfesorVistaController {
     @FXML
     public void menuListarEspacios(ActionEvent actionEvent) {
         try{
-            vistaUtils.cargarVista("/org/example/view/menus/menu-espacios-view.fxml");
+            vistaUtils.cargarVista("/org/example/view/menus/menu-listar-espacios-view.fxml");
             cerrarWindow(actionEvent);
         }catch (IOException e){
             log.error(e.getMessage());
@@ -81,5 +81,4 @@ public class MenuProfesorVistaController {
     public void cerrarWindow(ActionEvent actionEvent) {
         vistaUtils.cerrarVentana(this.btnCerrarSesion);
     }
-
 }

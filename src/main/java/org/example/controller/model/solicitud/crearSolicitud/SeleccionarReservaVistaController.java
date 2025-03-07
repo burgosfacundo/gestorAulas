@@ -11,7 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.controller.model.AulaVistaController;
+import org.example.controller.model.espacio.AulaVistaController;
 import org.example.controller.model.InscripcionVistaController;
 import org.example.enums.BloqueHorario;
 import org.example.exception.JsonNotFoundException;
@@ -130,7 +130,7 @@ public class SeleccionarReservaVistaController {
 
     private void mostrarVistaAula(Aula aula) {
         try {
-            vistaUtils.cargarVista("/org/example/view/model/aula-view.fxml",
+            vistaUtils.cargarVista("/org/example/view/model/espacio/aula-view.fxml",
                     (AulaVistaController controller) -> controller.setAulas(List.of(aula)));
         } catch (IOException e) {
             log.error(e.getMessage());

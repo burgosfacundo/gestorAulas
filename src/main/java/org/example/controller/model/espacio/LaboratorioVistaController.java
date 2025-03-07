@@ -1,4 +1,4 @@
-package org.example.controller.model;
+package org.example.controller.model.espacio;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

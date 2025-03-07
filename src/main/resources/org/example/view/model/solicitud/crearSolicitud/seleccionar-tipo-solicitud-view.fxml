@@ -20,8 +20,8 @@
         <Image url="@../../../../image/logoUTN.png" />
     </ImageView>
     <HBox layoutX="476.0" layoutY="189.0" prefHeight="25.0" prefWidth="238.0" spacing="10">
-        <Label style="-fx-font-size: 14px;" text="Tipo de Solicitud:"/>
-        <ComboBox fx:id="tipoSolicitudComboBox" prefHeight="25.0" prefWidth="120.0"/>
+        <Label style="-fx-font-size: 14px;" text="Tipo de Solicitud:" />
+        <ComboBox fx:id="tipoSolicitudComboBox" prefHeight="25.0" prefWidth="120.0" />
     </HBox>
     <Button fx:id="btnBuscar" layoutX="476.0" layoutY="313.0" onAction="#actualizarListaAulas" style="-fx-background-color: #005080; -fx-text-fill: white; -fx-font-size: 14px;" text="Buscar Espacio" />
     <TableView fx:id="tblAulas" layoutX="13.0" layoutY="154.0" prefHeight="197.0" prefWidth="456.0">
@@ -36,12 +36,12 @@
     </TableView>
     <VBox layoutX="476.0" layoutY="236.0" prefHeight="61.0" prefWidth="214.0" spacing="10.0">
         <HBox prefHeight="25.0" prefWidth="240.0" spacing="10">
-            <Label style="-fx-font-size: 14px;" text="Fecha Inicio:"/>
-            <DatePicker fx:id="fechaInicioPicker" prefWidth="120"/>
+            <Label style="-fx-font-size: 14px;" text="Fecha Inicio:" />
+            <DatePicker fx:id="fechaInicioPicker" prefWidth="120" />
         </HBox>
         <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0">
-            <Label style="-fx-font-size: 14px;" text="Fecha Fin:"/>
-            <DatePicker fx:id="fechaFinPicker" prefWidth="120"/>
+            <Label style="-fx-font-size: 14px;" text="Fecha Fin:" />
+            <DatePicker fx:id="fechaFinPicker" prefWidth="120" />
         </HBox>
     </VBox>
     <Label layoutX="13.0" layoutY="371.0" style="-fx-font-size: 14px;" text="Comentario:" />

@@ -9,8 +9,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.controller.model.AulaVistaController;
-import org.example.controller.model.LaboratorioVistaController;
+import org.example.controller.model.espacio.AulaVistaController;
+import org.example.controller.model.espacio.LaboratorioVistaController;
 import org.example.controller.model.ReservaVistaController;
 import org.example.enums.BloqueHorario;
 import org.example.enums.EstadoSolicitud;
@@ -137,7 +137,7 @@ public class SolicitudVistaController {
 
     private void mostrarVistaAula(Aula aula) {
         try {
-            vistaUtils.cargarVista("/org/example/view/model/aula-view.fxml",
+            vistaUtils.cargarVista("/org/example/view/model/espacio/aula-view.fxml",
                     (AulaVistaController controller) -> controller.setAulas(List.of(aula)));
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -146,7 +146,7 @@ public class SolicitudVistaController {
 
     private void mostrarVistaLaboratorio(Laboratorio laboratorio) {
         try {
-            vistaUtils.cargarVista("/org/example/view/model/laboratorio-view.fxml",
+            vistaUtils.cargarVista("/org/example/view/model/espacio/laboratorio-view.fxml",
                     (LaboratorioVistaController controller) -> controller.setLaboratorios(List.of(laboratorio)));
         } catch (IOException e) {
             log.error(e.getMessage());
