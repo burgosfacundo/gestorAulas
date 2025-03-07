@@ -39,7 +39,7 @@ public class Seguridad {
                 .filter(usuario -> usuario.getUsername().equals(username) &&
                         BCrypt.checkpw(password, usuario.getPassword())) // decodifico la contraseña para validar
                 .findFirst()
-                .orElseThrow(() -> new AutenticacionException("Usuario o contraseña incorrectos"));
+                .orElseThrow(() -> new AutenticacionException("Usuario o contraseña incorrecto."));
     }
 
     /**
