@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.0" prefWidth="737.0" style="-fx-background-color: #ecf8ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.menus.MenuAdministradorVistaController">
+   <VBox alignment="CENTER" layoutX="229.0" layoutY="296.0" prefHeight="144.0" prefWidth="151.0" spacing="10">
+      <padding>
+         <Insets bottom="20" left="20" right="20" top="20" />
+      </padding>
+      <Button fx:id="btnMenuEspacios" onAction="#menuEspacios" prefHeight="26.0" prefWidth="107.0" text="Menú espacios" />
+      <Button fx:id="btnSolicitarCambio" onAction="#menuSolicitudes" text="Menú solicitudes" />
+      <Button fx:id="btnMenuReservas" onAction="#menuReservas" prefHeight="26.0" prefWidth="105.0" text="Menú reservas" />
+   </VBox>
+   <ImageView fitHeight="139.0" fitWidth="224.0" layoutX="256.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../../image/logoUTN.png" />
+   </ImageView>
+   <Label alignment="CENTER" layoutX="153.0" layoutY="70.0" prefHeight="35.0" prefWidth="430.0" text="Universidad Tecnológica Nacional" textFill="#005080">
+      <font>
+         <Font name="System Bold" size="24.0" />
+      </font>
+   </Label>
+   <Label alignment="CENTER" layoutX="153.0" layoutY="105.0" prefHeight="35.0" prefWidth="430.0" text="  Facultad Regional Mar del Plata" textFill="#005080">
+      <font>
+         <Font name="System Bold" size="24.0" />
+      </font>
+   </Label>
+   <Label alignment="CENTER" layoutX="273.0" layoutY="259.0" prefHeight="27.0" prefWidth="190.0" style="-fx-background-color: #005482;" text="Menú" textAlignment="CENTER" textFill="WHITE">
+      <font>
+         <Font name="System Bold" size="14.0" />
+      </font>
+   </Label>
+   <VBox alignment="CENTER" layoutX="354.0" layoutY="296.0" prefHeight="144.0" prefWidth="172.0" spacing="10">
+      <padding>
+         <Insets bottom="20" left="20" right="20" top="20" />
+      </padding>
+      <Button fx:id="btnMenuUsuarios" onAction="#menuUsuarios" prefHeight="26.0" prefWidth="120.0" text="Menú usuarios" />
+      <Button fx:id="btnPassword" onAction="#cambiarPassword" prefHeight="26.0" prefWidth="123.0" text="Cambiar contraseña" />
+      <Button fx:id="btnCerrarSesion" onAction="#cerrarWindow" prefHeight="26.0" prefWidth="122.0" text="Cerrar sesión" />
+   </VBox>
+</AnchorPane>
