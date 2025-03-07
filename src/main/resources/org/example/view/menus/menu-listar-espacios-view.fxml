@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.menus.MenuListarEspaciosVistaController">
+   <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="743.0" style="-fx-background-color: #ecf8ff;">
+      <VBox alignment="CENTER" layoutX="249.0" layoutY="292.0" prefHeight="206.0" prefWidth="230.0" spacing="10">
+         <padding>
+            <Insets bottom="20" left="20" right="20" top="20" />
+         </padding>
+         <Button fx:id="btnListarAulas" onAction="#listarAulas" text="Listar Aulas" />
+         <Button fx:id="btnListarLaboratorios" onAction="#listarLaboratorios" text="Listar laboratorios" />
+         <Button fx:id="btnFiltrarAulas" onAction="#filtrarAulasDisponibles" text="Filtrar aulas disponibles" />
+         <Button fx:id="btnFiltrarLaboratorios" onAction="#filtrarLaboratoriosDisponibles" text="Filtrar laboratorios disponibles" />
+         <Button fx:id="btnVolver" onAction="#volverMenuPrincipal" text="Volver al menú principal" />
+      </VBox>
+      <ImageView fitHeight="139.0" fitWidth="224.0" layoutX="256.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../../image/logoUTN.png" />
+      </ImageView>
+      <Label alignment="CENTER" layoutX="153.0" layoutY="70.0" prefHeight="35.0" prefWidth="430.0" text="Universidad Tecnológica Nacional" textFill="#005080">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="153.0" layoutY="105.0" prefHeight="35.0" prefWidth="430.0" text="  Facultad Regional Mar del Plata" textFill="#005080">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="273.0" layoutY="259.0" prefHeight="27.0" prefWidth="190.0" style="-fx-background-color: #005482;" text="Menú" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+   </AnchorPane>
+</AnchorPane>
