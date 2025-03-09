@@ -160,100 +160,44 @@ public class LaboratorioFiltroVistaController{
         }
     }
 
-
+/**
+     * Valida los campos del formulario y devuelve una lista de errores si los hay.
+     * @return Un Optional que contiene una lista de errores si hay errores de validación, o un Optional vacío si no hay errores.
+     */
     private Optional<List<String>> validarCampos() {
         List<String> errores = new ArrayList<>();
 
         // Validar computadoras
-        if (computadoras.isVisible()){
-            String text = computadoras.getText();
-            if (text.isEmpty()) {
-                computadoras.setStyle("-fx-border-color: transparent;");
-            }else if (!text.matches("\\d+")) {
-                computadoras.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                errores.add("La cantidad de computadoras debe ser un número válido.");
-            } else {
-                int number = Integer.parseInt(text);
-                if (number < 0) {
-                    computadoras.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                    errores.add("La cantidad de computadoras debe ser mayor o igual que 0.");
-                } else {
-                    computadoras.setStyle("-fx-border-color: transparent;");
-                }
-            }
-        }
+        vistaUtils.validarCampo(computadoras, "La cantidad de computadoras debe ser mayor a 0.", errores);
 
         // Validar capacidad
-        String texto = capacidad.getText();
-        if (texto.isEmpty()) {
-            capacidad.setStyle("-fx-border-color: transparent;");
-        }else if (!texto.matches("\\d+")) {
-            capacidad.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-            errores.add("La capacidad debe ser un número válido.");
-        } else {
-            int number = Integer.parseInt(texto);
-            if (number < 0) {
-                capacidad.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                errores.add("La capacidad debe ser mayor o igual que 0.");
-            } else {
-                capacidad.setStyle("-fx-border-color: transparent;");
-            }
-        }
-
+        vistaUtils.validarCampo(capacidad, "La capacidad debe ser un número válido.", errores);
 
         // Validar fechas
-        if (fechaInicio.getValue() == null) {
-            fechaInicio.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-            errores.add("Debe seleccionar una fecha de inicio.");
-        } else {
-            fechaInicio.setStyle("-fx-border-color: transparent;");
-        }
+        vistaUtils.validarFecha(fechaInicio, "Debe seleccionar una fecha de inicio.", errores);
+        vistaUtils.validarFecha(fechaFin, "Debe seleccionar una fecha de fin.", errores);
 
-        if (fechaFin.getValue() == null) {
-            fechaFin.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-            errores.add("Debe seleccionar una fecha de fin.");
-        } else {
-            fechaFin.setStyle("-fx-border-color: transparent;");
-        }
-
-        if (fechaFin.getValue().isBefore(fechaInicio.getValue())) {
+        // Validar que la fecha de fin no sea anterior a la fecha de inicio
+        if (fechaInicio.getValue() != null && fechaFin.getValue() != null && fechaFin.getValue().isBefore(fechaInicio.getValue())) {
             fechaInicio.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
             fechaFin.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
             errores.add("La fecha de fin no puede ser anterior a la de inicio.");
-        }else {
-            fechaFin.setStyle("-fx-border-color: transparent;");
-            fechaInicio.setStyle("-fx-border-color: transparent;");
         }
 
-        // Validar días seleccionados
-        boolean algunDiaSeleccionado = cbLunes.isSelected() || cbMartes.isSelected() || cbMiercoles.isSelected() ||
-                cbJueves.isSelected() || cbViernes.isSelected() || cbSabado.isSelected() || cbDomingo.isSelected();
-        if (!algunDiaSeleccionado) {
+        // Validar que al menos un día esté seleccionado
+        if (!cbLunes.isSelected() && !cbMartes.isSelected() && !cbMiercoles.isSelected() &&
+                !cbJueves.isSelected() && !cbViernes.isSelected() && !cbSabado.isSelected() && !cbDomingo.isSelected()) {
             errores.add("Debe seleccionar al menos un día.");
         }
 
         // Validar horarios seleccionados por día
-        if (cbLunes.isSelected() && checkComboBoxBloquesLunes.getCheckModel().getCheckedItems().isEmpty()) {
-            errores.add("Debe seleccionar al menos un horario para el lunes.");
-        }
-        if (cbMartes.isSelected() && checkComboBoxBloquesMartes.getCheckModel().getCheckedItems().isEmpty()) {
-            errores.add("Debe seleccionar al menos un horario para el martes.");
-        }
-        if (cbMiercoles.isSelected() && checkComboBoxBloquesMiercoles.getCheckModel().getCheckedItems().isEmpty()) {
-            errores.add("Debe seleccionar al menos un horario para el miércoles.");
-        }
-        if (cbJueves.isSelected() && checkComboBoxBloquesJueves.getCheckModel().getCheckedItems().isEmpty()) {
-            errores.add("Debe seleccionar al menos un horario para el jueves.");
-        }
-        if (cbViernes.isSelected() && checkComboBoxBloquesViernes.getCheckModel().getCheckedItems().isEmpty()) {
-            errores.add("Debe seleccionar al menos un horario para el viernes.");
-        }
-        if (cbSabado.isSelected() && checkComboBoxBloquesSabado.getCheckModel().getCheckedItems().isEmpty()) {
-            errores.add("Debe seleccionar al menos un horario para el sábado.");
-        }
-        if (cbDomingo.isSelected() && checkComboBoxBloquesDomingo.getCheckModel().getCheckedItems().isEmpty()) {
-            errores.add("Debe seleccionar al menos un horario para el domingo.");
-        }
+        vistaUtils.validarHorarios(cbLunes, checkComboBoxBloquesLunes, "lunes", errores);
+        vistaUtils.validarHorarios(cbMartes, checkComboBoxBloquesMartes, "martes", errores);
+        vistaUtils.validarHorarios(cbMiercoles, checkComboBoxBloquesMiercoles, "miércoles", errores);
+        vistaUtils.validarHorarios(cbJueves, checkComboBoxBloquesJueves, "jueves", errores);
+        vistaUtils.validarHorarios(cbViernes, checkComboBoxBloquesViernes, "viernes", errores);
+        vistaUtils.validarHorarios(cbSabado, checkComboBoxBloquesSabado, "sábado", errores);
+        vistaUtils.validarHorarios(cbDomingo, checkComboBoxBloquesDomingo, "domingo", errores);
 
         return errores.isEmpty() ? Optional.empty() : Optional.of(errores);
     }

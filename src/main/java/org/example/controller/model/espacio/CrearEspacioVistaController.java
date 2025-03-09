@@ -102,65 +102,19 @@ public class CrearEspacioVistaController {
         }
     }
 
-
     private Optional<List<String>> validarCampos() {
         List<String> errores = new ArrayList<>();
 
         // Validar computadoras
-        if (tipoEspacioComboBox.getSelectionModel().getSelectedItem().equals("Laboratorio")){
-            String text = computadorasField.getText();
-            if (text.isEmpty()) {
-                computadorasField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                errores.add("Debes ingresar una cantidad de computadoras.");
-            } else if (!text.matches("\\d+")) {
-                computadorasField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                errores.add("La cantidad de computadoras debe ser un número válido.");
-            } else {
-                int number = Integer.parseInt(text);
-                if (number <= 0) {
-                    computadorasField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                    errores.add("La cantidad de computadoras debe ser mayor o igual que 0.");
-                } else {
-                    computadorasField.setStyle("-fx-border-color: transparent;");
-                }
-            }
+        if ("Laboratorio".equals(tipoEspacioComboBox.getSelectionModel().getSelectedItem())) {
+            vistaUtils.validarCampo(computadorasField, "Debes ingresar una cantidad de computadoras.", errores);
         }
 
         // Validar capacidad
-        String capacidadText = capacidadField.getText();
-        if (capacidadText.isEmpty()) {
-            capacidadField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-            errores.add("Debes ingresar una capacidad.");
-        } else if (!capacidadText.matches("\\d+")) {
-            capacidadField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-            errores.add("La capacidad debe ser un número válido.");
-        } else {
-            int number = Integer.parseInt(capacidadText);
-            if (number <= 0) {
-                capacidadField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                errores.add("La capacidad debe ser mayor o igual que 0.");
-            } else {
-                capacidadField.setStyle("-fx-border-color: transparent;");
-            }
-        }
+        vistaUtils.validarCampo(capacidadField, "Debes ingresar una capacidad.", errores);
 
         // Validar número
-        String numeroText = numeroField.getText();
-        if (numeroText.isEmpty()) {
-            numeroField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-            errores.add("Debes ingresar un número.");
-        } else if (!numeroText.matches("\\d+")) {
-            numeroField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-            errores.add("El número debe ser válido.");
-        } else {
-            int number = Integer.parseInt(numeroText);
-            if (number < 0) {
-                numeroField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                errores.add("El número debe ser mayor o igual que 0.");
-            } else {
-                numeroField.setStyle("-fx-border-color: transparent;");
-            }
-        }
+        vistaUtils.validarCampo(numeroField, "Debes ingresar un número.", errores);
 
         return errores.isEmpty() ? Optional.empty() : Optional.of(errores);
     }

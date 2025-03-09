@@ -7,11 +7,14 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import org.controlsfx.control.CheckComboBox;
+import org.example.enums.BloqueHorario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.function.Consumer;
 
 @Slf4j
@@ -109,4 +112,54 @@ public class VistaUtils {
         Stage myStage = (Stage) control.getScene().getWindow();
         myStage.close();
     }
+
+    /**
+ * Valida un TextField para asegurarse de que contiene un valor entero positivo no vacío.
+ * Si la validación falla, el borde del TextField se establece en rojo y se agrega un mensaje de error a la lista de errores.
+ *
+ * @param campo El TextField a validar.
+ * @param mensajeError El mensaje de error a agregar si la validación falla.
+ * @param errores La lista de errores a la que se agrega el mensaje de error.
+ */
+public void validarCampo(TextField campo, String mensajeError, List<String> errores) {
+    String text = campo.getText();
+    if (text.isEmpty() || !text.matches("\\d+") || Integer.parseInt(text) <= 0) {
+        campo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        errores.add(mensajeError);
+    } else {
+        campo.setStyle("-fx-border-color: transparent;");
+    }
+}
+
+/**
+ * Valida que un CheckComboBox tenga al menos un elemento seleccionado si el CheckBox correspondiente está seleccionado.
+ * Si la validación falla, se agrega un mensaje de error a la lista de errores.
+ *
+ * @param dia El CheckBox que representa el día.
+ * @param horarios El CheckComboBox que contiene los bloques horarios.
+ * @param nombreDia El nombre del día para el mensaje de error.
+ * @param errores La lista de errores a la que se agrega el mensaje de error.
+ */
+public void validarHorarios(CheckBox dia, CheckComboBox<BloqueHorario> horarios, String nombreDia, List<String> errores) {
+    if (dia.isSelected() && horarios.getCheckModel().getCheckedItems().isEmpty()) {
+        errores.add("Debe seleccionar al menos un horario para el " + nombreDia + ".");
+    }
+}
+
+/**
+ * Valida que un DatePicker tenga una fecha seleccionada.
+ * Si la validación falla, el borde del DatePicker se establece en rojo y se agrega un mensaje de error a la lista de errores.
+ *
+ * @param fecha El DatePicker a validar.
+ * @param mensajeError El mensaje de error a agregar si la validación falla.
+ * @param errores La lista de errores a la que se agrega el mensaje de error.
+ */
+public void validarFecha(DatePicker fecha, String mensajeError, List<String> errores) {
+    if (fecha.getValue() == null) {
+        fecha.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        errores.add(mensajeError);
+    } else {
+        fecha.setStyle("-fx-border-color: transparent;");
+    }
+}
 }
