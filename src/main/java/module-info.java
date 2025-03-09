@@ -44,8 +44,8 @@ module org.example.gestoraulas {
     opens org.example.controller.menus to javafx.fxml, org.slf4j, spring.context, spring.core;
     exports org.example.controller.model;
     opens org.example.controller.model to javafx.fxml, org.slf4j, spring.context, spring.core;
-    exports org.example.controller.model.solicitud.crearSolicitud;
-    opens org.example.controller.model.solicitud.crearSolicitud to javafx.fxml, org.slf4j, spring.context, spring.core;
+    exports org.example.controller.model.solicitud.crear;
+    opens org.example.controller.model.solicitud.crear to javafx.fxml, org.slf4j, spring.context, spring.core;
     exports org.example.controller.model.solicitud;
     opens org.example.controller.model.solicitud to javafx.fxml, org.slf4j, spring.context, spring.core;
     exports org.example.controller.model.espacio;

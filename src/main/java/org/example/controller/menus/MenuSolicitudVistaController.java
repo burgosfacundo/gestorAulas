@@ -36,7 +36,7 @@ public class MenuSolicitudVistaController {
     @FXML
     public void crearSolicitud(ActionEvent actionEvent) {
         try{
-            vistaUtils.cargarVista("/org/example/view/model/solicitud/crearSolicitud/seleccionar-reserva-view.fxml");
+            vistaUtils.cargarVista("/org/example/view/model/solicitud/crear/seleccionar-reserva-view.fxml");
         }catch (IOException e) {
             log.error(e.getMessage());
         }

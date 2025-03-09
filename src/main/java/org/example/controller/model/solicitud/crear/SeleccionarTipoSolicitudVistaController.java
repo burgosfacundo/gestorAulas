@@ -1,4 +1,4 @@
-package org.example.controller.model.solicitud.crearSolicitud;
+package org.example.controller.model.solicitud.crear;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;

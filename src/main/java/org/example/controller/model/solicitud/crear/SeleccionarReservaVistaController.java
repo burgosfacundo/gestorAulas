@@ -1,4 +1,4 @@
-package org.example.controller.model.solicitud.crearSolicitud;
+package org.example.controller.model.solicitud.crear;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -93,7 +93,7 @@ public class SeleccionarReservaVistaController {
                 .ofNullable(seleccionada)
                 .ifPresent(reserva -> {
                     try{
-                        vistaUtils.cargarVista("/org/example/view/model/solicitud/crearSolicitud/seleccionar-tipo-solicitud-view.fxml",
+                        vistaUtils.cargarVista("/org/example/view/model/solicitud/crear/seleccionar-tipo-solicitud-view.fxml",
                                 (SeleccionarTipoSolicitudVistaController controller) ->
                                         controller.setReserva(reserva));
                         vistaUtils.cerrarVentana(btnContinuar);
