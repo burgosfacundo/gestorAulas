@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="303.0" prefWidth="671.0" style="-fx-background-color: #ecf8ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.model.espacio.editar.EditarEspacioVistaController">
+   <ImageView fitHeight="139.0" fitWidth="224.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../../../../image/logoUTN.png" />
+   </ImageView>
+   <Label alignment="CENTER" layoutX="220.0" layoutY="14.0" prefHeight="35.0" prefWidth="430.0" text="Universidad Tecnológica Nacional" textFill="#005080">
+      <font>
+         <Font name="System Bold" size="24.0" />
+      </font>
+   </Label>
+   <Label alignment="CENTER" layoutX="220.0" layoutY="49.0" prefHeight="35.0" prefWidth="430.0" text="  Facultad Regional Mar del Plata" textFill="#005080">
+      <font>
+         <Font name="System Bold" size="24.0" />
+      </font>
+   </Label>
+   <TextField fx:id="capacidadField" layoutX="410.0" layoutY="117.0" prefHeight="26.0" prefWidth="106.0" />
+   <Label layoutX="333.0" layoutY="120.0" text="Capacidad:">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <TextField fx:id="computadorasField" layoutX="162.0" layoutY="210.0" prefHeight="26.0" prefWidth="114.0" />
+   <Label layoutX="57.0" layoutY="213.0" text="Computadoras:">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <CheckBox fx:id="tieneProyectorCheckBox" contentDisplay="RIGHT" layoutX="414.0" layoutY="167.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="22.0" style="-fx-content-display: right;">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </CheckBox>
+   <Label layoutX="334.0" layoutY="171.0" prefHeight="20.0" prefWidth="68.0" text="Proyector:">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <Label layoutX="333.0" layoutY="212.0" prefHeight="20.0" prefWidth="22.0" text="TV:">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <CheckBox fx:id="tieneTVCheckBox" contentDisplay="RIGHT" layoutX="368.0" layoutY="210.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="22.0" style="-fx-content-display: right;">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </CheckBox>
+   <Label layoutX="57.0" layoutY="120.0" prefHeight="20.0" prefWidth="34.0" text="Tipo:">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <TextField fx:id="numeroField" layoutX="125.0" layoutY="167.0" prefHeight="26.0" prefWidth="105.0" />
+   <Label layoutX="57.0" layoutY="170.0" text="Número:">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <ComboBox fx:id="tipoEspacioComboBox" layoutX="103.0" layoutY="118.0" prefWidth="150.0" />
+   <Button fx:id="btnEditar" layoutX="530.0" layoutY="250.0" onAction="#editar" prefHeight="30.0" prefWidth="82.0" style="-fx-background-color: #005080; -fx-text-fill: white; -fx-font-size: 14px;" text="Editar" />
+</AnchorPane>

@@ -72,7 +72,6 @@ public class VistaUtils {
             stage.setTitle(TITLE);
             stage.show();
         } catch (IOException e) {
-            log.error(e.getMessage());
             throw new IOException("Error al cargar la vista: " + url, e);
         }
     }

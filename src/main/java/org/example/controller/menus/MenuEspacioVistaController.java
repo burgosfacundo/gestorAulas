@@ -5,6 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.controller.model.espacio.editar.SeleccionarEspacioVistaController;
+import org.example.exception.GlobalExceptionHandler;
+import org.example.exception.JsonNotFoundException;
+import org.example.service.AulaService;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +19,8 @@ import java.io.IOException;
 @Component
 public class MenuEspacioVistaController {
     private final VistaUtils vistaUtils;
+    private final AulaService aulaService;
+    private final GlobalExceptionHandler globalExceptionHandler;
     @FXML
     private Button btnListar;
     @FXML
@@ -47,7 +53,16 @@ public class MenuEspacioVistaController {
 
     @FXML
     public void editarEspacio(ActionEvent actionEvent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            var espacios = aulaService.listar();
+            vistaUtils.cargarVista("/org/example/view/model/espacio/editar/seleccionar-espacio-view.fxml",
+                    (SeleccionarEspacioVistaController controller) ->
+                            controller.setEspacios(espacios));
+        }catch (IOException e){
+            log.error(e.getMessage());
+        } catch (JsonNotFoundException e){
+            globalExceptionHandler.handleJsonNotFoundException(e);
+        }
     }
 
     @FXML

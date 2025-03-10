@@ -19,6 +19,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -93,9 +94,14 @@ public class AulaService{
      * @throws JsonNotFoundException si no encuentra el archivo JSON
      * @throws NotFoundException si no encuentra el aula
      */
-    public void modificar(Aula aula) throws JsonNotFoundException, NotFoundException {
+    public void modificar(Aula aula) throws JsonNotFoundException, NotFoundException, BadRequestException {
         //Verificamos que el aula con ese ID exista
         validarAulaExistenteById(aula.getId());
+        var optional = validarAulaExistenteByNumero(aula.getNumero());
+
+        if (optional.isPresent()){
+            throw new BadRequestException("Ya existe un aula o laboratorio con ese número");
+        }
 
         //la modificamos
         repositorio.modify(aula);
@@ -332,5 +338,17 @@ public class AulaService{
     private Aula validarAulaExistenteById(Integer idAula) throws NotFoundException, JsonNotFoundException {
         return repositorio.find(idAula)
                 .orElseThrow(() -> new NotFoundException(String.format("No existe un aula con el id: %s", idAula)));
+    }
+
+    /**
+     * Valida la existencia de un Aula por numero
+     * @param numero del aula que se quiere verificar
+     * @return Aula si existe
+     * @throws NotFoundException Si no se encuentra el aula con ese numero
+     * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
+     */
+    private Optional<Aula> validarAulaExistenteByNumero(Integer numero) throws JsonNotFoundException {
+        return repositorio.getAll()
+                .stream().filter(aula -> aula.getNumero() == numero).findFirst();
     }
 }

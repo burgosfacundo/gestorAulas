@@ -1,5 +1,6 @@
 package org.example.utils;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -16,6 +17,40 @@ import java.util.Set;
 @UtilityClass
 public class TableUtils {
 
+    public static void inicializarTablaEspacio(TableColumn<Aula, Integer> colId,
+                                               TableColumn<Aula, Integer> colNum,
+                                               TableColumn<Aula, Integer> colCapacidad,
+                                               TableColumn<Aula, Boolean> colTieneProyector,
+                                               TableColumn<Aula, Boolean> colTieneTV,
+                                               TableColumn<Laboratorio, Integer> colComputadoras) {
+        inicializarTablaAula(colId, colNum, colCapacidad, colTieneProyector, colTieneTV);
+        // Configurar la columna de computadoras solo para Laboratorio
+        colComputadoras.setCellValueFactory(cellData -> {
+            if (cellData.getValue() instanceof Laboratorio lab) {
+                return new SimpleObjectProperty<>(lab.getComputadoras());
+            } else {
+                return null;
+            }
+        });
+        colComputadoras.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || getTableRow().getItem() == null) {
+                    setText(null);
+                    setStyle("");
+                } else if (item == null) {
+                    setText("✗");
+                    setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+                } else {
+                    setText(item.toString());
+                    setStyle("");
+                }
+            }
+        });
+    }
+
+
     public void inicializarTablaAula(TableColumn<Aula, Integer> colId,
                                             TableColumn<Aula, Integer> colNum,
                                             TableColumn<Aula, Integer> colCapacidad,
@@ -27,7 +62,6 @@ public class TableUtils {
         colTieneProyector.setCellValueFactory(new PropertyValueFactory<>("tieneProyector"));
         colTieneTV.setCellValueFactory(new PropertyValueFactory<>("tieneTV"));
         colTieneProyector.setCellFactory(TableUtils::columnTic);
-
         colTieneTV.setCellFactory(TableUtils::columnTic);
     }
 
@@ -46,7 +80,6 @@ public class TableUtils {
 
         // Personalizo las columnas booleanas (tieneProyector y tieneTV)
         colTieneProyector.setCellFactory(TableUtils::columnTic);
-
         colTieneTV.setCellFactory(TableUtils::columnTic);
     }
 
@@ -60,7 +93,6 @@ public class TableUtils {
                                             TableColumn<SolicitudCambioAula, Map<DayOfWeek, Set<BloqueHorario>>> colDiaHorario,
                                             TableColumn<SolicitudCambioAula,String> colComenProfe,
                                             TableColumn<SolicitudCambioAula,String> colComenAdmin){
-        // Configurar las columnas (PropertyValueFactory según tu modelo)
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colReserva.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getReservaOriginal().toString()));
         colAula.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNuevaAula().toString()));
@@ -125,8 +157,6 @@ public class TableUtils {
         colProfesor.setCellValueFactory(new PropertyValueFactory<>("profesor"));
     }
 
-
-
     private <T extends Aula> TableCell<T, Boolean> columnTic(TableColumn<T, Boolean> column) {
         return new TableCell<>() {
             @Override
@@ -145,5 +175,4 @@ public class TableUtils {
             }
         };
     }
-
 }
