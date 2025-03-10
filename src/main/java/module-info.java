@@ -52,4 +52,6 @@ module org.example.gestoraulas {
     opens org.example.controller.model.espacio to javafx.fxml, org.slf4j, spring.context, spring.core;
     exports org.example.controller.model.espacio.editar;
     opens org.example.controller.model.espacio.editar to javafx.fxml, org.slf4j, spring.context, spring.core;
+    exports org.example.controller.model.usuario;
+    opens org.example.controller.model.usuario to javafx.fxml, org.slf4j, spring.context, spring.core;
 }

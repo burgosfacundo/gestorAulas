@@ -16,6 +16,17 @@ import java.util.Set;
 
 @UtilityClass
 public class TableUtils {
+public void inicializarTablaUsuarios(TableColumn<Usuario, Integer> colId,
+                                     TableColumn<Usuario, String> colUsername,
+                                     TableColumn<Usuario, String> colNombre,
+                                     TableColumn<Usuario, String> colApellido,
+                                     TableColumn<Usuario, String> colMatricula){
+    colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+    colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
+    colNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProfesor().getNombre()));
+    colApellido.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProfesor().getApellido()));
+    colMatricula.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProfesor().getMatricula()));
+}
 
     public static void inicializarTablaEspacio(TableColumn<Aula, Integer> colId,
                                                TableColumn<Aula, Integer> colNum,

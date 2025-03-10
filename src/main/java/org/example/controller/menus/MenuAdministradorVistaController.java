@@ -50,7 +50,12 @@ public class MenuAdministradorVistaController {
 
     @FXML
     public void menuUsuarios(ActionEvent actionEvent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try{
+            vistaUtils.cargarVista("/org/example/view/menus/menu-usuarios-view.fxml");
+            cerrarWindow(actionEvent);
+        }catch (IOException e){
+            log.error(e.getMessage());
+        }
     }
 
     @FXML
