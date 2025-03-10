@@ -116,7 +116,7 @@ public class AulaRepository implements JSONRepository<Integer, Aula> {
         //Devuelve el aula si existe
         //Devuelve optional.empty() sino
         return getAll().stream()
-                .filter(aula -> Objects.equals(aula.getNumero(), id))
+                .filter(aula -> Objects.equals(aula.getId(), id))
                 .findFirst();
     }
 
