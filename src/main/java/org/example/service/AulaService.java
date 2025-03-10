@@ -344,7 +344,6 @@ public class AulaService{
      * Valida la existencia de un Aula por numero
      * @param numero del aula que se quiere verificar
      * @return Aula si existe
-     * @throws NotFoundException Si no se encuentra el aula con ese numero
      * @throws JsonNotFoundException Sí ocurre un error con el archivo JSON
      */
     private Optional<Aula> validarAulaExistenteByNumero(Integer numero) throws JsonNotFoundException {
