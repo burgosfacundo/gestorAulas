@@ -6,10 +6,10 @@ import javafx.scene.control.Button;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.controller.model.usuario.EliminarUsuarioVistaController;
+import org.example.controller.model.usuario.UsuarioVistaController;
 import org.example.exception.GlobalExceptionHandler;
 import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
-import org.example.service.ProfesorService;
 import org.example.service.UsuarioService;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
@@ -34,7 +34,17 @@ public class MenuUsuarioVistaController {
 
     @FXML
     public void listar(ActionEvent event) {
-       throw new UnsupportedOperationException("Not supported yet.");
+       try{
+           var usuarios = usuarioService.listar();
+           vistaUtils.cargarVista("/org/example/view/model/usuario/usuario-view.fxml",
+                   (UsuarioVistaController controller) -> controller.setUsuarios(usuarios));
+       }catch (IOException e){
+           log.error(e.getMessage());
+       } catch (NotFoundException e) {
+           globalExceptionHandler.handleNotFoundException(e);
+       } catch (JsonNotFoundException e) {
+           globalExceptionHandler.handleJsonNotFoundException(e);
+       }
     }
 
     @FXML
