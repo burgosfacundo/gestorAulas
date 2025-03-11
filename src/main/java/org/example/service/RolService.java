@@ -103,4 +103,11 @@ public class RolService{
         return repositorio.find(idRol)
                 .orElseThrow(() -> new NotFoundException(String.format("No existe un rol con el id: %d", idRol)));
     }
+
+    public Rol validarRolPorNombre(String nombre) throws NotFoundException, JsonNotFoundException {
+        return repositorio.getAll().stream()
+                .filter(rol -> rol.getNombre().equals(nombre))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException(String.format("No existe un rol con el nombre: %s", nombre)));
+    }
 }

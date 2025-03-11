@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="721.0" style="-fx-background-color: #ecf8ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.model.usuario.CrearUsuarioVistaController">
+   <ImageView fitHeight="139.0" fitWidth="224.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../../../image/logoUTN.png" />
+   </ImageView>
+   <Label alignment="CENTER" layoutX="220.0" layoutY="14.0" prefHeight="35.0" prefWidth="430.0" text="Universidad Tecnológica Nacional" textFill="#005080">
+      <font>
+         <Font name="System Bold" size="24.0" />
+      </font>
+   </Label>
+   <Label alignment="CENTER" layoutX="220.0" layoutY="49.0" prefHeight="35.0" prefWidth="430.0" text="  Facultad Regional Mar del Plata" textFill="#005080">
+      <font>
+         <Font name="System Bold" size="24.0" />
+      </font>
+   </Label>
+   <PasswordField fx:id="repetirContraseniaField" layoutX="148.0" layoutY="330.0" prefHeight="26.0" prefWidth="106.0" />
+   <Label layoutX="15.0" layoutY="334.0" prefHeight="20.0" prefWidth="121.0" text="Repetir contraseña:">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <PasswordField fx:id="contraseniaField" layoutX="95.0" layoutY="269.0" prefHeight="26.0" prefWidth="114.0" />
+   <Label layoutX="15.0" layoutY="274.0" text="Contraseña:">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <Label layoutX="14.0" layoutY="152.0" prefHeight="20.0" prefWidth="34.0" text="Rol:">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <TextField fx:id="usernameField" layoutX="72.0" layoutY="203.0" prefHeight="26.0" prefWidth="105.0" />
+   <Label layoutX="13.0" layoutY="206.0" text="Usuario:">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <ComboBox fx:id="tipoRolComboBox" layoutX="60.0" layoutY="150.0" prefWidth="150.0" />
+   <Button fx:id="btnCrear" layoutX="600.0" layoutY="365.0" onAction="#crear" prefHeight="30.0" prefWidth="82.0" style="-fx-background-color: #005080; -fx-text-fill: white; -fx-font-size: 14px;" text="Crear" />
+   <TableView fx:id="tblProfesor" layoutX="238.0" layoutY="109.0" prefHeight="214.0" prefWidth="474.0">
+      <columns>
+         <TableColumn fx:id="colId" prefWidth="29.600051879882812" text="ID" />
+         <TableColumn fx:id="colNombre" maxWidth="172.79998779296875" prefWidth="116.0" text="Nombre" />
+         <TableColumn fx:id="colApellido" maxWidth="5013600.0" prefWidth="107.199951171875" text="Apellido" />
+         <TableColumn fx:id="colMatricula" prefWidth="129.5999755859375" text="Matricula" />
+      </columns>
+   </TableView>
+</AnchorPane>

@@ -9,6 +9,7 @@ import org.example.controller.model.usuario.EliminarUsuarioVistaController;
 import org.example.exception.GlobalExceptionHandler;
 import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
+import org.example.service.ProfesorService;
 import org.example.service.UsuarioService;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ import java.io.IOException;
 @Component
 public class MenuUsuarioVistaController {
     private final VistaUtils vistaUtils;
+    private final ProfesorService profesorService;
     private final UsuarioService usuarioService;
     private final GlobalExceptionHandler globalExceptionHandler;
     @FXML
@@ -38,7 +40,11 @@ public class MenuUsuarioVistaController {
 
     @FXML
     public void crearUsuario(ActionEvent actionEvent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try{
+            vistaUtils.cargarVista("/org/example/view/model/usuario/crear-usuario-view.fxml");
+        }catch (IOException e){
+            log.error(e.getMessage());
+        }
     }
     @FXML
     public void eliminarUsuario(ActionEvent actionEvent) {

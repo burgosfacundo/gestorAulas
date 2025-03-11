@@ -16,17 +16,27 @@ import java.util.Set;
 
 @UtilityClass
 public class TableUtils {
-public void inicializarTablaUsuarios(TableColumn<Usuario, Integer> colId,
+    public static void inicializarTablaProfesores(TableColumn<Profesor, Integer> colId,
+                                                TableColumn<Profesor, String> colNombre,
+                                                TableColumn<Profesor, String> colApellido,
+                                                TableColumn<Profesor, String> colMatricula){
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colApellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
+        colMatricula.setCellValueFactory(new PropertyValueFactory<>("matricula"));
+    }
+
+    public static void inicializarTablaUsuarios(TableColumn<Usuario, Integer> colId,
                                      TableColumn<Usuario, String> colUsername,
                                      TableColumn<Usuario, String> colNombre,
                                      TableColumn<Usuario, String> colApellido,
                                      TableColumn<Usuario, String> colMatricula){
-    colId.setCellValueFactory(new PropertyValueFactory<>("id"));
-    colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
-    colNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProfesor().getNombre()));
-    colApellido.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProfesor().getApellido()));
-    colMatricula.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProfesor().getMatricula()));
-}
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
+        colNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProfesor().getNombre()));
+        colApellido.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProfesor().getApellido()));
+        colMatricula.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProfesor().getMatricula()));
+    }
 
     public static void inicializarTablaEspacio(TableColumn<Aula, Integer> colId,
                                                TableColumn<Aula, Integer> colNum,
