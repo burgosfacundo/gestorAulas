@@ -162,7 +162,7 @@ public class AulaFiltroVistaController{
         List<String> errores = new ArrayList<>();
 
         // Validar capacidad
-        vistaUtils.validarCampo(capacidad, "La capacidad debe ser mayor a 0.", errores);
+        vistaUtils.validarNumero(capacidad, "La capacidad debe ser mayor a 0.", errores);
 
         // Validar fechas
         vistaUtils.validarFecha(fechaInicio, "Debe seleccionar una fecha de inicio.", errores);

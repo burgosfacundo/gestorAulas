@@ -168,10 +168,10 @@ public class LaboratorioFiltroVistaController{
         List<String> errores = new ArrayList<>();
 
         // Validar computadoras
-        vistaUtils.validarCampo(computadoras, "La cantidad de computadoras debe ser mayor a 0.", errores);
+        vistaUtils.validarNumero(computadoras, "La cantidad de computadoras debe ser mayor a 0.", errores);
 
         // Validar capacidad
-        vistaUtils.validarCampo(capacidad, "La capacidad debe ser un número válido.", errores);
+        vistaUtils.validarNumero(capacidad, "La capacidad debe ser un número válido.", errores);
 
         // Validar fechas
         vistaUtils.validarFecha(fechaInicio, "Debe seleccionar una fecha de inicio.", errores);

@@ -112,53 +112,107 @@ public class VistaUtils {
         myStage.close();
     }
 
+        /**
+     * Valida un TextField para asegurarse de que contiene un valor entero positivo no vacío.
+     * Si la validación falla, el borde del TextField se establece en rojo y se agrega un mensaje de error a la lista de errores.
+     *
+     * @param campo El TextField a validar.
+     * @param mensajeError El mensaje de error a agregar si la validación falla.
+     * @param errores La lista de errores a la que se agrega el mensaje de error.
+     */
+    public void validarNumero(TextField campo, String mensajeError, List<String> errores) {
+        String text = campo.getText();
+        if (text.isEmpty() || !text.matches("\\d+") || Integer.parseInt(text) <= 0) {
+            campo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            errores.add(mensajeError);
+        } else {
+            campo.setStyle("-fx-border-color: transparent;");
+        }
+    }
+
     /**
- * Valida un TextField para asegurarse de que contiene un valor entero positivo no vacío.
- * Si la validación falla, el borde del TextField se establece en rojo y se agrega un mensaje de error a la lista de errores.
- *
- * @param campo El TextField a validar.
- * @param mensajeError El mensaje de error a agregar si la validación falla.
- * @param errores La lista de errores a la que se agrega el mensaje de error.
- */
-public void validarCampo(TextField campo, String mensajeError, List<String> errores) {
-    String text = campo.getText();
-    if (text.isEmpty() || !text.matches("\\d+") || Integer.parseInt(text) <= 0) {
-        campo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-        errores.add(mensajeError);
-    } else {
-        campo.setStyle("-fx-border-color: transparent;");
+     * Valida que un CheckComboBox tenga al menos un elemento seleccionado si el CheckBox correspondiente está seleccionado.
+     * Si la validación falla, se agrega un mensaje de error a la lista de errores.
+     *
+     * @param dia El CheckBox que representa el día.
+     * @param horarios El CheckComboBox que contiene los bloques horarios.
+     * @param nombreDia El nombre del día para el mensaje de error.
+     * @param errores La lista de errores a la que se agrega el mensaje de error.
+     */
+    public void validarHorarios(CheckBox dia, CheckComboBox<BloqueHorario> horarios, String nombreDia, List<String> errores) {
+        if (dia.isSelected() && horarios.getCheckModel().getCheckedItems().isEmpty()) {
+            errores.add("Debe seleccionar al menos un horario para el " + nombreDia + ".");
+        }
     }
-}
 
-/**
- * Valida que un CheckComboBox tenga al menos un elemento seleccionado si el CheckBox correspondiente está seleccionado.
- * Si la validación falla, se agrega un mensaje de error a la lista de errores.
- *
- * @param dia El CheckBox que representa el día.
- * @param horarios El CheckComboBox que contiene los bloques horarios.
- * @param nombreDia El nombre del día para el mensaje de error.
- * @param errores La lista de errores a la que se agrega el mensaje de error.
- */
-public void validarHorarios(CheckBox dia, CheckComboBox<BloqueHorario> horarios, String nombreDia, List<String> errores) {
-    if (dia.isSelected() && horarios.getCheckModel().getCheckedItems().isEmpty()) {
-        errores.add("Debe seleccionar al menos un horario para el " + nombreDia + ".");
+    /**
+     * Valida que un DatePicker tenga una fecha seleccionada.
+     * Si la validación falla, el borde del DatePicker se establece en rojo y se agrega un mensaje de error a la lista de errores.
+     *
+     * @param fecha El DatePicker a validar.
+     * @param mensajeError El mensaje de error a agregar si la validación falla.
+     * @param errores La lista de errores a la que se agrega el mensaje de error.
+     */
+    public void validarFecha(DatePicker fecha, String mensajeError, List<String> errores) {
+        if (fecha.getValue() == null) {
+            fecha.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            errores.add(mensajeError);
+        } else {
+            fecha.setStyle("-fx-border-color: transparent;");
+        }
     }
-}
 
-/**
- * Valida que un DatePicker tenga una fecha seleccionada.
- * Si la validación falla, el borde del DatePicker se establece en rojo y se agrega un mensaje de error a la lista de errores.
- *
- * @param fecha El DatePicker a validar.
- * @param mensajeError El mensaje de error a agregar si la validación falla.
- * @param errores La lista de errores a la que se agrega el mensaje de error.
- */
-public void validarFecha(DatePicker fecha, String mensajeError, List<String> errores) {
-    if (fecha.getValue() == null) {
-        fecha.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-        errores.add(mensajeError);
-    } else {
-        fecha.setStyle("-fx-border-color: transparent;");
+    public void validarTexto(TextField campo, String mensajeError, List<String> errores) {
+        String text = campo.getText();
+        if (text.isEmpty()) {
+            campo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            errores.add(mensajeError);
+        } else {
+            campo.setStyle("-fx-border-color: transparent;");
+        }
     }
-}
+
+    public void validarPassword(PasswordField campo, List<String> errores) {
+        String text = campo.getText();
+        String[] patterns = {
+                ".*\\d.*", ".*[a-z].*", ".*[A-Z].*", ".*[!@#\\$%\\^&\\*].*"
+        };
+        String[] messages = {
+                "La contraseña debe contener al menos un dígito.",
+                "La contraseña debe contener al menos una letra minúscula.",
+                "La contraseña debe contener al menos una letra mayúscula.",
+                "La contraseña debe contener al menos un carácter especial."
+        };
+
+        if (text.length() < 8) {
+            errores.add("La contraseña debe tener al menos 8 caracteres.");
+        }
+
+        for (int i = 0; i < patterns.length; i++) {
+            if (!text.matches(patterns[i])) {
+                errores.add(messages[i]);
+            }
+        }
+        campo.setStyle(errores.isEmpty() ? "-fx-border-color: transparent;" : "-fx-border-color: red; -fx-border-width: 2px;");
+    }
+
+    public <T> void validarComboBox(ComboBox<T> comboBox, String mensajeError, List<String> errores) {
+        if (comboBox.getSelectionModel().isEmpty()) {
+            comboBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            errores.add(mensajeError);
+        } else {
+            comboBox.setStyle("-fx-border-color: transparent;");
+
+        }
+    }
+
+    public <T> void validarTabla(TableView<T> tabla, String mensajeError, List<String> errores) {
+        if (tabla.getSelectionModel().isEmpty()) {
+            tabla.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            errores.add(mensajeError);
+        } else {
+            tabla.setStyle("-fx-border-color: transparent;");
+
+        }
+    }
 }

@@ -107,14 +107,14 @@ public class CrearEspacioVistaController {
 
         // Validar computadoras
         if ("Laboratorio".equals(tipoEspacioComboBox.getSelectionModel().getSelectedItem())) {
-            vistaUtils.validarCampo(computadorasField, "Debes ingresar una cantidad de computadoras.", errores);
+            vistaUtils.validarNumero(computadorasField, "Debes ingresar una cantidad de computadoras.", errores);
         }
 
         // Validar capacidad
-        vistaUtils.validarCampo(capacidadField, "Debes ingresar una capacidad.", errores);
+        vistaUtils.validarNumero(capacidadField, "Debes ingresar una capacidad.", errores);
 
         // Validar número
-        vistaUtils.validarCampo(numeroField, "Debes ingresar un número.", errores);
+        vistaUtils.validarNumero(numeroField, "Debes ingresar un número.", errores);
 
         return errores.isEmpty() ? Optional.empty() : Optional.of(errores);
     }
