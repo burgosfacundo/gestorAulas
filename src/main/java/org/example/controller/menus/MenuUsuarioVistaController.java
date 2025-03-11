@@ -21,7 +21,6 @@ import java.io.IOException;
 @Component
 public class MenuUsuarioVistaController {
     private final VistaUtils vistaUtils;
-    private final ProfesorService profesorService;
     private final UsuarioService usuarioService;
     private final GlobalExceptionHandler globalExceptionHandler;
     @FXML
