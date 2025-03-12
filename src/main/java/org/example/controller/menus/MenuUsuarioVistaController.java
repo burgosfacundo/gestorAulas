@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.controller.model.usuario.EliminarUsuarioVistaController;
 import org.example.controller.model.usuario.UsuarioVistaController;
 import org.example.exception.GlobalExceptionHandler;
 import org.example.exception.JsonNotFoundException;
@@ -46,7 +45,6 @@ public class MenuUsuarioVistaController {
            globalExceptionHandler.handleJsonNotFoundException(e);
        }
     }
-
     @FXML
     public void crearUsuario(ActionEvent actionEvent) {
         try{
@@ -58,19 +56,11 @@ public class MenuUsuarioVistaController {
     @FXML
     public void eliminarUsuario(ActionEvent actionEvent) {
         try {
-            var usuarios = usuarioService.listar();
-            vistaUtils.cargarVista("/org/example/view/model/usuario/eliminar-usuario-view.fxml",
-                    (EliminarUsuarioVistaController controller) ->
-                            controller.setUsuarios(usuarios));
+            vistaUtils.cargarVista("/org/example/view/model/usuario/eliminar-usuario-view.fxml");
         } catch (IOException e) {
             log.error(e.getMessage());
-        } catch (JsonNotFoundException e) {
-            globalExceptionHandler.handleJsonNotFoundException(e);
-        } catch (NotFoundException e) {
-            globalExceptionHandler.handleNotFoundException(e);
         }
     }
-
     @FXML
     public void volverMenuPrincipal(ActionEvent actionEvent) {
         try{

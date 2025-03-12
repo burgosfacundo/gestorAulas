@@ -16,7 +16,6 @@ import org.example.utils.TableUtils;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -42,29 +41,22 @@ public class EliminarUsuarioVistaController {
     private Button btnEliminar;
     @FXML
     private Button btnCancelar;
-    private List<Usuario> usuarios;
-
-    public void setUsuarios(List<Usuario> usuarios) {
-        this.usuarios = usuarios;
-        actualizarTabla();
-    }
-
-    private void actualizarTabla() {
-        // Configurar la tabla si no se ha hecho antes
-        if (tblUsuarios.getColumns().isEmpty()) {
-            TableUtils.inicializarTablaUsuarios(colId, colUsername,colNombre,colApellido,colMatricula);
-        }
-
-        ObservableList<Usuario> usuarioObservableList = FXCollections.observableArrayList();
-        usuarioObservableList.addAll(usuarios);
-        tblUsuarios.setItems(usuarioObservableList);
-    }
 
     @FXML
     public void initialize() {
         // Asocio columnas de la tabla con atributos del modelo
         TableUtils.inicializarTablaUsuarios(colId, colUsername,colNombre,colApellido,colMatricula);
-        // Deshabilitar botón si no hay selección
+        try {
+            var usuarios = usuarioService.listar();
+            ObservableList<Usuario> usuarioObservableList = FXCollections.observableArrayList();
+            usuarioObservableList.addAll(usuarios);
+            tblUsuarios.setItems(usuarioObservableList);
+        }catch (JsonNotFoundException e){
+            globalExceptionHandler.handleJsonNotFoundException(e);
+        }catch (NotFoundException e){
+            globalExceptionHandler.handleNotFoundException(e);
+        }
+
         btnEliminar.disableProperty().bind(tblUsuarios.getSelectionModel().selectedItemProperty().isNull());
     }
 
