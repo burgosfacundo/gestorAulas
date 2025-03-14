@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.0" prefWidth="737.0" style="-fx-background-color: #ecf8ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.model.reserva.EliminarReservaVistaController">
+   <ImageView fitHeight="139.0" fitWidth="224.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../../../image/logoUTN.png" />
+   </ImageView>
+   <Label alignment="CENTER" layoutX="273.0" layoutY="24.0" prefHeight="35.0" prefWidth="430.0" text="Universidad Tecnológica Nacional" textFill="#005080">
+      <font>
+         <Font name="System Bold" size="24.0" />
+      </font>
+   </Label>
+   <Label alignment="CENTER" layoutX="263.0" layoutY="60.0" prefHeight="35.0" prefWidth="430.0" text="  Facultad Regional Mar del Plata" textFill="#005080">
+      <font>
+         <Font name="System Bold" size="24.0" />
+      </font>
+   </Label>
+   <Label alignment="CENTER" layoutX="69.0" layoutY="111.0" prefHeight="35.0" prefWidth="238.0" text="Seleccionar Reserva:">
+      <font>
+         <Font name="System Bold" size="24.0" />
+      </font>
+   </Label>
+   <HBox alignment="CENTER" layoutX="512.0" layoutY="436.0" prefHeight="44.0" prefWidth="154.0" spacing="10">
+      <Button fx:id="btnEliminar" onAction="#eliminar" text="Eliminar" />
+      <Button fx:id="btnCancelar" onAction="#cancelar" text="Cancelar" />
+   </HBox>
+   <TableView fx:id="tblReservas" layoutX="71.0" layoutY="157.0" prefHeight="272.0" prefWidth="606.0">
+      <columns>
+         <TableColumn fx:id="colId" prefWidth="47.19997787475586" text="ID" />
+         <TableColumn fx:id="colFechaInicio" prefWidth="120.79998779296875" text="Fecha de inicio" />
+         <TableColumn fx:id="colFechaFin" prefWidth="116.80006408691406" text="Fecha de Fin" />
+         <TableColumn fx:id="colAula" prefWidth="93.60003662109375" text="Aula" />
+         <TableColumn fx:id="colInscripcion" prefWidth="108.79998779296875" text="Inscripción" />
+         <TableColumn fx:id="colDiaHorario" prefWidth="116.79996337890623" text="Horarios" />
+      </columns>
+   </TableView>
+</AnchorPane>
