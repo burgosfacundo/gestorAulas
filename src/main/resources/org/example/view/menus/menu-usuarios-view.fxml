@@ -28,7 +28,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="273.0" layoutY="259.0" prefHeight="27.0" prefWidth="190.0" style="-fx-background-color: #005482;" text="Menú Espacios" textAlignment="CENTER" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="273.0" layoutY="259.0" prefHeight="27.0" prefWidth="190.0" style="-fx-background-color: #005482;" text="Menú Usuarios" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
