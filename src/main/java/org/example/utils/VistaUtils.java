@@ -8,13 +8,25 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.controlsfx.control.CheckComboBox;
+import org.example.controller.model.CalendarioVistaController;
+import org.example.controller.model.InscripcionVistaController;
+import org.example.controller.model.reserva.ReservaVistaController;
+import org.example.controller.model.espacio.AulaVistaController;
+import org.example.controller.model.espacio.LaboratorioVistaController;
 import org.example.enums.BloqueHorario;
+import org.example.model.Aula;
+import org.example.model.Inscripcion;
+import org.example.model.Laboratorio;
+import org.example.model.Reserva;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
 @Slf4j
@@ -96,12 +108,58 @@ public class VistaUtils {
     /**
      * Muestra una alerta con el título y contenido especificados.
      */
-    public void mostrarAlerta(String content, Alert.AlertType type) {
+    public ButtonType mostrarAlerta(String content, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setHeaderText(null);
         alert.setTitle(TITLE);
         alert.setContentText(content);
         alert.showAndWait();
+        return alert.getResult();
+    }
+
+    public void mostrarVistaInscripcion(Inscripcion inscripcion) {
+        try {
+            cargarVista("/org/example/view/model/inscripcion-view.fxml",
+                    (InscripcionVistaController controller) -> controller.setInscripciones(List.of(inscripcion)));
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    public void mostrarVistaAula(Aula aula) {
+        try {
+            cargarVista("/org/example/view/model/espacio/aula-view.fxml",
+                    (AulaVistaController controller) -> controller.setAulas(List.of(aula)));
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    public void mostrarVistaHorarios(Map<DayOfWeek, Set<BloqueHorario>> horarios) {
+        try {
+            cargarVista("/org/example/view/model/calendario-view.fxml",
+                    (CalendarioVistaController controller) -> controller.cargarHorarios(horarios));
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    public void mostrarVistaReserva(Reserva reserva) {
+        try {
+            cargarVista("/org/example/view/model/reserva/reserva-view.fxml",
+                    (ReservaVistaController controller) -> controller.setReservas(List.of(reserva)));
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    public void mostrarVistaLaboratorio(Laboratorio laboratorio) {
+        try {
+            cargarVista("/org/example/view/model/espacio/laboratorio-view.fxml",
+                    (LaboratorioVistaController controller) -> controller.setLaboratorios(List.of(laboratorio)));
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
     }
 
     /**
