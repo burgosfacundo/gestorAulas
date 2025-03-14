@@ -1,29 +1,23 @@
-package org.example.controller.model;
+package org.example.controller.model.reserva;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.controller.model.espacio.AulaVistaController;
 import org.example.enums.BloqueHorario;
-import org.example.model.Aula;
-import org.example.model.Inscripcion;
 import org.example.model.Reserva;
-import org.example.model.SolicitudCambioAula;
 import org.example.utils.TableUtils;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -44,9 +38,8 @@ public class ReservaVistaController {
     @FXML
     private TableColumn<Reserva,String> colInscripcion;
     @FXML
-    private TableColumn<SolicitudCambioAula, Map<DayOfWeek, Set<BloqueHorario>>> colDiaHorario;
+    private TableColumn<Reserva, Map<DayOfWeek, Set<BloqueHorario>>> colDiaHorario;
     private List<Reserva> reservas;
-
 
     public void setReservas(List<Reserva> reservas) {
         this.reservas = reservas;
@@ -68,6 +61,30 @@ public class ReservaVistaController {
     public void initialize() {
         TableUtils.inicializarTablaReserva(colId,colFechaInicio,colFechaFin,colAula,colInscripcion,colDiaHorario);
 
+        colDiaHorario.setCellFactory(column -> new TableCell<>() {
+            private final Button btnVerHorarios;
+
+            {
+                btnVerHorarios = new Button("Ver");
+                btnVerHorarios.setOnAction(event -> {
+                    var reserva = getTableView().getItems().get(getIndex());
+                    Optional
+                            .ofNullable(reserva)
+                            .ifPresent(r ->  vistaUtils.mostrarVistaHorarios(reserva.getDiasYBloques()));
+                });
+            }
+
+            @Override
+            protected void updateItem(Map<DayOfWeek, Set<BloqueHorario>> item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btnVerHorarios);
+                }
+            }
+        });
+
         tblReservas.setRowFactory(tableView -> {
             TableRow<Reserva> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -84,27 +101,10 @@ public class ReservaVistaController {
         var clickedColumn = tblReservas.getFocusModel().getFocusedCell().getTableColumn();
 
         if (clickedColumn == colInscripcion) {
-            mostrarVistaInscripcion(reserva.getInscripcion());
+            vistaUtils.mostrarVistaInscripcion(reserva.getInscripcion());
         }else if(clickedColumn == colAula) {
-            mostrarVistaAula(reserva.getAula());
+            vistaUtils.mostrarVistaAula(reserva.getAula());
         }
     }
 
-    private void mostrarVistaInscripcion(Inscripcion inscripcion) {
-        try {
-            vistaUtils.cargarVista("/org/example/view/model/inscripcion-view.fxml",
-                    (InscripcionVistaController controller) -> controller.setInscripciones(List.of(inscripcion)));
-        } catch (IOException e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    private void mostrarVistaAula(Aula aula) {
-        try {
-            vistaUtils.cargarVista("/org/example/view/model/espacio/aula-view.fxml",
-                    (AulaVistaController controller) -> controller.setAulas(List.of(aula)));
-        } catch (IOException e) {
-            log.error(e.getMessage());
-        }
-    }
 }

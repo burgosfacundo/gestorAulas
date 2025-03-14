@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="743.0" style="-fx-background-color: #ecf8ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.model.ReservaVistaController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="743.0" style="-fx-background-color: #ecf8ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.model.reserva.ReservaVistaController">
    <Label alignment="CENTER" layoutX="290.0" layoutY="25.0" prefHeight="35.0" prefWidth="430.0" text="Universidad Tecnológica Nacional" textFill="#005080">
       <font>
          <Font name="System Bold" size="24.0" />
@@ -19,14 +19,14 @@
    <TableView fx:id="tblReservas" layoutX="61.0" layoutY="127.0" prefHeight="346.0" prefWidth="606.0">
       <columns>
          <TableColumn fx:id="colId" prefWidth="47.19997787475586" text="ID" />
-         <TableColumn fx:id="colFechaInicio" prefWidth="96.0" text="Fecha de inicio" />
-         <TableColumn fx:id="colFechaFin" prefWidth="102.4000244140625" text="Fecha de Fin" />
-         <TableColumn fx:id="colAula" prefWidth="88.0" text="Aula" />
-         <TableColumn fx:id="colInscripcion" prefWidth="106.4000244140625" text="Inscripción" />
-         <TableColumn fx:id="colDiaHorario" prefWidth="175.20001220703125" text="Horarios" />
+         <TableColumn fx:id="colFechaInicio" prefWidth="120.79998779296875" text="Fecha de inicio" />
+         <TableColumn fx:id="colFechaFin" prefWidth="116.80006408691406" text="Fecha de Fin" />
+         <TableColumn fx:id="colAula" prefWidth="93.60003662109375" text="Aula" />
+         <TableColumn fx:id="colInscripcion" prefWidth="108.79998779296875" text="Inscripción" />
+         <TableColumn fx:id="colDiaHorario" prefWidth="116.79996337890623" text="Horarios" />
       </columns>
    </TableView>
    <ImageView fitHeight="139.0" fitWidth="224.0" layoutX="8.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="@../../image/logoUTN.png" />
+      <Image url="@../../../image/logoUTN.png" />
    </ImageView>
 </AnchorPane>
