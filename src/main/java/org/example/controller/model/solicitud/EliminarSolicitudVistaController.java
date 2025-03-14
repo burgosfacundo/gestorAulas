@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.controller.model.espacio.AulaVistaController;
 import org.example.controller.model.espacio.LaboratorioVistaController;
-import org.example.controller.model.ReservaVistaController;
+import org.example.controller.model.reserva.ReservaVistaController;
 import org.example.enums.BloqueHorario;
 import org.example.enums.EstadoSolicitud;
 import org.example.exception.GlobalExceptionHandler;
@@ -116,10 +116,13 @@ public class EliminarSolicitudVistaController {
                 .ofNullable(seleccionada)
                 .ifPresent(solicitud ->{
                     try {
-                        vistaUtils.mostrarAlerta("Estas seguro?", Alert.AlertType.CONFIRMATION);
-                        solicitudCambioAulaService.eliminar(solicitud.getId());
-                        vistaUtils.mostrarAlerta("Solicitud eliminada correctamente", Alert.AlertType.INFORMATION);
-                        vistaUtils.cerrarVentana(btnEliminar);
+                        var result = vistaUtils.mostrarAlerta("Estas seguro?", Alert.AlertType.INFORMATION);
+
+                        if (result == ButtonType.OK) {
+                            solicitudCambioAulaService.eliminar(solicitud.getId());
+                            vistaUtils.mostrarAlerta("Solicitud eliminada correctamente", Alert.AlertType.INFORMATION);
+                            vistaUtils.cerrarVentana(btnEliminar);
+                        }
                     } catch (JsonNotFoundException e) {
                         globalExceptionHandler.handleJsonNotFoundException(e);
                     } catch (NotFoundException e) {
@@ -151,7 +154,7 @@ public class EliminarSolicitudVistaController {
 
     private void mostrarVistaReserva(Reserva reserva) {
         try {
-            vistaUtils.cargarVista("/org/example/view/model/reserva-view.fxml",
+            vistaUtils.cargarVista("/org/example/view/model/reserva/reserva-view.fxml",
                     (ReservaVistaController controller) -> controller.setReservas(List.of(reserva)));
         } catch (IOException e) {
             log.error(e.getMessage());

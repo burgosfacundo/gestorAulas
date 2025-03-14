@@ -67,10 +67,13 @@ public class EliminarUsuarioVistaController {
                 .ofNullable(seleccionada)
                 .ifPresent(usuario ->{
                     try {
-                        vistaUtils.mostrarAlerta("Estas seguro?", Alert.AlertType.CONFIRMATION);
-                        usuarioService.eliminar(usuario.getId());
-                        vistaUtils.mostrarAlerta("Usuario eliminado correctamente", Alert.AlertType.INFORMATION);
-                        vistaUtils.cerrarVentana(btnEliminar);
+                        var result = vistaUtils.mostrarAlerta("Estas seguro?", Alert.AlertType.INFORMATION);
+
+                        if (result == ButtonType.OK) {
+                            usuarioService.eliminar(usuario.getId());
+                            vistaUtils.mostrarAlerta("Usuario eliminado correctamente", Alert.AlertType.INFORMATION);
+                            vistaUtils.cerrarVentana(btnEliminar);
+                        }
                     } catch (JsonNotFoundException e) {
                         globalExceptionHandler.handleJsonNotFoundException(e);
                     } catch (NotFoundException e) {

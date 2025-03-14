@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.exception.GlobalExceptionHandler;
@@ -81,10 +78,13 @@ public class EliminarEspacioVistaController {
                 .ofNullable(seleccionada)
                 .ifPresent(espacio -> {
                     try {
-                        vistaUtils.mostrarAlerta("Estas seguro?", Alert.AlertType.CONFIRMATION);
-                        aulaService.eliminar(espacio.getId());
-                        vistaUtils.mostrarAlerta("Espacio eliminado correctamente", Alert.AlertType.INFORMATION);
-                        vistaUtils.cerrarVentana(btnEliminar);
+                        var result = vistaUtils.mostrarAlerta("Estas seguro?", Alert.AlertType.INFORMATION);
+
+                        if (result == ButtonType.OK) {
+                            aulaService.eliminar(espacio.getId());
+                            vistaUtils.mostrarAlerta("Espacio eliminado correctamente", Alert.AlertType.INFORMATION);
+                            vistaUtils.cerrarVentana(btnEliminar);
+                        }
                     } catch (JsonNotFoundException e) {
                         globalExceptionHandler.handleJsonNotFoundException(e);
                     } catch (NotFoundException e) {
