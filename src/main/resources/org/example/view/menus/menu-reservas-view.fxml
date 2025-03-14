@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.menus.MenuReservaVistaController">
+   <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="743.0" style="-fx-background-color: #ecf8ff;">
+      <VBox alignment="CENTER" layoutX="273.0" layoutY="278.0" prefHeight="119.0" prefWidth="103.0" spacing="10">
+         <padding>
+            <Insets bottom="20" left="20" right="20" top="20" />
+         </padding>
+         <Button fx:id="btnListar" onAction="#listar" prefHeight="26.0" prefWidth="61.0" text="Listar" />
+         <Button fx:id="btnCrear" onAction="#crear" prefHeight="26.0" prefWidth="62.0" text="Crear" />
+      </VBox>
+      <ImageView fitHeight="139.0" fitWidth="224.0" layoutX="256.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../../image/logoUTN.png" />
+      </ImageView>
+      <Label alignment="CENTER" layoutX="153.0" layoutY="70.0" prefHeight="35.0" prefWidth="430.0" text="Universidad Tecnológica Nacional" textFill="#005080">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="153.0" layoutY="105.0" prefHeight="35.0" prefWidth="430.0" text="  Facultad Regional Mar del Plata" textFill="#005080">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="273.0" layoutY="259.0" prefHeight="27.0" prefWidth="190.0" style="-fx-background-color: #005482;" text="Menú Reservas" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <VBox alignment="CENTER" layoutX="359.0" layoutY="286.0" prefHeight="103.0" prefWidth="103.0" spacing="10">
+         <padding>
+            <Insets bottom="20" left="20" right="20" top="20" />
+         </padding>
+         <Button fx:id="btnEliminar" onAction="#eliminar" text="Eliminar" />
+         <Button fx:id="btnVolver" onAction="#volverMenuPrincipal" prefHeight="26.0" prefWidth="59.0" text="Volver" />
+      </VBox>
+   </AnchorPane>
+</AnchorPane>
