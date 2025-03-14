@@ -1,19 +1,17 @@
 module org.example.gestoraulas {
     requires org.slf4j;
-    requires javafx.fxml;
     requires org.controlsfx.controls;
     requires com.google.gson;
     requires jbcrypt;
     requires java.desktop;
-    requires java.logging;
     requires spring.context;
     requires spring.boot;
     requires spring.boot.autoconfigure;
     requires spring.beans;
-    requires javafx.controls;
     requires spring.core;
     requires static lombok;
     requires java.naming;
+    requires jfxtras.agenda;
 
     opens org.example.model to com.google.gson, javafx.base;
     opens org.example.model.dto to com.google.gson;
@@ -54,4 +52,6 @@ module org.example.gestoraulas {
     opens org.example.controller.model.espacio.editar to javafx.fxml, org.slf4j, spring.context, spring.core;
     exports org.example.controller.model.usuario;
     opens org.example.controller.model.usuario to javafx.fxml, org.slf4j, spring.context, spring.core;
+    exports org.example.controller.model.reserva;
+    opens org.example.controller.model.reserva to javafx.fxml, org.slf4j, spring.context, spring.core;
 }
