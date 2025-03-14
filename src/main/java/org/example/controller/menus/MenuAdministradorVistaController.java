@@ -45,7 +45,12 @@ public class MenuAdministradorVistaController {
 
     @FXML
     public void menuReservas(ActionEvent actionEvent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try{
+            vistaUtils.cargarVista("/org/example/view/menus/menu-reservas-view.fxml");
+            cerrarWindow(actionEvent);
+        }catch (IOException e){
+            log.error(e.getMessage());
+        }
     }
 
     @FXML
