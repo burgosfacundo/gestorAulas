@@ -142,24 +142,13 @@ public class TableUtils {
                                                TableColumn<Reserva,LocalDate> colFechaFin,
                                                TableColumn<Reserva,String> colAula,
                                                TableColumn<Reserva,String> colInscripcion,
-                                               TableColumn<SolicitudCambioAula, Map<DayOfWeek, Set<BloqueHorario>>> colDiaHorario){
+                                               TableColumn<Reserva, Map<DayOfWeek, Set<BloqueHorario>>> colDiaHorario){
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));
         colFechaFin.setCellValueFactory(new PropertyValueFactory<>("fechaFin"));
         colAula.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAula().toString()));
         colInscripcion.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getInscripcion().toString()));
         colDiaHorario.setCellValueFactory(new PropertyValueFactory<>("diasYBloques"));
-        colDiaHorario.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(Map<DayOfWeek, Set<BloqueHorario>> item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(Utils.formatDiasYBloques(item));
-                }
-            }
-        });
     }
 
     public void inicializarTablaInscripcion(TableColumn<Inscripcion, Integer> colId,

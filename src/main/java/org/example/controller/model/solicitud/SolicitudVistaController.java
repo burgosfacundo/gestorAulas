@@ -3,22 +3,15 @@ package org.example.controller.model.solicitud;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.controller.model.espacio.AulaVistaController;
-import org.example.controller.model.espacio.LaboratorioVistaController;
-import org.example.controller.model.ReservaVistaController;
 import org.example.enums.BloqueHorario;
 import org.example.enums.EstadoSolicitud;
 import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
-import org.example.model.Aula;
 import org.example.model.Laboratorio;
-import org.example.model.Reserva;
 import org.example.model.SolicitudCambioAula;
 import org.example.security.SesionActual;
 import org.example.service.SolicitudCambioAulaService;
@@ -26,11 +19,10 @@ import org.example.utils.TableUtils;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -81,6 +73,30 @@ public class SolicitudVistaController {
             });
             return row;
         });
+
+        colDiaHorario.setCellFactory(column -> new TableCell<>() {
+            private final Button btnVerHorarios;
+
+            {
+                btnVerHorarios = new Button("Ver");
+                btnVerHorarios.setOnAction(event -> {
+                    var solicitud = getTableView().getItems().get(getIndex());
+                    Optional
+                            .ofNullable(solicitud)
+                            .ifPresent(r ->  vistaUtils.mostrarVistaHorarios(solicitud.getDiasYBloques()));
+                });
+            }
+
+            @Override
+            protected void updateItem(Map<DayOfWeek, Set<BloqueHorario>> item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btnVerHorarios);
+                }
+            }
+        });
     }
 
     public void setEstadoSolicitud(EstadoSolicitud estadoSolicitud) {
@@ -116,40 +132,13 @@ public class SolicitudVistaController {
         var clickedColumn = tblSolicitudes.getFocusModel().getFocusedCell().getTableColumn();
 
         if (clickedColumn == colReserva) {
-            mostrarVistaReserva(solicitud.getReservaOriginal());
+            vistaUtils.mostrarVistaReserva(solicitud.getReservaOriginal());
         } else if (clickedColumn == colAula) {
             if (solicitud.getNuevaAula() instanceof Laboratorio laboratorio) {
-                mostrarVistaLaboratorio(laboratorio);
+                vistaUtils.mostrarVistaLaboratorio(laboratorio);
             }else {
-                mostrarVistaAula(solicitud.getNuevaAula());
+                vistaUtils.mostrarVistaAula(solicitud.getNuevaAula());
             }
-        }
-    }
-
-    private void mostrarVistaReserva(Reserva reserva) {
-        try {
-            vistaUtils.cargarVista("/org/example/view/model/reserva-view.fxml",
-                    (ReservaVistaController controller) -> controller.setReservas(List.of(reserva)));
-        } catch (IOException e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    private void mostrarVistaAula(Aula aula) {
-        try {
-            vistaUtils.cargarVista("/org/example/view/model/espacio/aula-view.fxml",
-                    (AulaVistaController controller) -> controller.setAulas(List.of(aula)));
-        } catch (IOException e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    private void mostrarVistaLaboratorio(Laboratorio laboratorio) {
-        try {
-            vistaUtils.cargarVista("/org/example/view/model/espacio/laboratorio-view.fxml",
-                    (LaboratorioVistaController controller) -> controller.setLaboratorios(List.of(laboratorio)));
-        } catch (IOException e) {
-            log.error(e.getMessage());
         }
     }
 }

@@ -19,7 +19,6 @@ import org.example.exception.NotFoundException;
 import org.example.model.Aula;
 import org.example.model.Inscripcion;
 import org.example.model.Reserva;
-import org.example.model.SolicitudCambioAula;
 import org.example.security.SesionActual;
 import org.example.service.ReservaService;
 import org.example.utils.TableUtils;
@@ -54,7 +53,7 @@ public class SeleccionarReservaVistaController {
     @FXML
     private TableColumn<Reserva,String> colInscripcion;
     @FXML
-    private TableColumn<SolicitudCambioAula, Map<DayOfWeek, Set<BloqueHorario>>> colDiaHorario;
+    private TableColumn<Reserva, Map<DayOfWeek, Set<BloqueHorario>>> colDiaHorario;
     @FXML
     private Button btnContinuar;
     @FXML
