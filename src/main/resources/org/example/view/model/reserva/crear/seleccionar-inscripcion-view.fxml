@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.model.reserva.crear.SeleccionarInscripcionVistaController">
+   <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="519.0" prefWidth="754.0" style="-fx-background-color: #ecf8ff;">
+      <Label alignment="CENTER" layoutX="290.0" layoutY="25.0" prefHeight="35.0" prefWidth="430.0" text="Universidad Tecnológica Nacional" textFill="#005080">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="283.0" layoutY="60.0" prefHeight="35.0" prefWidth="430.0" text="  Facultad Regional Mar del Plata" textFill="#005080">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tblInscripciones" layoutX="73.0" layoutY="119.0" prefHeight="303.0" prefWidth="608.0">
+         <columns>
+            <TableColumn fx:id="colId" prefWidth="32.79998779296875" text="ID" />
+            <TableColumn fx:id="colAlumnos" prefWidth="66.4000244140625" text="Alumnos" />
+            <TableColumn fx:id="colMargenAlumnos" prefWidth="56.79998779296875" text="Margen" />
+            <TableColumn fx:id="colFechaFinInscripcion" prefWidth="148.0000457763672" text="Fin de Inscripción" />
+            <TableColumn fx:id="colAsignatura" prefWidth="101.60003662109375" text="Asignatura" />
+            <TableColumn fx:id="colComision" prefWidth="64.0" text="Comisión" />
+            <TableColumn fx:id="colProfesor" prefWidth="133.60001220703123" text="Profesor" />
+         </columns>
+      </TableView>
+      <HBox alignment="CENTER" layoutX="549.0" layoutY="440.0" prefHeight="44.0" prefWidth="154.0" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="2">
+         <Button fx:id="btnContinuar" onAction="#continuar" text="Continuar" />
+         <Button fx:id="btnCancelar" onAction="#cancelar" text="Cancelar" />
+      </HBox>
+      <ImageView fitHeight="139.0" fitWidth="224.0" layoutX="8.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../../../../image/logoUTN.png" />
+      </ImageView>
+   </AnchorPane>
+</AnchorPane>

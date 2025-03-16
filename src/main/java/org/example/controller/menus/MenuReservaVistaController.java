@@ -48,7 +48,7 @@ public class MenuReservaVistaController {
     @FXML
     public void crear(ActionEvent actionEvent) {
         try{
-            vistaUtils.cargarVista("/org/example/view/model/reserva/crear-reserva-view.fxml");
+            vistaUtils.cargarVista("/org/example/view/model/reserva/crear/seleccionar-inscripcion-view.fxml");
         }catch (IOException e){
             log.error(e.getMessage());
         }

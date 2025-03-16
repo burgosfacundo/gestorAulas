@@ -54,4 +54,6 @@ module org.example.gestoraulas {
     opens org.example.controller.model.usuario to javafx.fxml, org.slf4j, spring.context, spring.core;
     exports org.example.controller.model.reserva;
     opens org.example.controller.model.reserva to javafx.fxml, org.slf4j, spring.context, spring.core;
+    exports org.example.controller.model.reserva.crear;
+    opens org.example.controller.model.reserva.crear to javafx.fxml, org.slf4j, spring.context, spring.core;
 }
