@@ -230,6 +230,16 @@ public class VistaUtils {
         }
     }
 
+    public void validarTextoArea(TextArea campo, String mensajeError, List<String> errores) {
+        String text = campo.getText();
+        if (text.isEmpty()) {
+            campo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            errores.add(mensajeError);
+        } else {
+            campo.setStyle("-fx-border-color: transparent;");
+        }
+    }
+
     public void validarPassword(PasswordField campo, List<String> errores) {
         String text = campo.getText();
         String[] patterns = {
