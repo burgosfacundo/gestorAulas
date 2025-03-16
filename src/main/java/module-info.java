@@ -36,8 +36,8 @@ module org.example.gestoraulas {
     exports org.example.security;
     exports org.example.exception;
     exports org.example.model.dto;
-    exports org.example.controller.filtros;
-    opens org.example.controller.filtros to javafx.fxml, org.slf4j, spring.context, spring.core;
+    exports org.example.controller.model.espacio.filtros;
+    opens org.example.controller.model.espacio.filtros to javafx.fxml, org.slf4j, spring.context, spring.core;
     exports org.example.controller.menus;
     opens org.example.controller.menus to javafx.fxml, org.slf4j, spring.context, spring.core;
     exports org.example.controller.model;

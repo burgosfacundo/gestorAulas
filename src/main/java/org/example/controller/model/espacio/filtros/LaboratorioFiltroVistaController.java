@@ -1,26 +1,18 @@
-package org.example.controller.filtros;
+package org.example.controller.model.espacio.filtros;
 
 import javafx.collections.FXCollections;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-
-
 import lombok.extern.slf4j.Slf4j;
 import org.controlsfx.control.CheckComboBox;
 import org.example.enums.BloqueHorario;
-
 import org.example.exception.JsonNotFoundException;
-import org.example.model.Aula;
+import org.example.model.Laboratorio;
 import org.example.service.AulaService;
-
 import org.example.utils.ConfigurationUtils;
 import org.example.utils.TableUtils;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
-
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -28,8 +20,10 @@ import java.util.*;
 
 @Slf4j
 @Component
-public class AulaFiltroVistaController{
+public class LaboratorioFiltroVistaController{
     private final VistaUtils vistaUtils;
+    @FXML
+    private TextField computadoras;
     @FXML
     private TextField capacidad;
     @FXML
@@ -69,17 +63,19 @@ public class AulaFiltroVistaController{
     @FXML
     private CheckComboBox<BloqueHorario> checkComboBoxBloquesDomingo;
     @FXML
-    private TableView<Aula> tblAulas;
+    private TableView<Laboratorio> tblLaboratorios;
     @FXML
-    private TableColumn<Aula, Integer> colId;
+    private TableColumn<Laboratorio,Integer> colComputadoras;
     @FXML
-    private TableColumn<Aula, Integer> colNum;
+    private TableColumn<Laboratorio, Integer> colId;
     @FXML
-    private TableColumn<Aula, Integer> colCapacidad;
+    private TableColumn<Laboratorio, Integer> colNum;
     @FXML
-    private TableColumn<Aula, Boolean> colTieneProyector;
+    private TableColumn<Laboratorio, Integer> colCapacidad;
     @FXML
-    private TableColumn<Aula, Boolean> colTieneTV;
+    private TableColumn<Laboratorio, Boolean> colTieneProyector;
+    @FXML
+    private TableColumn<Laboratorio, Boolean> colTieneTV;
     @FXML
     private Button btnBuscar;
 
@@ -87,16 +83,16 @@ public class AulaFiltroVistaController{
 
     private final Map<DayOfWeek, Set<BloqueHorario>> diasYBloques;
 
-    public AulaFiltroVistaController(AulaService aulaService,VistaUtils vistaUtils) {
+    public LaboratorioFiltroVistaController(AulaService aulaService, VistaUtils vistaUtils) {
         this.aulaService = aulaService;
-        this.vistaUtils = vistaUtils;
         this.diasYBloques = new EnumMap<>(DayOfWeek.class);
+        this.vistaUtils = vistaUtils;
     }
 
     @FXML
     public void initialize() {
         //Asocio columnas de la tabla con atributos del modelo
-        TableUtils.inicializarTablaAula(colId,colNum,colCapacidad,colTieneProyector,colTieneTV);
+        TableUtils.inicializarTablaLaboratorio(colId,colNum,colCapacidad,colTieneProyector,colTieneTV,colComputadoras);
 
         // Inicializar Map con días de la semana
         for (DayOfWeek day : DayOfWeek.values()) {
@@ -117,22 +113,28 @@ public class AulaFiltroVistaController{
     }
 
     @FXML
-    private void filtrarAulasDisponibles() {
+    private void filtrarLaboratoriosDisponibles() {
         try {
             var errores = validarCampos();
             if (errores.isPresent()) {
-                vistaUtils.mostrarAlerta(
-                        String.join("\n", errores.get()),
-                        Alert.AlertType.ERROR);
+                vistaUtils.mostrarAlerta(String.join("\n", errores.get()), Alert.AlertType.ERROR);
                 return;
             }
 
-            var text = capacidad.getText();
+            var textComputadoras = computadoras.getText();
+            Integer computadorasMin;
+            if (textComputadoras.isEmpty()) {
+                computadorasMin = null;
+            }else {
+                computadorasMin = Integer.parseInt(textComputadoras);
+            }
+
+            var textCapacidad = capacidad.getText();
             Integer capacidadMin;
-            if (text.isEmpty()) {
+            if (textCapacidad.isEmpty()) {
                 capacidadMin = null;
             }else {
-                capacidadMin = Integer.parseInt(text);
+                capacidadMin = Integer.parseInt(textCapacidad);
             }
             Boolean proyectorRequerido = tieneProyector.isSelected() ? true : null;
             Boolean tvRequerido = tieneTV.isSelected() ? true : null;
@@ -148,33 +150,41 @@ public class AulaFiltroVistaController{
             if (cbSabado.isSelected()) diasYBloques.put(DayOfWeek.SATURDAY, new HashSet<>(checkComboBoxBloquesSabado.getCheckModel().getCheckedItems()));
             if (cbDomingo.isSelected()) diasYBloques.put(DayOfWeek.SUNDAY, new HashSet<>(checkComboBoxBloquesDomingo.getCheckModel().getCheckedItems()));
 
-            var aulasFiltradas = aulaService.listarAulasDisponiblesConCondiciones(capacidadMin, proyectorRequerido, tvRequerido, inicio, fin, diasYBloques);
-            var aulaObservableList = FXCollections.observableArrayList(aulasFiltradas);
-            this.tblAulas.setItems(aulaObservableList);
-            this.tblAulas.refresh();
+            var labsFiltrados = aulaService.listarLaboratoriosDisponiblesConCondiciones(computadorasMin,capacidadMin, proyectorRequerido, tvRequerido, inicio, fin, diasYBloques);
+            var labsObservableList = FXCollections.observableArrayList(labsFiltrados);
+            this.tblLaboratorios.setItems(labsObservableList);
+            this.tblLaboratorios.refresh();
         } catch (JsonNotFoundException e) {
             vistaUtils.mostrarAlerta(e.getMessage(), Alert.AlertType.ERROR);
             log.error(e.getMessage());
         }
     }
 
+/**
+     * Valida los campos del formulario y devuelve una lista de errores si los hay.
+     * @return Un Optional que contiene una lista de errores si hay errores de validación, o un Optional vacío si no hay errores.
+     */
     private Optional<List<String>> validarCampos() {
         List<String> errores = new ArrayList<>();
 
+        // Validar computadoras
+        vistaUtils.validarNumero(computadoras, "La cantidad de computadoras debe ser mayor a 0.", errores);
+
         // Validar capacidad
-        vistaUtils.validarNumero(capacidad, "La capacidad debe ser mayor a 0.", errores);
+        vistaUtils.validarNumero(capacidad, "La capacidad debe ser un número válido.", errores);
 
         // Validar fechas
         vistaUtils.validarFecha(fechaInicio, "Debe seleccionar una fecha de inicio.", errores);
         vistaUtils.validarFecha(fechaFin, "Debe seleccionar una fecha de fin.", errores);
 
+        // Validar que la fecha de fin no sea anterior a la fecha de inicio
         if (fechaInicio.getValue() != null && fechaFin.getValue() != null && fechaFin.getValue().isBefore(fechaInicio.getValue())) {
             fechaInicio.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
             fechaFin.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
             errores.add("La fecha de fin no puede ser anterior a la de inicio.");
         }
 
-        // Validar días seleccionados
+        // Validar que al menos un día esté seleccionado
         if (!cbLunes.isSelected() && !cbMartes.isSelected() && !cbMiercoles.isSelected() &&
                 !cbJueves.isSelected() && !cbViernes.isSelected() && !cbSabado.isSelected() && !cbDomingo.isSelected()) {
             errores.add("Debe seleccionar al menos un día.");
