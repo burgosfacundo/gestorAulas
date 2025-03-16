@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.model.solicitud.RevisarSolicitudVistaController">
+    <AnchorPane layoutX="2.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="743.0" style="-fx-background-color: #ecf8ff;">
+        <Label alignment="CENTER" layoutX="290.0" layoutY="25.0" prefHeight="35.0" prefWidth="430.0" text="Universidad Tecnológica Nacional" textFill="#005080">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <Label alignment="CENTER" layoutX="283.0" layoutY="60.0" prefHeight="35.0" prefWidth="430.0" text="  Facultad Regional Mar del Plata" textFill="#005080">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <TableView fx:id="tblSolicitudes" layoutX="14.0" layoutY="127.0" prefHeight="234.0" prefWidth="714.0">
+            <columns>
+                <TableColumn fx:id="colId" prefWidth="26.39996337890625" text="ID" />
+                <TableColumn fx:id="colReserva" prefWidth="53.5999755859375" text="Reserva" />
+                <TableColumn fx:id="colAula" prefWidth="46.4000244140625" text="Aula" />
+                <TableColumn fx:id="colEstado" prefWidth="60.0" text="Estado" />
+                <TableColumn fx:id="colTipo" prefWidth="62.39996337890625" text="Tipo" />
+                <TableColumn fx:id="colInicio" prefWidth="56.0" text="Inicio" />
+            <TableColumn fx:id="colFin" prefWidth="52.0" text="Fin" />
+            <TableColumn fx:id="colDiaHorario" prefWidth="71.20001220703125" text="Horarios" />
+            <TableColumn fx:id="colComenProfe" prefWidth="144.79998779296875" text="Comentario Profesor" />
+            <TableColumn fx:id="colComenAdmin" prefWidth="139.19998779296873" text="Comentario Admin" />
+            </columns>
+        </TableView>
+        <TextArea fx:id="comentarioAdmin" layoutX="14.0" layoutY="413.0" prefHeight="80" prefWidth="414.0" />
+        <HBox alignment="CENTER" layoutX="549.0" layoutY="440.0" prefHeight="44.0" prefWidth="154.0" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="2">
+            <Button fx:id="btnAprobar" onAction="#aprobar" text="Aprobar" />
+            <Button fx:id="btnRechazar" onAction="#rechazar" text="Rechazar" />
+        </HBox>
+        <ImageView fitHeight="139.0" fitWidth="224.0" layoutX="8.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../image/logoUTN.png" />
+        </ImageView>
+      <Label alignment="CENTER" layoutX="14.0" layoutY="377.0" prefHeight="35.0" prefWidth="144.0" text="Comentario:">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+    </AnchorPane>
+</AnchorPane>
