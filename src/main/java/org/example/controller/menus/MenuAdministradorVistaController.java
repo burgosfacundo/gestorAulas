@@ -40,7 +40,12 @@ public class MenuAdministradorVistaController {
 
     @FXML
     public void menuSolicitudes(ActionEvent actionEvent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try{
+            vistaUtils.cargarVista("/org/example/view/menus/menu-solicitudes-admin-view.fxml");
+            cerrarWindow(actionEvent);
+        }catch (IOException e){
+            log.error(e.getMessage());
+        }
     }
 
     @FXML
