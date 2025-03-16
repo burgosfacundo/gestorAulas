@@ -58,7 +58,7 @@ public class MenuListarEspaciosVistaController {
     @FXML
     public void filtrarAulasDisponibles(ActionEvent actionEvent) {
         try {
-            vistaUtils.cargarVista("/org/example/view/filtros/aula-disponibles-view.fxml");
+            vistaUtils.cargarVista("/org/example/view/model/espacio/filtros/aula-disponibles-view.fxml");
         } catch (IOException e) {
             log.error(e.getMessage());
         }
@@ -67,7 +67,7 @@ public class MenuListarEspaciosVistaController {
     @FXML
     public void filtrarLaboratoriosDisponibles(ActionEvent actionEvent) {
         try {
-            vistaUtils.cargarVista("/org/example/view/filtros/laboratorio-disponibles-view.fxml");
+            vistaUtils.cargarVista("/org/example/view/model/espacio/filtros/laboratorio-disponibles-view.fxml");
         } catch (IOException e) {
             log.error(e.getMessage());
         }
