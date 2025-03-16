@@ -61,7 +61,7 @@ public class MenuSolicitudAdminVistaController {
     public void volverMenuPrincipal(ActionEvent actionEvent) {
         try {
             if (sesionActual.getUsuario().getRol().getNombre().equals("Administrador")) {
-                vistaUtils.cargarVista("/org/example/view/menus/menu-admin-view.fxml");
+                vistaUtils.cargarVista("/org/example/view/menus/menu-administrador-view.fxml");
             }else if (sesionActual.getUsuario().getRol().getNombre().equals("Profesor")) {
                 vistaUtils.cargarVista("/org/example/view/menus/menu-profesor-view.fxml");
             }
