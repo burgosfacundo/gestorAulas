@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -107,9 +108,15 @@ public class SolicitudVistaController {
     private void actualizarTabla() {
         try {
             var user = sesionActual.getUsuario();
-            var solicitudes = solicitudCambioAulaService.listarSolicitudesPorEstadoYProfesor(
-                    this.estadoSolicitud, user.getProfesor().getId()
-            );
+            List<SolicitudCambioAula> solicitudes;
+            if (sesionActual.getUsuario().getRol().getNombre().equals("Administrador")) {
+                solicitudes = solicitudCambioAulaService.listarSolicitudesPorEstado(this.estadoSolicitud);
+            }else {
+                solicitudes = solicitudCambioAulaService.listarSolicitudesPorEstadoYProfesor(
+                        this.estadoSolicitud, user.getProfesor().getId()
+                );
+            }
+
 
             // Configurar la tabla si no se ha hecho antes
             if (tblSolicitudes.getColumns().isEmpty()) {
