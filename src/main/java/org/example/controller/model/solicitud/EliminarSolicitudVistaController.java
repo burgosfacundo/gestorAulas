@@ -8,17 +8,12 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.controller.model.espacio.AulaVistaController;
-import org.example.controller.model.espacio.LaboratorioVistaController;
-import org.example.controller.model.reserva.ReservaVistaController;
 import org.example.enums.BloqueHorario;
 import org.example.enums.EstadoSolicitud;
 import org.example.exception.GlobalExceptionHandler;
 import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
-import org.example.model.Aula;
 import org.example.model.Laboratorio;
-import org.example.model.Reserva;
 import org.example.model.SolicitudCambioAula;
 import org.example.security.SesionActual;
 import org.example.service.SolicitudCambioAulaService;
@@ -26,10 +21,8 @@ import org.example.utils.TableUtils;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -104,8 +97,10 @@ public class EliminarSolicitudVistaController {
             ObservableList<SolicitudCambioAula> solicitudesObservableList = FXCollections.observableArrayList();
             solicitudesObservableList.addAll(solicitudes);
             tblSolicitudes.setItems(solicitudesObservableList);
-        } catch (JsonNotFoundException | NotFoundException e) {
-            log.error("Error al actualizar la tabla: {}", e.getMessage());
+        } catch (NotFoundException e) {
+            globalExceptionHandler.handleNotFoundException(e);
+        }catch (JsonNotFoundException e) {
+            globalExceptionHandler.handleJsonNotFoundException(e);
         }
     }
 
@@ -142,40 +137,13 @@ public class EliminarSolicitudVistaController {
         var clickedColumn = tblSolicitudes.getFocusModel().getFocusedCell().getTableColumn();
 
         if (clickedColumn == colReserva) {
-            mostrarVistaReserva(solicitud.getReservaOriginal());
+            vistaUtils.mostrarVistaReserva(solicitud.getReservaOriginal());
         } else if (clickedColumn == colAula) {
             if (solicitud.getNuevaAula() instanceof Laboratorio laboratorio) {
-                mostrarVistaLaboratorio(laboratorio);
+                vistaUtils.mostrarVistaLaboratorio(laboratorio);
             }else {
-                mostrarVistaAula(solicitud.getNuevaAula());
+                vistaUtils.mostrarVistaAula(solicitud.getNuevaAula());
             }
-        }
-    }
-
-    private void mostrarVistaReserva(Reserva reserva) {
-        try {
-            vistaUtils.cargarVista("/org/example/view/model/reserva/reserva-view.fxml",
-                    (ReservaVistaController controller) -> controller.setReservas(List.of(reserva)));
-        } catch (IOException e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    private void mostrarVistaAula(Aula aula) {
-        try {
-            vistaUtils.cargarVista("/org/example/view/model/espacio/aula-view.fxml",
-                    (AulaVistaController controller) -> controller.setAulas(List.of(aula)));
-        } catch (IOException e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    private void mostrarVistaLaboratorio(Laboratorio laboratorio) {
-        try {
-            vistaUtils.cargarVista("/org/example/view/model/espacio/laboratorio-view.fxml",
-                    (LaboratorioVistaController controller) -> controller.setLaboratorios(List.of(laboratorio)));
-        } catch (IOException e) {
-            log.error(e.getMessage());
         }
     }
 }

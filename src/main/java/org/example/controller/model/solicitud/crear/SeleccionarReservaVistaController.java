@@ -11,13 +11,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.controller.model.espacio.AulaVistaController;
-import org.example.controller.model.InscripcionVistaController;
 import org.example.enums.BloqueHorario;
 import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
-import org.example.model.Aula;
-import org.example.model.Inscripcion;
 import org.example.model.Reserva;
 import org.example.security.SesionActual;
 import org.example.service.ReservaService;
@@ -28,7 +24,6 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -112,27 +107,9 @@ public class SeleccionarReservaVistaController {
         var clickedColumn = tblReservas.getFocusModel().getFocusedCell().getTableColumn();
 
         if (clickedColumn == colInscripcion) {
-            mostrarVistaInscripcion(reserva.getInscripcion());
+            vistaUtils.mostrarVistaInscripcion(reserva.getInscripcion());
         }else if(clickedColumn == colAula) {
-            mostrarVistaAula(reserva.getAula());
-        }
-    }
-
-    private void mostrarVistaInscripcion(Inscripcion inscripcion) {
-        try {
-            vistaUtils.cargarVista("/org/example/view/model/inscripcion-view.fxml",
-                    (InscripcionVistaController controller) -> controller.setInscripciones(List.of(inscripcion)));
-        } catch (IOException e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    private void mostrarVistaAula(Aula aula) {
-        try {
-            vistaUtils.cargarVista("/org/example/view/model/espacio/aula-view.fxml",
-                    (AulaVistaController controller) -> controller.setAulas(List.of(aula)));
-        } catch (IOException e) {
-            log.error(e.getMessage());
+            vistaUtils.mostrarVistaAula(reserva.getAula());
         }
     }
 }
