@@ -49,7 +49,7 @@ public class MenuProfesorVistaController {
     @FXML
     public void menuSolicitudes(ActionEvent actionEvent) {
         try{
-            vistaUtils.cargarVista("/org/example/view/menus/menu-solicitudes-view.fxml");
+            vistaUtils.cargarVista("/org/example/view/menus/menu-solicitudes-profesor-view.fxml");
             cerrarWindow(actionEvent);
         }catch (IOException e){
             log.error(e.getMessage());

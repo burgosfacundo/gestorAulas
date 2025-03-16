@@ -17,7 +17,7 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class MenuSolicitudVistaController {
+public class MenuSolicitudProfesorVistaController {
     private final SesionActual sesionActual;
     private final VistaUtils vistaUtils;
     @FXML
