@@ -121,7 +121,7 @@ public class EliminarReservaVistaController {
                 .ofNullable(seleccionada)
                 .ifPresent(usuario ->{
                     try {
-                        var result = vistaUtils.mostrarAlerta("Estas seguro?", Alert.AlertType.INFORMATION);
+                        var result = vistaUtils.mostrarAlerta("Estas seguro?", Alert.AlertType.CONFIRMATION);
 
                         if (result == ButtonType.OK) {
                             reservaService.eliminar(usuario.getId());

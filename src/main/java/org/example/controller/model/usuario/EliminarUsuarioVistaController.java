@@ -67,7 +67,7 @@ public class EliminarUsuarioVistaController {
                 .ofNullable(seleccionada)
                 .ifPresent(usuario ->{
                     try {
-                        var result = vistaUtils.mostrarAlerta("Estas seguro?", Alert.AlertType.INFORMATION);
+                        var result = vistaUtils.mostrarAlerta("Estas seguro?", Alert.AlertType.CONFIRMATION);
 
                         if (result == ButtonType.OK) {
                             usuarioService.eliminar(usuario.getId());

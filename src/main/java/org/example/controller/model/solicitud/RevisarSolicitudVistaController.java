@@ -141,7 +141,7 @@ public class RevisarSolicitudVistaController {
                         }
 
                         String comentario = comentarioAdmin.getText();
-                        var result = vistaUtils.mostrarAlerta("Estas seguro de aprobar la solicitud?", Alert.AlertType.INFORMATION);
+                        var result = vistaUtils.mostrarAlerta("Estas seguro de aprobar la solicitud?", Alert.AlertType.CONFIRMATION);
                         if (result == ButtonType.OK) {
                             solicitudCambioAulaService.aprobarSolicitud(solicitud.getId(), comentario);
                             vistaUtils.mostrarAlerta("Solicitud aprobada correctamente", Alert.AlertType.INFORMATION);
@@ -166,7 +166,7 @@ public class RevisarSolicitudVistaController {
                 .ofNullable(seleccionada)
                 .ifPresent(solicitud ->{
                     try {
-                        var result = vistaUtils.mostrarAlerta("Estas seguro de rechazar la solicitud?", Alert.AlertType.INFORMATION);
+                        var result = vistaUtils.mostrarAlerta("Estas seguro de rechazar la solicitud?", Alert.AlertType.CONFIRMATION);
 
                         String comentario = comentarioAdmin.getText();
                         if (result == ButtonType.OK) {

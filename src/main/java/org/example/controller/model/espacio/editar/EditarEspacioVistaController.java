@@ -81,21 +81,25 @@ public class EditarEspacioVistaController {
             boolean tieneTv = tieneTVCheckBox.isSelected();
 
             var tipo = tipoEspacioComboBox.getSelectionModel().getSelectedItem();
-            switch (tipo){
-                case "Aula":
-                    aulaService.modificar(new Aula(id,numero,capacidad,tieneProyector,tieneTv));
-                    vistaUtils.mostrarAlerta("Se edito el aula " + numero + " correctamente.", Alert.AlertType.INFORMATION);
-                    vistaUtils.cerrarVentana(btnEditar);
-                    break;
-                case "Laboratorio":
-                    var computadoras = Integer.parseInt(computadorasField.getText());
-                    aulaService.modificar(new Laboratorio(id,numero,capacidad,
-                            tieneProyector,tieneTv,computadoras));
-                    vistaUtils.mostrarAlerta("Se edito el laboratorio " + numero + " correctamente.", Alert.AlertType.INFORMATION);
-                    vistaUtils.cerrarVentana(btnEditar);
-                    break;
-                default:
-                    throw new BadRequestException("Tipo de espacio no valido");
+            var result = vistaUtils.mostrarAlerta("Estas seguro?", Alert.AlertType.CONFIRMATION);
+
+            if (result == ButtonType.OK) {
+                switch (tipo) {
+                    case "Aula":
+                        aulaService.modificar(new Aula(id, numero, capacidad, tieneProyector, tieneTv));
+                        vistaUtils.mostrarAlerta("Se edito el aula " + numero + " correctamente.", Alert.AlertType.INFORMATION);
+                        vistaUtils.cerrarVentana(btnEditar);
+                        break;
+                    case "Laboratorio":
+                        var computadoras = Integer.parseInt(computadorasField.getText());
+                        aulaService.modificar(new Laboratorio(id, numero, capacidad,
+                                tieneProyector, tieneTv, computadoras));
+                        vistaUtils.mostrarAlerta("Se edito el laboratorio " + numero + " correctamente.", Alert.AlertType.INFORMATION);
+                        vistaUtils.cerrarVentana(btnEditar);
+                        break;
+                    default:
+                        throw new BadRequestException("Tipo de espacio no valido");
+                }
             }
         } catch (BadRequestException e) {
             globalExceptionHandler.handleBadRequestException(e);

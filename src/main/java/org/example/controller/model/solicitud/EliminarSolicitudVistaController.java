@@ -111,7 +111,7 @@ public class EliminarSolicitudVistaController {
                 .ofNullable(seleccionada)
                 .ifPresent(solicitud ->{
                     try {
-                        var result = vistaUtils.mostrarAlerta("Estas seguro?", Alert.AlertType.INFORMATION);
+                        var result = vistaUtils.mostrarAlerta("Estas seguro?", Alert.AlertType.CONFIRMATION);
 
                         if (result == ButtonType.OK) {
                             solicitudCambioAulaService.eliminar(solicitud.getId());

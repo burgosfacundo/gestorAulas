@@ -78,7 +78,7 @@ public class EliminarEspacioVistaController {
                 .ofNullable(seleccionada)
                 .ifPresent(espacio -> {
                     try {
-                        var result = vistaUtils.mostrarAlerta("Estas seguro?", Alert.AlertType.INFORMATION);
+                        var result = vistaUtils.mostrarAlerta("Estas seguro?", Alert.AlertType.CONFIRMATION);
 
                         if (result == ButtonType.OK) {
                             aulaService.eliminar(espacio.getId());
