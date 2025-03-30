@@ -26,9 +26,5 @@ public class GlobalExceptionHandler {
     public void handleConflictException(ConflictException e){
         vistaUtils.mostrarAlerta( e.getMessage(),Alert.AlertType.ERROR);
     }
-
-    public void handleJsonNotFoundException(JsonNotFoundException e) {
-        vistaUtils.mostrarAlerta( e.getMessage(),Alert.AlertType.ERROR);
-    }
 }
 
