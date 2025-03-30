@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Repositorio de reservas
@@ -17,9 +16,6 @@ import java.util.Optional;
  */
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
-
-    @Query("SELECT r FROM Reserva r WHERE r.inscripcion.id= :idInscripcion")
-    List<Reserva> findByIdInscripcion(@Param("idInscripcion")int idInscripcion);
 
     @Query("SELECT r FROM Reserva r WHERE r.inscripcion.profesor.id= :idProfesor")
     List<Reserva> findByIdProfesor(@Param("idProfesor")int idProfesor);
