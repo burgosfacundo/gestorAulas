@@ -9,9 +9,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
 import org.example.model.Usuario;
+import org.example.model.dto.UsuarioDTO;
 import org.example.security.SesionActual;
 import org.example.service.UsuarioService;
 import org.example.utils.VistaUtils;
@@ -57,7 +57,7 @@ public class CambioPasswordVistaController {
             List<String> errores = new ArrayList<>();
             var user = usuarioService.obtener(this.usuarioActual.getId());
 
-            if (!BCrypt.checkpw(actualPassword.getText(),user.getPassword())) {
+            if (!BCrypt.checkpw(actualPassword.getText(),user.password())) {
                 actualPassword.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 errores.add("La contraseña actual es incorrecta.");
             }else {
@@ -84,14 +84,15 @@ public class CambioPasswordVistaController {
                 return;
             }
 
-            user.setPassword(newPassword.getText());
-            usuarioService.modificar(user);
+            UsuarioDTO modificado = new UsuarioDTO(usuarioActual.getId(),usuarioActual.getUsername(),
+                    newPassword.getText(),usuarioActual.getRol().getId(),usuarioActual.getProfesor().getId());
+            usuarioService.modificar(modificado);
 
             vistaUtils.mostrarAlerta(
                     "La contraseña fue modificada correctamente",
                     Alert.AlertType.INFORMATION);
             vistaUtils.cerrarVentana(btnCambiar);
-        } catch (NotFoundException | JsonNotFoundException e) {
+        } catch (NotFoundException e) {
             vistaUtils.mostrarAlerta(
                     "Ocurrió un error al modificar la contraseña",
                     Alert.AlertType.ERROR);
