@@ -1,29 +1,16 @@
 package org.example.model;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 import lombok.*;
 
-@Getter
-@Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@AllArgsConstructor
-@RequiredArgsConstructor
-public class Aula {
-    @EqualsAndHashCode.Include @NonNull
-    private Integer id;
-    private int numero;
-    private int capacidad;
-    private boolean tieneProyector;
-    private boolean tieneTV;
-
-
-    public void actualizar(Aula aula) {
-        this.numero = aula.getNumero();
-        this.capacidad = aula.getCapacidad();
-        this.tieneProyector = aula.isTieneProyector();
-        this.tieneTV = aula.isTieneTV();
+@Entity @DiscriminatorValue("Aula")
+@Getter @Setter
+public class Aula extends Espacio{
+    public Aula(Integer i, int numero, int capacidad, boolean tieneProyector, boolean tieneTv) {
+      super(i,numero,capacidad,tieneProyector,tieneTv);
     }
 
-    @Override
-    public String toString() {
-        return String.valueOf(numero);
+    public Aula() {
+
     }
 }
