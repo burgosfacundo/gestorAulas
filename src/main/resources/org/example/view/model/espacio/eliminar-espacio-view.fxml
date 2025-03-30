@@ -5,9 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.0" prefWidth="737.0" style="-fx-background-color: #ecf8ff;" xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.example.controller.model.espacio.EliminarEspacioVistaController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.0" prefWidth="737.0" style="-fx-background-color: #ecf8ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.model.espacio.EliminarEspacioVistaController">
    <ImageView fitHeight="139.0" fitWidth="224.0" pickOnBounds="true" preserveRatio="true">
       <Image url="@../../../image/logoUTN.png" />
    </ImageView>
@@ -23,7 +21,6 @@
    </Label>
    <TableView fx:id="tblEspacios" layoutX="69.0" layoutY="159.0" prefHeight="272.0" prefWidth="598.0">
       <columns>
-         <TableColumn fx:id="colId" prefWidth="49.60004425048828" text="ID" />
          <TableColumn fx:id="colNum" prefWidth="91.199951171875" text="Número" />
          <TableColumn fx:id="colCapacidad" prefWidth="105.60002136230469" text="Capacidad" />
          <TableColumn fx:id="colTieneProyector" prefWidth="114.39996337890625" text="Tiene Proyector" />
@@ -31,6 +28,7 @@
          <TableColumn fx:id="colComputadoras" prefWidth="127.99993896484375" text="Computadoras" />
       </columns>
    </TableView>
+   <Pagination fx:id="pagination" layoutX="69.0" layoutY="436.0" pageCount="1" />
    <Label alignment="CENTER" layoutX="69.0" layoutY="111.0" prefHeight="35.0" prefWidth="238.0" text="Seleccionar espacio:">
       <font>
          <Font name="System Bold" size="24.0" />
