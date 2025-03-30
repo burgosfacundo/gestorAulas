@@ -77,24 +77,6 @@ public class Mapper {
         );
     }
 
-    /**
-     * Mapea una Inscripción a dto
-     * @param inscripcion que queremos mapear
-     * @return InscripciónDTO mapeado desde Inscripción
-     */
-    public InscripcionDTO inscripcionToDTO(Inscripcion inscripcion) {
-        //Retornamos el DTO mapeado desde InscripciÓn
-        return new InscripcionDTO(
-                inscripcion.getId(),
-                inscripcion.getCantidadAlumnos(),
-                inscripcion.getMargenAlumnos(),
-                inscripcion.getFechaFinInscripcion(),
-                inscripcion.getAsignatura().getId(),
-                inscripcion.getComision(),
-                inscripcion.getProfesor().getId()
-        );
-    }
-
 
     //Reserva
 
