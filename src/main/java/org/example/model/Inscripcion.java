@@ -28,6 +28,12 @@ public class Inscripcion {
     @Column(nullable = false)
     private Integer comision;
 
+    @Column(nullable = false)
+    private Integer year;
+
+    @Column(nullable = false)
+    private Integer cuatrimestre;
+
     @ManyToOne
     @JoinColumn(name = "profesor_id", nullable = false)
     private Profesor profesor;

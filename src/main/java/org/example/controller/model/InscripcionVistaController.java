@@ -21,8 +21,6 @@ public class InscripcionVistaController {
     @FXML
     private TableView<Inscripcion> tblInscripciones;
     @FXML
-    private TableColumn<Inscripcion,Integer> colId;
-    @FXML
     private TableColumn<Inscripcion,Integer> colAlumnos;
     @FXML
     private TableColumn<Inscripcion,Integer> colMargenAlumnos;
@@ -31,7 +29,11 @@ public class InscripcionVistaController {
     @FXML
     private TableColumn<Inscripcion,String> colAsignatura;
     @FXML
-    private TableColumn<Inscripcion,String> colComision;
+    private TableColumn<Inscripcion,Integer> colComision;
+    @FXML
+    private TableColumn<Inscripcion,Integer> colYear;
+    @FXML
+    private TableColumn<Inscripcion,Integer> colCuatrimestre;
     @FXML
     private TableColumn<Inscripcion,String> colProfesor;
     private List<Inscripcion> inscripciones;
@@ -43,12 +45,6 @@ public class InscripcionVistaController {
     }
 
     private void actualizarTabla() {
-        // Configurar la tabla si no se ha hecho antes
-        if (tblInscripciones.getColumns().isEmpty()) {
-            TableUtils.inicializarTablaInscripcion(colId,colAlumnos,colMargenAlumnos,colFechaFinInscripcion,colAsignatura,
-                    colComision,colProfesor);
-        }
-
         ObservableList<Inscripcion> inscripcionObservableList = FXCollections.observableArrayList();
         inscripcionObservableList.addAll(inscripciones);
         tblInscripciones.setItems(inscripcionObservableList);
@@ -56,7 +52,7 @@ public class InscripcionVistaController {
 
     @FXML
     public void initialize(){
-        TableUtils.inicializarTablaInscripcion(colId,colAlumnos,colMargenAlumnos,colFechaFinInscripcion,colAsignatura,
-                colComision,colProfesor);
+        TableUtils.inicializarTablaInscripcion(colAlumnos,colMargenAlumnos,colFechaFinInscripcion,colAsignatura,
+                colComision,colYear,colCuatrimestre,colProfesor);
     }
 }

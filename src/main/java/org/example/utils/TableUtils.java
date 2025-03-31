@@ -133,13 +133,17 @@ public class TableUtils {
                                             TableColumn<Inscripcion, Integer> colMargenAlumnos,
                                             TableColumn<Inscripcion, LocalDate> colFechaFinInscripcion,
                                             TableColumn<Inscripcion, String> colAsignatura,
-                                            TableColumn<Inscripcion, String> colComision,
+                                            TableColumn<Inscripcion, Integer> colComision,
+                                            TableColumn<Inscripcion, Integer> colYear,
+                                            TableColumn<Inscripcion, Integer> colCuatrimestre,
                                             TableColumn<Inscripcion, String> colProfesor){
         colAlumnos.setCellValueFactory(new PropertyValueFactory<>("cantidadAlumnos"));
         colMargenAlumnos.setCellValueFactory(new PropertyValueFactory<>("margenAlumnos"));
         colFechaFinInscripcion.setCellValueFactory(new PropertyValueFactory<>("fechaFinInscripcion"));
         colAsignatura.setCellValueFactory(new PropertyValueFactory<>("asignatura"));
         colComision.setCellValueFactory(new PropertyValueFactory<>("comision"));
+        colYear.setCellValueFactory(new PropertyValueFactory<>("year"));
+        colCuatrimestre.setCellValueFactory(new PropertyValueFactory<>("cuatrimestre"));
         colProfesor.setCellValueFactory(new PropertyValueFactory<>("profesor"));
     }
 

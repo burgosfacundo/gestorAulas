@@ -42,7 +42,7 @@ public class InscripcionService{
         var idAsignatura = dto.idAsignatura();
         var idProfesor = dto.idProfesor();
         //Verificamos que no existe una inscripción con esas características, si no lanzamos excepción
-        if (repositorio.find(idAsignatura, idProfesor, dto.comision()).isPresent()){
+        if (repositorio.find(idAsignatura, idProfesor, dto.comision(),dto.year(),dto.cuatrimestre()).isPresent()){
             throw new BadRequestException("Ya existe una inscripción con esas características");
         }
 
