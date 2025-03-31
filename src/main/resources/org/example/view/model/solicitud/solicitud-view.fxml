@@ -17,20 +17,20 @@
                 <Font name="System Bold" size="24.0" />
             </font>
         </Label>
-        <TableView fx:id="tblSolicitudes" layoutX="14.0" layoutY="127.0" prefHeight="346.0" prefWidth="714.0">
+        <TableView fx:id="tblSolicitudes" layoutX="27.0" layoutY="119.0" prefHeight="299.0" prefWidth="689.0">
             <columns>
-                <TableColumn fx:id="colId" prefWidth="26.39996337890625" text="ID" />
                 <TableColumn fx:id="colReserva" prefWidth="53.5999755859375" text="Reserva" />
                 <TableColumn fx:id="colAula" prefWidth="46.4000244140625" text="Aula" />
                 <TableColumn fx:id="colEstado" prefWidth="60.0" text="Estado" />
                 <TableColumn fx:id="colTipo" prefWidth="62.39996337890625" text="Tipo" />
                 <TableColumn fx:id="colInicio" prefWidth="56.0" text="Inicio" />
-            <TableColumn fx:id="colFin" prefWidth="52.0" text="Fin" />
-            <TableColumn fx:id="colDiaHorario" prefWidth="71.20001220703125" text="Horarios" />
-            <TableColumn fx:id="colComenProfe" prefWidth="144.79998779296875" text="Comentario Profesor" />
-            <TableColumn fx:id="colComenAdmin" prefWidth="139.19998779296873" text="Comentario Admin" />
+                <TableColumn fx:id="colFin" prefWidth="52.0" text="Fin" />
+                <TableColumn fx:id="colDiaHorario" prefWidth="71.20001220703125" text="Horarios" />
+                <TableColumn fx:id="colComenProfe" prefWidth="144.79998779296875" text="Comentario Profesor" />
+                <TableColumn fx:id="colComenAdmin" prefWidth="139.19998779296873" text="Comentario Admin" />
             </columns>
         </TableView>
+        <Pagination fx:id="pagination" layoutX="647.0" layoutY="430.0" pageCount="1" prefHeight="35.0" prefWidth="65.0" />
         <ImageView fitHeight="139.0" fitWidth="224.0" layoutX="8.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../../../image/logoUTN.png" />
         </ImageView>
