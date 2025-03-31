@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.controller.model.reserva.ReservaVistaController;
-import org.example.exception.JsonNotFoundException;
+import org.example.exception.GlobalExceptionHandler;
 import org.example.exception.NotFoundException;
 import org.example.security.SesionActual;
 import org.example.service.ReservaService;
@@ -22,6 +22,7 @@ import java.io.IOException;
 @Component
 public class MenuProfesorVistaController {
     private final VistaUtils vistaUtils;
+    private final GlobalExceptionHandler globalExceptionHandler;
     @FXML
     private Button btnListarEspacios;
     @FXML
@@ -63,7 +64,9 @@ public class MenuProfesorVistaController {
             var reservas = reservaService.listarReservasPorProfesor(idProfesor);
             vistaUtils.cargarVista("/org/example/view/model/reserva/reserva-view.fxml",
                     (ReservaVistaController controller) -> controller.setReservas(reservas));
-        } catch (IOException | JsonNotFoundException | NotFoundException e) {
+        } catch (NotFoundException e) {
+            globalExceptionHandler.handleNotFoundException(e);
+        }catch (IOException e){
             log.error(e.getMessage());
         }
     }

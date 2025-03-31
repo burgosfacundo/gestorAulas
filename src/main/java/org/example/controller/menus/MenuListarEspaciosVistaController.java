@@ -5,11 +5,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.controller.model.espacio.AulaVistaController;
-import org.example.controller.model.espacio.LaboratorioVistaController;
-import org.example.exception.JsonNotFoundException;
+import org.example.controller.model.espacio.EspacioVistaController;
 import org.example.security.SesionActual;
-import org.example.service.AulaService;
+import org.example.service.EspacioService;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +18,8 @@ import java.io.IOException;
 @Component
 public class MenuListarEspaciosVistaController {
     private final VistaUtils vistaUtils;
-    private final AulaService aulaService;
     private final SesionActual sesionActual;
+    private final EspacioService espacioService;
     @FXML
     private Button btnListarLaboratorios ;
     @FXML
@@ -36,22 +34,22 @@ public class MenuListarEspaciosVistaController {
     @FXML
     public void listarAulas(ActionEvent actionEvent) {
         try {
-            var aulas = aulaService.listarAulas();
-            vistaUtils.cargarVista("/org/example/view/model/espacio/aula-view.fxml",
-                    (AulaVistaController controller) -> controller.setAulas(aulas));
-        } catch (IOException | JsonNotFoundException e) {
-            log.error(e.getMessage());
+            var aulas = espacioService.listarAulas();
+            vistaUtils.cargarVista("/org/example/view/model/espacio/espacio-view.fxml",
+                    (EspacioVistaController controller) -> controller.setEspacios(aulas));
+        } catch (IOException e) {
+            log.error("Error al cargar la vista de aulas: {}", e.getMessage());
         }
     }
 
     @FXML
     public void listarLaboratorios(ActionEvent actionEvent) {
         try {
-            var laboratorios = aulaService.listarLaboratorios();
-            vistaUtils.cargarVista("/org/example/view/model/espacio/laboratorio-view.fxml",
-                    (LaboratorioVistaController controller) -> controller.setLaboratorios(laboratorios));
-        } catch (IOException | JsonNotFoundException e) {
-            log.error(e.getMessage());
+            var laboratorios = espacioService.listarLaboratorios();
+            vistaUtils.cargarVista("/org/example/view/model/espacio/espacio-view.fxml",
+                    (EspacioVistaController controller) -> controller.setEspacios(laboratorios));
+        } catch (IOException e) {
+            log.error("Error al cargar la vista de laboratorios: {}", e.getMessage());
         }
     }
 
