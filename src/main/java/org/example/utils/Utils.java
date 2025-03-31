@@ -50,41 +50,6 @@ public class Utils {
     }
 
     /**
-     * Verifica si dos períodos de fechas se solapan.
-     * @param fechaInicio1 inicio del primer período.
-     * @param fechaFin1 fin del primer período.
-     * @param fechaInicio2 inicio del segundo período.
-     * @param fechaFin2 fin del segundo período.
-     * @return boolean si los períodos se solapan o no.
-     */
-    public boolean seSolapanFechas(LocalDate fechaInicio1, LocalDate fechaFin1, LocalDate fechaInicio2, LocalDate fechaFin2) {
-        return !fechaFin1.isBefore(fechaInicio2) && !fechaInicio1.isAfter(fechaFin2);
-    }
-
-    /**
-     * Verifica si hay solapamiento en los días y bloques horarios entre dos conjuntos de DiaBloque.
-     * @param diasYBloquesReserva conjunto de días y bloques horarios de una reserva existente.
-     * @param diasYBloquesSolicitados conjunto de días y bloques horarios solicitados para disponibilidad.
-     * @return boolean si existe al menos un día y bloque horario común.
-     */
-    public boolean tieneSolapamientoEnDiasYBloques(Set<DiaBloque> diasYBloquesReserva,
-                                                   Set<DiaBloque> diasYBloquesSolicitados) {
-        for (DiaBloque diaBloqueReserva : diasYBloquesReserva) {
-            DayOfWeek diaReserva = diaBloqueReserva.getDia();
-            BloqueHorario bloqueReserva = diaBloqueReserva.getBloqueHorario();
-
-            for (DiaBloque diaBloqueSolicitado : diasYBloquesSolicitados) {
-                // Verificamos si coinciden tanto el día como el bloque horario
-                if (diaBloqueSolicitado.getDia().equals(diaReserva) &&
-                        diaBloqueSolicitado.getBloqueHorario().equals(bloqueReserva)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
      * Valída la capacidad de un espacio con respecto a la cantidad de alumnos de una Inscripción
      * @param espacio que se quiere validar
      * @param inscripcion que se quiere validar

@@ -9,7 +9,6 @@ import org.example.repository.AulaRepository;
 import org.example.repository.EspacioBaseRepository;
 import org.example.repository.LaboratorioRepository;
 import org.example.repository.ReservaRepository;
-import org.example.utils.Utils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -142,12 +141,7 @@ public class EspacioService {
      */
     private List<Integer> obtenerIdsEspaciosOcupados(LocalDate fechaInicio, LocalDate fechaFin,
                                                      Set<DiaBloque> diasYBloques){
-        return reservaRepository.findAll()
-                .parallelStream()
-                .filter(r -> Utils.seSolapanFechas(fechaInicio, fechaFin, r.getFechaInicio(), r.getFechaFin()))
-                .filter(r -> Utils.tieneSolapamientoEnDiasYBloques(r.getDiasYBloques() , diasYBloques))
-                .map(Reserva::getId)
-                .toList();
+        return reservaRepository.findEspaciosOcupadas(fechaInicio,fechaFin,diasYBloques);
     }
     /**
      * Filtra Espacios por fecha, período y días/bloques de la semana.
@@ -162,7 +156,7 @@ public class EspacioService {
         var idsAulasSolapadas = obtenerIdsEspaciosOcupados(fechaInicio,fechaFin,diasYBloques);
 
         // Filtramos los espacios disponibles que no están en las reservas solapadas
-        return espacioBaseRepository.findAll().parallelStream()
+        return espacioBaseRepository.findAll().stream()
                 .filter(e -> !idsAulasSolapadas.contains(e.getId()))
                 .toList();
     }
@@ -202,23 +196,6 @@ public class EspacioService {
         return listarLaboratorios().parallelStream()
                 .filter(laboratorio -> !idsLaboratoriosSolapados.contains(laboratorio.getId()))
                 .toList();
-    }
-
-    /**
-     * Filtra espacios disponibles con los filtros
-     * @param capacidad minima que se necesita
-     * @param tieneProyector si tiene o no proyector
-     * @param tieneTV si tiene o no TV
-     * @param fechaInicio inicio del rango de fecha
-     * @param fechaFin fin del rango de fecha
-     * @param diasYBloques en las cuales que deben estar disponibles
-     * @return List<Espacio> disponibles con esas condiciones en ese rango de fecha
-     */
-    public List<Espacio> listarEspaciosDisponiblesConCondiciones(Integer capacidad, Boolean tieneProyector,
-                                                              Boolean tieneTV, LocalDate fechaInicio,
-                                                              LocalDate fechaFin,   Set<DiaBloque> diasYBloques) {
-        var espaciosDisponibles = listarEspaciosDisponibles(fechaInicio, fechaFin, diasYBloques);
-        return filtrarEspacios(espaciosDisponibles, capacidad, tieneProyector, tieneTV, null);
     }
 
 

@@ -70,7 +70,7 @@ public class ReservaService{
         Utils.validarCapacidadEspacio(aula,inscripcion);
 
         // Validación de que el aula sea un laboratorio si la asignatura lo requiere
-        validarRequiereLaboratorio(aula,inscripcion.getId());
+        validarRequiereLaboratorio(aula,inscripcion.getAsignatura().getId());
 
         // Validamos si existen solicitudes de cambio pendientes que generen conflicto con la reserva
         validarSolicitudesPendientes(reserva);

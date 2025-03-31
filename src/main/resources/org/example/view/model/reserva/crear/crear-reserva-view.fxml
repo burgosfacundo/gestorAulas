@@ -4,7 +4,8 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import org.controlsfx.control.*?>
+
+<?import org.controlsfx.control.CheckComboBox?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.model.reserva.crear.CrearReservaVistaController">
 <AnchorPane layoutX="2.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="743.0" style="-fx-background-color: #ecf8ff;">
@@ -21,71 +22,70 @@
             <Font name="System Bold" size="24.0" />
         </font>
     </Label>
-    <CheckBox fx:id="tieneProyector" contentDisplay="RIGHT" layoutX="88.0" layoutY="105.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="22.0" style="-fx-content-display: right;">
+    <CheckBox fx:id="tieneProyector" contentDisplay="RIGHT" layoutX="88.0" layoutY="119.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="22.0" style="-fx-content-display: right;">
         <font>
             <Font size="14.0" />
         </font>
     </CheckBox>
-    <Label layoutX="14.0" layoutY="109.0" text="Proyector:">
+    <Label layoutX="14.0" layoutY="123.0" text="Proyector:">
         <font>
             <Font size="14.0" />
         </font>
     </Label>
-    <Label layoutX="134.0" layoutY="108.0" text="TV:">
+    <Label layoutX="134.0" layoutY="122.0" text="TV:">
         <font>
             <Font size="14.0" />
         </font>
     </Label>
-    <CheckBox fx:id="tieneTV" contentDisplay="RIGHT" layoutX="163.0" layoutY="106.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="22.0" style="-fx-content-display: right;">
+    <CheckBox fx:id="tieneTV" contentDisplay="RIGHT" layoutX="163.0" layoutY="120.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="22.0" style="-fx-content-display: right;">
         <font>
             <Font size="14.0" />
         </font>
     </CheckBox>
-    <DatePicker fx:id="fechaInicioPicker" layoutX="6.0" layoutY="142.0" prefHeight="26.0" prefWidth="127.0" promptText="Fecha de Inicio" />
-    <DatePicker fx:id="fechaFinPicker" layoutX="147.0" layoutY="142.0" prefHeight="26.0" prefWidth="114.0" promptText="Fecha de Fin" />
+    <DatePicker fx:id="fechaInicioPicker" layoutX="12.0" layoutY="168.0" prefHeight="26.0" prefWidth="127.0" promptText="Fecha de Inicio" />
+    <DatePicker fx:id="fechaFinPicker" layoutX="153.0" layoutY="168.0" prefHeight="26.0" prefWidth="114.0" promptText="Fecha de Fin" />
     <VBox alignment="CENTER" layoutX="14.0" layoutY="233.0" prefHeight="254.0" prefWidth="258.0" spacing="6.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml">
         <Label prefHeight="35.0" prefWidth="200.0" text="Seleccione los días de la semana:" />
         <HBox prefHeight="100.0" prefWidth="200.0" spacing="26.0">
             <CheckBox fx:id="cbLunes" text="Lunes" />
-            <CheckComboBox fx:id="checkComboBoxBloquesLunes" prefWidth="50"/>
+            <CheckComboBox fx:id="checkComboBoxBloquesLunes" prefWidth="50" />
         </HBox>
         <HBox prefHeight="100.0" prefWidth="200.0" spacing="21.0">
             <CheckBox fx:id="cbMartes" text="Martes" />
-            <CheckComboBox fx:id="checkComboBoxBloquesMartes" prefWidth="50"/>
+            <CheckComboBox fx:id="checkComboBoxBloquesMartes" prefWidth="50" />
         </HBox>
         <HBox prefHeight="100.0" prefWidth="200.0" spacing="6.0">
             <CheckBox fx:id="cbMiercoles" text="Miércoles" />
-            <CheckComboBox fx:id="checkComboBoxBloquesMiercoles" prefWidth="50"/>
+            <CheckComboBox fx:id="checkComboBoxBloquesMiercoles" prefWidth="50" />
         </HBox>
         <HBox prefHeight="100.0" prefWidth="200.0" spacing="22.0">
             <CheckBox fx:id="cbJueves" text="Jueves" />
-            <CheckComboBox fx:id="checkComboBoxBloquesJueves" prefWidth="50"/>
+            <CheckComboBox fx:id="checkComboBoxBloquesJueves" prefWidth="50" />
         </HBox>
         <HBox prefHeight="100.0" prefWidth="200.0" spacing="18.0">
             <CheckBox fx:id="cbViernes" text="Viernes" />
-            <CheckComboBox fx:id="checkComboBoxBloquesViernes" prefWidth="50"/>
+            <CheckComboBox fx:id="checkComboBoxBloquesViernes" prefWidth="50" />
         </HBox>
         <HBox prefHeight="100.0" prefWidth="200.0" spacing="17.5">
             <CheckBox fx:id="cbSabado" text="Sábado" />
-            <CheckComboBox fx:id="checkComboBoxBloquesSabado" prefWidth="50"/>
+            <CheckComboBox fx:id="checkComboBoxBloquesSabado" prefWidth="50" />
         </HBox>
         <HBox prefHeight="100.0" prefWidth="200.0" spacing="8.0">
             <CheckBox fx:id="cbDomingo" text="Domingo" />
-            <CheckComboBox fx:id="checkComboBoxBloquesDomingo" prefWidth="50"/>
+            <CheckComboBox fx:id="checkComboBoxBloquesDomingo" prefWidth="50" />
         </HBox>
     </VBox>
     <TableView fx:id="tblEspacios" layoutX="289.0" layoutY="155.0" prefHeight="294.0" prefWidth="438.0">
         <columns>
-            <TableColumn fx:id="colId" prefWidth="24.800048828125" text="ID" />
             <TableColumn fx:id="colNum" prefWidth="62.4000244140625" text="Número" />
             <TableColumn fx:id="colCapacidad" prefWidth="78.39996337890625" text="Capacidad" />
             <TableColumn fx:id="colTieneProyector" prefWidth="105.5999755859375" text="Tiene Proyector" />
-            <TableColumn fx:id="colTieneTV" prefWidth="64.800048828125" text="Tiene TV" />
-            <TableColumn fx:id="colComputadoras" prefWidth="99.19998779296873" text="Computadoras" />
+            <TableColumn fx:id="colTieneTV" prefWidth="84.0" text="Tiene TV" />
+            <TableColumn fx:id="colComputadoras" prefWidth="106.39996337890625" text="Computadoras" />
         </columns>
     </TableView>
-
-    <Button fx:id="btnBuscar" layoutX="296.0" layoutY="460.0" onAction="#filtrarEspaciosDisponibles" text="Buscar" />
+    <Pagination fx:id="pagination" layoutX="290.0" layoutY="451.0" pageCount="1" prefHeight="35.0" prefWidth="65.0" />
+    <Button fx:id="btnBuscar" layoutX="574.0" layoutY="459.0" onAction="#filtrarEspaciosDisponibles" prefHeight="28.0" prefWidth="51.0" text="Buscar" />
     <Button fx:id="btnReservar" layoutX="651.0" layoutY="460.0" onAction="#crearReserva" text="Reservar" />
 </AnchorPane>
 </AnchorPane>

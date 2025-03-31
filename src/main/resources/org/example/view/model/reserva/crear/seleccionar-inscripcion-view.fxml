@@ -17,23 +17,42 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <TableView fx:id="tblInscripciones" layoutX="73.0" layoutY="119.0" prefHeight="303.0" prefWidth="608.0">
-         <columns>
-            <TableColumn fx:id="colId" prefWidth="32.79998779296875" text="ID" />
-            <TableColumn fx:id="colAlumnos" prefWidth="66.4000244140625" text="Alumnos" />
-            <TableColumn fx:id="colMargenAlumnos" prefWidth="56.79998779296875" text="Margen" />
-            <TableColumn fx:id="colFechaFinInscripcion" prefWidth="148.0000457763672" text="Fin de Inscripción" />
-            <TableColumn fx:id="colAsignatura" prefWidth="101.60003662109375" text="Asignatura" />
-            <TableColumn fx:id="colComision" prefWidth="64.0" text="Comisión" />
-            <TableColumn fx:id="colProfesor" prefWidth="133.60001220703123" text="Profesor" />
-         </columns>
-      </TableView>
-      <HBox alignment="CENTER" layoutX="549.0" layoutY="440.0" prefHeight="44.0" prefWidth="154.0" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="2">
+      <Pagination fx:id="pagination" layoutX="36.0" layoutY="462.0" pageCount="1" prefHeight="35.0" prefWidth="65.0" />
+      <HBox alignment="CENTER" layoutX="549.0" layoutY="462.0" prefHeight="44.0" prefWidth="154.0" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="2">
          <Button fx:id="btnContinuar" onAction="#continuar" text="Continuar" />
          <Button fx:id="btnCancelar" onAction="#cancelar" text="Cancelar" />
       </HBox>
       <ImageView fitHeight="139.0" fitWidth="224.0" layoutX="8.0" pickOnBounds="true" preserveRatio="true">
          <Image url="@../../../../image/logoUTN.png" />
       </ImageView>
+      <TableView fx:id="tblInscripciones" layoutX="8.0" layoutY="166.0" prefHeight="283.0" prefWidth="722.0">
+         <columns>
+            <TableColumn fx:id="colAlumnos" prefWidth="57.600008964538574" text="Alumnos" />
+            <TableColumn fx:id="colMargenAlumnos" prefWidth="53.600006103515625" text="Margen" />
+            <TableColumn fx:id="colFechaFinInscripcion" prefWidth="128.800048828125" text="Fin de Inscripción" />
+            <TableColumn fx:id="colAsignatura" prefWidth="131.20001220703125" text="Asignatura" />
+            <TableColumn fx:id="colComision" prefWidth="68.79998779296875" text="Comisión" />
+            <TableColumn fx:id="colCuatrimestre" prefWidth="82.4000244140625" text="Cuatrimestre" />
+            <TableColumn fx:id="colYear" prefWidth="45.5999755859375" text="Año" />
+            <TableColumn fx:id="colProfesor" prefWidth="148.80001220703127" text="Profesor" />
+         </columns>
+      </TableView>
+      <Label layoutX="48.0" layoutY="116.0" prefHeight="28.0" prefWidth="37.0" text="Año:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cmbYear" layoutX="86.0" layoutY="118.0" prefHeight="26.0" prefWidth="38.0" />
+      <Label layoutX="186.0" layoutY="117.0" prefHeight="28.0" prefWidth="94.0" text="Cuatrimestre:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cmbCuatrimestre" layoutX="285.0" layoutY="118.0" prefHeight="26.0" prefWidth="38.0" />
+      <Button fx:id="btnFiltrar" layoutX="385.0" layoutY="116.0" mnemonicParsing="false" onAction="#filtrar" prefHeight="26.0" prefWidth="62.0" text="Filtrar">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </AnchorPane>
 </AnchorPane>

@@ -36,5 +36,10 @@ public class DiaBloque {
         this.bloqueHorario = bloqueHorario;
         this.dia = dia;
     }
+
+    @Override
+    public String toString() {
+        return bloqueHorario + " " + dia;
+    }
 }
 
