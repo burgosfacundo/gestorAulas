@@ -73,6 +73,8 @@ public class Mapper {
                 dto.fechaFinInscripcion(),
                 asignatura,
                 dto.comision(),
+                dto.year(),
+                dto.cuatrimestre(),
                 profesor
         );
     }
