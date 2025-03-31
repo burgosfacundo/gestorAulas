@@ -16,16 +16,16 @@
          <Font name="System Bold" size="24.0" />
       </font>
    </Label>
-   <TableView fx:id="tblReservas" layoutX="61.0" layoutY="127.0" prefHeight="346.0" prefWidth="606.0">
+   <TableView fx:id="tblReservas" layoutX="61.0" layoutY="127.0" prefHeight="314.0" prefWidth="606.0">
       <columns>
-         <TableColumn fx:id="colId" prefWidth="47.19997787475586" text="ID" />
-         <TableColumn fx:id="colFechaInicio" prefWidth="120.79998779296875" text="Fecha de inicio" />
-         <TableColumn fx:id="colFechaFin" prefWidth="116.80006408691406" text="Fecha de Fin" />
-         <TableColumn fx:id="colAula" prefWidth="93.60003662109375" text="Aula" />
-         <TableColumn fx:id="colInscripcion" prefWidth="108.79998779296875" text="Inscripción" />
-         <TableColumn fx:id="colDiaHorario" prefWidth="116.79996337890623" text="Horarios" />
+         <TableColumn fx:id="colFechaInicio" prefWidth="131.99993133544922" text="Fecha de inicio" />
+         <TableColumn fx:id="colFechaFin" prefWidth="137.60003662109375" text="Fecha de Fin" />
+         <TableColumn fx:id="colAula" prefWidth="68.00006103515625" text="Aula" />
+         <TableColumn fx:id="colInscripcion" prefWidth="160.00015258789062" text="Inscripción" />
+         <TableColumn fx:id="colDiaHorario" prefWidth="104.7999267578125" text="Horarios" />
       </columns>
    </TableView>
+   <Pagination fx:id="pagination" layoutX="595.0" layoutY="449.0" pageCount="1" prefHeight="35.0" prefWidth="65.0" />
    <ImageView fitHeight="139.0" fitWidth="224.0" layoutX="8.0" pickOnBounds="true" preserveRatio="true">
       <Image url="@../../../image/logoUTN.png" />
    </ImageView>

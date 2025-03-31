@@ -30,12 +30,12 @@
    </HBox>
    <TableView fx:id="tblReservas" layoutX="71.0" layoutY="157.0" prefHeight="272.0" prefWidth="606.0">
       <columns>
-         <TableColumn fx:id="colId" prefWidth="47.19997787475586" text="ID" />
-         <TableColumn fx:id="colFechaInicio" prefWidth="120.79998779296875" text="Fecha de inicio" />
-         <TableColumn fx:id="colFechaFin" prefWidth="116.80006408691406" text="Fecha de Fin" />
-         <TableColumn fx:id="colAula" prefWidth="93.60003662109375" text="Aula" />
-         <TableColumn fx:id="colInscripcion" prefWidth="108.79998779296875" text="Inscripción" />
-         <TableColumn fx:id="colDiaHorario" prefWidth="116.79996337890623" text="Horarios" />
+         <TableColumn fx:id="colFechaInicio" prefWidth="133.5999755859375" text="Fecha de inicio" />
+         <TableColumn fx:id="colFechaFin" prefWidth="118.40000915527344" text="Fecha de Fin" />
+         <TableColumn fx:id="colAula" prefWidth="55.20001220703125" text="Aula" />
+         <TableColumn fx:id="colInscripcion" prefWidth="183.20001220703125" text="Inscripción" />
+         <TableColumn fx:id="colDiaHorario" prefWidth="115.199951171875" text="Horarios" />
       </columns>
    </TableView>
+   <Pagination fx:id="pagination" layoutX="79.0" layoutY="436.0" pageCount="1" prefHeight="35.0" prefWidth="65.0" />
 </AnchorPane>
