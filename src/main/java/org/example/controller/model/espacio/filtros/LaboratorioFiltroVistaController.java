@@ -9,8 +9,10 @@ import javafx.util.Pair;
 import lombok.extern.slf4j.Slf4j;
 import org.controlsfx.control.CheckComboBox;
 import org.example.enums.BloqueHorario;
+import org.example.exception.NotFoundException;
 import org.example.model.DiaBloque;
 import org.example.model.Laboratorio;
+import org.example.service.DiaBloqueService;
 import org.example.service.EspacioService;
 import org.example.utils.TableUtils;
 import org.example.utils.Utils;
@@ -20,11 +22,13 @@ import org.springframework.stereotype.Component;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
 public class LaboratorioFiltroVistaController{
     private final VistaUtils vistaUtils;
+    private final DiaBloqueService diaBloqueService;
     @FXML
     private TextField computadoras;
     @FXML
@@ -88,8 +92,9 @@ public class LaboratorioFiltroVistaController{
     private static final int PAGE_SIZE = 10;
     private List<Laboratorio> labsFiltrados;
 
-    public LaboratorioFiltroVistaController(EspacioService espacioService, VistaUtils vistaUtils) {
+    public LaboratorioFiltroVistaController(EspacioService espacioService, VistaUtils vistaUtils, DiaBloqueService diaBloqueService) {
         this.espacioService = espacioService;
+        this.diaBloqueService = diaBloqueService;
         this.diasYBloques = new HashSet<>();
         this.vistaUtils = vistaUtils;
         this.labsFiltrados = new ArrayList<>();
@@ -192,10 +197,21 @@ public class LaboratorioFiltroVistaController{
             vistaUtils.mostrarAlerta("Debe seleccionar al menos un día con sus bloques horarios", Alert.AlertType.ERROR);
             return;
         }
+        var diasBloquesPersist = diasYBloques.stream()
+                .map(diaBloque -> {
+                    try {
+                        return diaBloqueService.buscarPorDiaYBloque(diaBloque.getBloqueHorario(),diaBloque.getDia());
+                    } catch (NotFoundException e) {
+                        log.error(e.getMessage());
+                    }
+                    return diaBloque;
+                })
+                .collect(Collectors.toSet());
+
         labsFiltrados = espacioService.listarLaboratoriosDisponiblesConCondiciones(computadorasMin,capacidadMin,
                 proyectorRequerido, tvRequerido,
                 inicio, fin,
-                diasYBloques);
+                diasBloquesPersist);
         int totalPages = (int) Math.ceil((double) labsFiltrados.size() / PAGE_SIZE);
         pagination.setPageCount(Math.max(totalPages, 1));
 

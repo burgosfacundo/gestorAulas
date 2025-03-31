@@ -15,8 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.controlsfx.control.CheckComboBox;
 import org.example.enums.BloqueHorario;
 
+import org.example.exception.NotFoundException;
 import org.example.model.Aula;
 import org.example.model.DiaBloque;
+import org.example.service.DiaBloqueService;
 import org.example.service.EspacioService;
 
 import org.example.utils.TableUtils;
@@ -28,11 +30,13 @@ import org.springframework.stereotype.Component;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
 public class AulaFiltroVistaController{
     private final VistaUtils vistaUtils;
+    private final DiaBloqueService diaBloqueService;
     @FXML
     private TextField capacidad;
     @FXML
@@ -93,9 +97,10 @@ public class AulaFiltroVistaController{
     private static final int PAGE_SIZE = 10;
     private List<Aula> aulasFiltradas;
 
-    public AulaFiltroVistaController(EspacioService espacioService, VistaUtils vistaUtils) {
+    public AulaFiltroVistaController(EspacioService espacioService, VistaUtils vistaUtils, DiaBloqueService diaBloqueService) {
         this.espacioService = espacioService;
         this.vistaUtils = vistaUtils;
+        this.diaBloqueService = diaBloqueService;
         this.diasYBloques = new HashSet<>();
         this.aulasFiltradas = new ArrayList<>();
     }
@@ -188,9 +193,20 @@ public class AulaFiltroVistaController{
             return;
         }
 
+        var diasBloquesPersist = diasYBloques.stream()
+                .map(diaBloque -> {
+                    try {
+                        return diaBloqueService.buscarPorDiaYBloque(diaBloque.getBloqueHorario(),diaBloque.getDia());
+                    } catch (NotFoundException e) {
+                        log.error(e.getMessage());
+                    }
+                    return diaBloque;
+                })
+                .collect(Collectors.toSet());
+
 
         aulasFiltradas = espacioService.listarAulasDisponiblesConCondiciones(capacidadMin, proyectorRequerido, tvRequerido,
-                inicio, fin, diasYBloques);
+                inicio, fin, diasBloquesPersist);
         int totalPages = (int) Math.ceil((double) aulasFiltradas.size() / PAGE_SIZE);
         pagination.setPageCount(Math.max(totalPages, 1));
 
