@@ -15,6 +15,15 @@ import java.util.Optional;
  */
 @Repository
 public interface InscripcionRepository extends JpaRepository<Inscripcion, Integer> {
-    @Query("SELECT i FROM Inscripcion i WHERE i.asignatura.id = :idAsignatura AND i.profesor.id = :idProfesor AND i.comision = :comision")
-    Optional<Inscripcion> find(@Param("idAsignatura") int idAsignatura, @Param("idProfesor") int idProfesor, @Param("comision") Integer comision);
+    @Query("SELECT i FROM Inscripcion i " +
+            "WHERE i.asignatura.id = :idAsignatura AND" +
+            " i.profesor.id = :idProfesor AND" +
+            " i.comision = :comision AND" +
+            " i.year = :year AND" +
+            " i.cuatrimestre = :cuatrimestre")
+    Optional<Inscripcion> find(@Param("idAsignatura") int idAsignatura,
+                               @Param("idProfesor") int idProfesor,
+                               @Param("comision") Integer comision,
+                               @Param("year") Integer year,
+                               @Param("cuatrimestre") Integer cuatrimestre);
 }
