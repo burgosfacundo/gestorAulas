@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.exception.GlobalExceptionHandler;
 import org.example.exception.NotFoundException;
 import org.example.model.*;
-import org.example.service.ProfesorService;
 import org.example.service.UsuarioService;
 import org.example.utils.TableUtils;
 import org.example.utils.VistaUtils;
@@ -26,7 +25,6 @@ public class EliminarUsuarioVistaController {
     private final VistaUtils vistaUtils;
     private final UsuarioService usuarioService;
     private final GlobalExceptionHandler globalExceptionHandler;
-    private final ProfesorService profesorService;
     @FXML
     private TableView<Usuario> tblUsuarios;
     @FXML
