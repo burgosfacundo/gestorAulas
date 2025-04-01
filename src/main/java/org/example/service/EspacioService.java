@@ -85,11 +85,12 @@ public class EspacioService {
      */
     public void modificar(Espacio espacio) throws NotFoundException, BadRequestException {
         //Verificamos que el espacio con ese ID exista
-        validarEspacioExistenteById(espacio.getId());
+        var exist = validarEspacioExistenteById(espacio.getId());
 
-        if (espacioBaseRepository.findByNumero(espacio.getNumero()).isPresent()){
-            throw new BadRequestException("Ya existe un espacio con ese número");
+        if (exist.getNumero() != espacio.getNumero() && espacioBaseRepository.findByNumero(espacio.getNumero()).isPresent()){
+                throw new BadRequestException("Ya existe un espacio con ese número");
         }
+
 
         //la modificamos
         espacioBaseRepository.save(espacio);
