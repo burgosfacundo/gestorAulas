@@ -8,17 +8,15 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.enums.BloqueHorario;
 import org.example.enums.EstadoSolicitud;
 import org.example.exception.*;
-import org.example.model.Laboratorio;
+import org.example.model.DiaBloque;
 import org.example.model.SolicitudCambioAula;
 import org.example.service.SolicitudCambioAulaService;
 import org.example.utils.TableUtils;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -38,11 +36,9 @@ public class RevisarSolicitudVistaController {
     @FXML
     private TableView<SolicitudCambioAula> tblSolicitudes;
     @FXML
-    private TableColumn<SolicitudCambioAula,Integer> colId;
+    private TableColumn<SolicitudCambioAula, String> colReserva;
     @FXML
-    private TableColumn<SolicitudCambioAula,String> colReserva;
-    @FXML
-    private TableColumn<SolicitudCambioAula,String> colAula;
+    private TableColumn<SolicitudCambioAula, String> colAula;
     @FXML
     private TableColumn<SolicitudCambioAula, String> colEstado;
     @FXML
@@ -52,11 +48,15 @@ public class RevisarSolicitudVistaController {
     @FXML
     private TableColumn<SolicitudCambioAula, LocalDate> colFin;
     @FXML
-    private TableColumn<SolicitudCambioAula, Map<DayOfWeek, Set<BloqueHorario>>> colDiaHorario;
+    private TableColumn<SolicitudCambioAula, Set<DiaBloque>> colDiaHorario;
     @FXML
-    private TableColumn<SolicitudCambioAula,String> colComenProfe;
+    private TableColumn<SolicitudCambioAula, String> colComenProfe;
     @FXML
-    private TableColumn<SolicitudCambioAula,String> colComenAdmin;
+    private TableColumn<SolicitudCambioAula, String> colComenAdmin;
+    @FXML
+    private Pagination pagination;
+    private List<SolicitudCambioAula> solicitudes;
+    private static final int PAGE_SIZE = 10;
 
     @FXML
     public void initialize() {
@@ -64,8 +64,8 @@ public class RevisarSolicitudVistaController {
         btnRechazar.disableProperty().bind(tblSolicitudes.getSelectionModel().selectedItemProperty().isNull());
 
         TableUtils.inicializarTablaSolicitudes(
-                colId, colReserva, colAula, colEstado, colTipo,
-                colInicio, colFin, colDiaHorario, colComenProfe, colComenAdmin
+                colReserva, colAula, colEstado, colTipo,
+                colInicio, colFin, colComenProfe, colComenAdmin,colDiaHorario
         );
 
         tblSolicitudes.setRowFactory(tableView -> {
@@ -79,37 +79,53 @@ public class RevisarSolicitudVistaController {
         });
 
         colDiaHorario.setCellFactory(column -> new TableCell<>() {
-            private final Button btnVerHorarios;
+            private final Button btnVerHorarios = new Button("Ver");
 
             {
-                btnVerHorarios = new Button("Ver");
                 btnVerHorarios.setOnAction(event -> {
-                    var solicitud = getTableView().getItems().get(getIndex());
-                    Optional
-                            .ofNullable(solicitud)
-                            .ifPresent(r ->  vistaUtils.mostrarVistaHorarios(solicitud.getDiasYBloques()));
+                    SolicitudCambioAula solicitud = getTableRow().getItem();
+                    if (solicitud != null && solicitud.getDiasYBloques() != null) {
+                        vistaUtils.mostrarVistaHorarios(solicitud.getDiasYBloques());
+                    }
                 });
             }
 
             @Override
-            protected void updateItem(Map<DayOfWeek, Set<BloqueHorario>> item, boolean empty) {
+            protected void updateItem(Set<DiaBloque> item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) {
+
+                if (empty || item == null || getTableRow().getItem() == null) {
                     setGraphic(null);
+                    setText(null);
                 } else {
                     setGraphic(btnVerHorarios);
+                    setText(null);
                 }
             }
         });
 
         try {
-            var solicitudes = solicitudCambioAulaService.listarSolicitudesPorEstado(EstadoSolicitud.PENDIENTE);
-            ObservableList<SolicitudCambioAula> solicitudesObservableList = FXCollections.observableArrayList();
-            solicitudesObservableList.addAll(solicitudes);
-            tblSolicitudes.setItems(solicitudesObservableList);
-        } catch (JsonNotFoundException | NotFoundException e) {
-            log.error("Error al actualizar la tabla: {}", e.getMessage());
+            solicitudes = solicitudCambioAulaService.listarSolicitudesPorEstado(EstadoSolicitud.PENDIENTE);
+            int totalPages = (int) Math.ceil((double) solicitudes.size() / PAGE_SIZE);
+            pagination.setPageCount(Math.max(totalPages, 1));
+
+            pagination.currentPageIndexProperty().addListener(
+                    (obs, oldIndex, newIndex) -> cargarPagina(newIndex.intValue()));
+
+            cargarPagina(0);
+        } catch (NotFoundException e) {
+            globalExceptionHandler.handleNotFoundException(e);
         }
+
+    }
+
+    private void cargarPagina(int pageIndex) {
+        int fromIndex = pageIndex * PAGE_SIZE;
+        int toIndex = Math.min(fromIndex + PAGE_SIZE, solicitudes.size());
+
+        ObservableList<SolicitudCambioAula> solicitudesObservableList = FXCollections.observableArrayList();
+        solicitudesObservableList.addAll(solicitudes.subList(fromIndex, toIndex));
+        tblSolicitudes.setItems(solicitudesObservableList);
     }
 
     private void handleRowDoubleClick(SolicitudCambioAula solicitud, MouseEvent ignoredEvent) {
@@ -119,11 +135,8 @@ public class RevisarSolicitudVistaController {
         if (clickedColumn == colReserva) {
             vistaUtils.mostrarVistaReserva(solicitud.getReservaOriginal());
         } else if (clickedColumn == colAula) {
-            if (solicitud.getNuevaAula() instanceof Laboratorio laboratorio) {
-                vistaUtils.mostrarVistaLaboratorio(laboratorio);
-            }else {
-                vistaUtils.mostrarVistaAula(solicitud.getNuevaAula());
-            }
+            vistaUtils.mostrarVistaEspacio(solicitud.getNuevoEspacio());
+
         }
     }
 
@@ -132,29 +145,21 @@ public class RevisarSolicitudVistaController {
         SolicitudCambioAula seleccionada = tblSolicitudes.getSelectionModel().getSelectedItem();
         Optional
                 .ofNullable(seleccionada)
-                .ifPresent(solicitud ->{
+                .ifPresent(solicitud -> {
                     try {
-                        var errores = validarCampos();
-                        if (errores.isPresent()) {
-                            vistaUtils.mostrarAlerta(String.join("\n", errores.get()), Alert.AlertType.ERROR);
-                            return;
-                        }
-
-                        String comentario = comentarioAdmin.getText();
                         var result = vistaUtils.mostrarAlerta("Estas seguro de aprobar la solicitud?", Alert.AlertType.CONFIRMATION);
+                        String comentario = comentarioAdmin.getText();
                         if (result == ButtonType.OK) {
                             solicitudCambioAulaService.aprobarSolicitud(solicitud.getId(), comentario);
                             vistaUtils.mostrarAlerta("Solicitud aprobada correctamente", Alert.AlertType.INFORMATION);
                             vistaUtils.cerrarVentana(btnAprobar);
                         }
-                    } catch (JsonNotFoundException e) {
-                        globalExceptionHandler.handleJsonNotFoundException(e);
                     } catch (NotFoundException e) {
                         globalExceptionHandler.handleNotFoundException(e);
                     } catch (ConflictException e) {
-                       globalExceptionHandler.handleConflictException(e);
+                        globalExceptionHandler.handleConflictException(e);
                     } catch (BadRequestException e) {
-                       globalExceptionHandler.handleBadRequestException(e);
+                        globalExceptionHandler.handleBadRequestException(e);
                     }
                 });
     }
@@ -164,7 +169,7 @@ public class RevisarSolicitudVistaController {
         SolicitudCambioAula seleccionada = tblSolicitudes.getSelectionModel().getSelectedItem();
         Optional
                 .ofNullable(seleccionada)
-                .ifPresent(solicitud ->{
+                .ifPresent(solicitud -> {
                     try {
                         var result = vistaUtils.mostrarAlerta("Estas seguro de rechazar la solicitud?", Alert.AlertType.CONFIRMATION);
 
@@ -174,21 +179,11 @@ public class RevisarSolicitudVistaController {
                             vistaUtils.mostrarAlerta("Solicitud rechazada correctamente", Alert.AlertType.INFORMATION);
                             vistaUtils.cerrarVentana(btnRechazar);
                         }
-                    } catch (JsonNotFoundException e) {
-                        globalExceptionHandler.handleJsonNotFoundException(e);
                     } catch (NotFoundException e) {
                         globalExceptionHandler.handleNotFoundException(e);
                     } catch (BadRequestException e) {
                         globalExceptionHandler.handleBadRequestException(e);
                     }
                 });
-    }
-
-    private Optional<List<String>> validarCampos() {
-        List<String> errores = new ArrayList<>();
-
-        vistaUtils.validarTextoArea(comentarioAdmin, "Debe ingresar un comentario.", errores);
-
-        return errores.isEmpty() ? Optional.empty() : Optional.of(errores);
     }
 }

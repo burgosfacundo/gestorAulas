@@ -21,13 +21,13 @@
    </Label>
    <TableView fx:id="tblUsuarios" layoutX="69.0" layoutY="159.0" prefHeight="272.0" prefWidth="588.0">
       <columns>
-         <TableColumn fx:id="colId" prefWidth="40.800048828125" text="ID" />
-         <TableColumn fx:id="colUsername" maxWidth="136.0" prefWidth="136.0" text="Usuario" />
-         <TableColumn fx:id="colNombre" maxWidth="136.0" prefWidth="136.0" text="Nombre" />
-         <TableColumn fx:id="colApellido" maxWidth="5013600.0" prefWidth="136.0" text="Apellido" />
-         <TableColumn fx:id="colMatricula" prefWidth="136.0" text="Matricula" />
+         <TableColumn fx:id="colUsername" maxWidth="136.0" prefWidth="135.199951171875" text="Usuario" />
+         <TableColumn fx:id="colNombre" maxWidth="145.6000213623047" prefWidth="136.80003356933594" text="Nombre" />
+         <TableColumn fx:id="colApellido" maxWidth="5013600.0" prefWidth="154.4000244140625" text="Apellido" />
+         <TableColumn fx:id="colMatricula" prefWidth="160.7999267578125" text="Matricula" />
       </columns>
    </TableView>
+   <Pagination fx:id="pagination" layoutX="585.0" layoutY="444.0" pageCount="1" prefHeight="35.0" prefWidth="65.0" />
    <Label alignment="CENTER" layoutX="69.0" layoutY="111.0" prefHeight="35.0" prefWidth="238.0" text="Seleccionar Usuario:">
       <font>
          <Font name="System Bold" size="24.0" />

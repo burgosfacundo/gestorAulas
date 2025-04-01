@@ -1,6 +1,5 @@
 package org.example.controller.model.solicitud.crear;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,21 +10,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.enums.TipoSolicitud;
 import org.example.exception.BadRequestException;
 import org.example.exception.GlobalExceptionHandler;
-import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
-import org.example.model.Aula;
-import org.example.model.Laboratorio;
-import org.example.model.Reserva;
-import org.example.model.SolicitudCambioAula;
-import org.example.service.AulaService;
+import org.example.model.*;
+import org.example.service.EspacioService;
 import org.example.service.SolicitudCambioAulaService;
+import org.example.utils.Mapper;
 import org.example.utils.TableUtils;
+import org.example.utils.Utils;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -33,11 +30,10 @@ import java.util.Optional;
 @Setter
 public class SeleccionarTipoSolicitudVistaController {
     private final VistaUtils vistaUtils;
-    private final AulaService aulaService;
+    private final EspacioService espacioService;
     private final GlobalExceptionHandler globalExceptionHandler;
     private final SolicitudCambioAulaService solicitudCambioAulaService;
     private Reserva reserva;
-    private ObservableList<Aula> aulasDisponibles = FXCollections.observableArrayList();
     @FXML
     private ComboBox<TipoSolicitud> tipoSolicitudComboBox;
     @FXML
@@ -45,43 +41,38 @@ public class SeleccionarTipoSolicitudVistaController {
     @FXML
     private DatePicker fechaFinPicker;
     @FXML
-    private TableView<Aula> tblAulas;
+    private TableView<Espacio> tblEspacios;
     @FXML
-    private TableColumn<Aula, Integer> colId;
+    private TableColumn<Espacio, Integer> colNum;
     @FXML
-    private TableColumn<Aula, Integer> colNum;
+    private TableColumn<Espacio, Integer> colCapacidad;
     @FXML
-    private TableColumn<Aula, Integer> colCapacidad;
+    private TableColumn<Espacio, Boolean> colTieneProyector;
     @FXML
-    private TableColumn<Aula, Boolean> colTieneProyector;
+    private TableColumn<Espacio, Boolean> colTieneTV;
     @FXML
-    private TableColumn<Aula, Boolean> colTieneTV;
-    @FXML
-    private TableColumn<Aula, Integer> colComputadoras;
+    private TableColumn<Laboratorio, Integer> colComputadoras;
     @FXML
     private TextArea comentarioProfesorTextArea;
     @FXML
     private Button btnEnviarSolicitudButton;
     @FXML
     private Button btnBuscar;
+    @FXML
+    private Pagination pagination;
+    private List<? extends Espacio> espaciosDisponibles;
+    private static final int PAGE_SIZE = 10;
 
     @FXML
     public void initialize() {
         tipoSolicitudComboBox.getItems().setAll(TipoSolicitud.values());
         tipoSolicitudComboBox.setOnAction(event -> actualizarFechas());
 
-        TableUtils.inicializarTablaAula(colId,colNum,colCapacidad,colTieneProyector,colTieneTV);
-
-        colComputadoras.setCellValueFactory(cellData -> {
-            if (cellData.getValue() instanceof Laboratorio lab) {
-                return new SimpleIntegerProperty(lab.getComputadoras()).asObject();
-            } else {
-                colComputadoras.setVisible(false);
-                return new SimpleIntegerProperty(0).asObject();
-            }
-        });
-
-        tblAulas.setItems(aulasDisponibles);
+        TableUtils.inicializarTablaEspacio(colNum,colCapacidad,colTieneProyector,colTieneTV,colComputadoras);
+        //Configurar fecha de inicio y de fin
+        Utils.configurarCalendarios(fechaInicioPicker, fechaFinPicker);
+        fechaInicioPicker.setDisable(true);
+        fechaFinPicker.setDisable(true);
     }
 
     public void setReserva(Reserva reserva) {
@@ -118,32 +109,56 @@ public class SeleccionarTipoSolicitudVistaController {
     private void actualizarListaAulas(){
         Optional.ofNullable(reserva)
                 .ifPresent(r -> {
-                    List<? extends Aula> disponibles;
-                    try{
-                        if (r.getAula() instanceof Laboratorio lab) {
-                            disponibles = aulaService.listarLaboratoriosDisponiblesConCondiciones(
-                                    lab.getComputadoras(),
-                                    lab.getCapacidad(),
-                                    lab.isTieneProyector(),lab.isTieneTV(),
-                                    fechaInicioPicker.getValue(), fechaFinPicker.getValue(),
-                                    r.getDiasYBloques()
-                            );
-                        } else {
-                            disponibles = aulaService.listarAulasDisponiblesConCondiciones(
-                                    r.getAula().getCapacidad(),
-                                    r.getAula().isTieneProyector(),r.getAula().isTieneTV(),
-                                    fechaInicioPicker.getValue(), fechaFinPicker.getValue(),
-                                    r.getDiasYBloques()
-                            );
+                    var errores = validarCampos();
+                    if (errores.isPresent()) {
+                        vistaUtils.mostrarAlerta(String.join("\n", errores.get()), Alert.AlertType.ERROR);
+                        return;
+                    }
+                    if (r.getEspacio() instanceof Laboratorio lab) {
+                        espaciosDisponibles = espacioService.listarLaboratoriosDisponiblesConCondiciones(
+                                lab.getComputadoras(), lab.getCapacidad(), lab.isTieneProyector(), lab.isTieneTV(),
+                                fechaInicioPicker.getValue(), fechaFinPicker.getValue(),
+                                r.getDiasYBloques());
+
+                        int totalPages = (int) Math.ceil((double) espaciosDisponibles.size() / PAGE_SIZE);
+                        pagination.setPageCount(Math.max(totalPages, 1));
+
+                        pagination.currentPageIndexProperty().addListener(
+                                (obs, oldIndex, newIndex) -> cargarPagina(newIndex.intValue()));
+
+                        cargarPagina(0);
+
+                        if (espaciosDisponibles.isEmpty()) {
+                            vistaUtils.mostrarAlerta("No hay aulas disponibles.", Alert.AlertType.INFORMATION);
                         }
-                        aulasDisponibles.setAll(disponibles);
+                    } else {
+                        List<? extends Espacio> disponibles = espacioService.listarAulasDisponiblesConCondiciones(
+                                r.getEspacio().getCapacidad(), r.getEspacio().isTieneProyector(), r.getEspacio().isTieneTV(),
+                                fechaInicioPicker.getValue(), fechaFinPicker.getValue(),
+                                r.getDiasYBloques());
+
+                        int totalPages = (int) Math.ceil((double) espaciosDisponibles.size() / PAGE_SIZE);
+                        pagination.setPageCount(Math.max(totalPages, 1));
+
+                        pagination.currentPageIndexProperty().addListener(
+                                (obs, oldIndex, newIndex) -> cargarPagina(newIndex.intValue()));
+
+                        cargarPagina(0);
+
                         if (disponibles.isEmpty()) {
                             vistaUtils.mostrarAlerta("No hay aulas disponibles.", Alert.AlertType.INFORMATION);
                         }
-                    }catch (JsonNotFoundException e){
-                        globalExceptionHandler.handleJsonNotFoundException(e);
                     }
                 });
+    }
+
+    private void cargarPagina(int pageIndex) {
+        int fromIndex = pageIndex * PAGE_SIZE;
+        int toIndex = Math.min(fromIndex + PAGE_SIZE, espaciosDisponibles.size());
+
+        ObservableList<Espacio> espaciosObservableList = FXCollections.observableArrayList();
+        espaciosObservableList.addAll(espaciosDisponibles.subList(fromIndex, toIndex));
+        tblEspacios.setItems(espaciosObservableList);
     }
 
     @FXML
@@ -156,30 +171,82 @@ public class SeleccionarTipoSolicitudVistaController {
         TipoSolicitud tipo = tipoSolicitudComboBox.getValue();
         LocalDate fechaInicio = fechaInicioPicker.getValue();
         LocalDate fechaFin = fechaFinPicker.getValue();
-        Aula aulaSeleccionada = tblAulas.getSelectionModel().getSelectedItem();
+        Espacio seleccionado = tblEspacios.getSelectionModel().getSelectedItem();
         String comentarioProfesor = comentarioProfesorTextArea.getText();
 
-        if (tipo == null || aulaSeleccionada == null || fechaInicio == null || fechaFin == null) {
+        if (tipo == null || seleccionado == null || fechaInicio == null || fechaFin == null) {
             vistaUtils.mostrarAlerta("Debe completar todos los campos.", Alert.AlertType.ERROR);
             return;
         }
 
+        // Obtener todos los días del período seleccionado
+        Set<LocalDate> fechasDelPeriodo = new HashSet<>();
+        fechaInicio.datesUntil(fechaFin.plusDays(1))
+                .forEach(fechasDelPeriodo::add);
+
+        // Convertir las fechas a días de la semana
+        var diasDelPeriodo = fechasDelPeriodo.stream()
+                .map(LocalDate::getDayOfWeek)
+                .collect(Collectors.toSet());
+
+        // Filtrar los días y bloques que coinciden con los días de la semana dentro del período
+        var diasYbloquesSeleccionados = reserva.getDiasYBloques().stream()
+                .filter(diaBloque -> diasDelPeriodo.contains(diaBloque.getDia()))
+                .collect(Collectors.toSet());
+
+        if (diasYbloquesSeleccionados.isEmpty()) {
+            vistaUtils.mostrarAlerta("Ninguno de los días de clase coincide con el período seleccionado.",
+                    Alert.AlertType.ERROR);
+            return;
+        }
+
         SolicitudCambioAula solicitud = new SolicitudCambioAula(
-                null, reserva.getInscripcion().getProfesor(), reserva, aulaSeleccionada,
-                tipo, fechaInicio, fechaFin, reserva.getDiasYBloques(),
+                null, reserva.getInscripcion().getProfesor(), reserva, seleccionado,
+                tipo, fechaInicio, fechaFin,
+                diasYbloquesSeleccionados, // Solo los días y bloques que coinciden con el período
                 comentarioProfesor
         );
+        log.info(solicitud.getDiasYBloques().toString());
 
         try{
-            solicitudCambioAulaService.guardar(solicitud);
+            solicitudCambioAulaService.guardar(Mapper.solicitudToDTO(solicitud));
             vistaUtils.mostrarAlerta("Solicitud enviada correctamente.", Alert.AlertType.INFORMATION);
             vistaUtils.cerrarVentana(btnEnviarSolicitudButton);
-        }catch (JsonNotFoundException e){
-            globalExceptionHandler.handleJsonNotFoundException(e);
         }catch (NotFoundException e){
             globalExceptionHandler.handleNotFoundException(e);
         }catch (BadRequestException e){
             globalExceptionHandler.handleBadRequestException(e);
         }
+    }
+
+    /**
+     * Valìda los campos del formulario y devuelve una lista de errores si los hay.
+     * @return Un Optional que contiene una lista de errores si hay errores de validación, o un Optional vacío si no hay errores.
+     */
+    private Optional<List<String>> validarCampos() {
+        List<String> errores = new ArrayList<>();
+
+        Utils.validarComboBox(tipoSolicitudComboBox, "Debe seleccionar un tipo de solicitud.", errores);
+
+        // Validar fechas
+        Utils.validarFecha(fechaInicioPicker, "Debe seleccionar una fecha de inicio.", errores);
+        Utils.validarFecha(fechaFinPicker, "Debe seleccionar una fecha de fin.", errores);
+
+        // Obtener los días del rango
+        LocalDate inicio = fechaInicioPicker.getValue();
+        LocalDate fin = fechaFinPicker.getValue();
+
+        // Validar que la fecha de fin no sea anterior a la fecha de inicio
+        if (inicio != null && fin != null && fin.isBefore(inicio)) {
+            fechaInicioPicker.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            fechaFinPicker.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            errores.add("La fecha de fin no puede ser anterior a la de inicio.");
+        }
+
+        if (inicio == null || fin == null) {
+            return Optional.of(errores); // Ya hay errores de fecha
+        }
+
+        return errores.isEmpty() ? Optional.empty() : Optional.of(errores);
     }
 }

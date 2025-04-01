@@ -9,14 +9,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.exception.BadRequestException;
 import org.example.exception.GlobalExceptionHandler;
-import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
 import org.example.model.Profesor;
-import org.example.model.Usuario;
+import org.example.model.dto.UsuarioDTO;
 import org.example.service.ProfesorService;
 import org.example.service.RolService;
 import org.example.service.UsuarioService;
 import org.example.utils.TableUtils;
+import org.example.utils.Utils;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
@@ -36,8 +36,6 @@ public class CrearUsuarioVistaController {
     @FXML
     private TableView<Profesor> tblProfesor;
     @FXML
-    private TableColumn<Profesor,Integer> colId;
-    @FXML
     private TableColumn<Profesor,String>  colNombre;
     @FXML
     private TableColumn<Profesor,String>  colApellido;
@@ -53,24 +51,35 @@ public class CrearUsuarioVistaController {
     private PasswordField repetirContraseniaField;
     @FXML
     private Button btnCrear;
+    @FXML
+    private Pagination pagination;
+    private List<Profesor> profesores;
+    private static final int PAGE_SIZE = 10;
 
     @FXML
     public void initialize() {
-        try {
-            var roles = rolService.listar();
-            tipoRolComboBox.getItems().setAll(roles.stream().map(Object::toString).toList());
+        var roles = rolService.listar();
+        tipoRolComboBox.getItems().setAll(roles.stream().map(Object::toString).toList());
 
-            TableUtils.inicializarTablaProfesores(colId,colNombre,colApellido,colMatricula);
+        TableUtils.inicializarTablaProfesores(colNombre,colApellido,colMatricula);
+        btnCrear.disableProperty().bind(tblProfesor.getSelectionModel().selectedItemProperty().isNull());
 
-            var profesores = profesorService.listar();
-            ObservableList<Profesor> profesorObservableList = FXCollections.observableArrayList();
-            profesorObservableList.addAll(profesores);
-            tblProfesor.setItems(profesorObservableList);
+        profesores = profesorService.listar();
+        int totalPages = (int) Math.ceil((double) profesores.size() / PAGE_SIZE);
+            pagination.setPageCount(Math.max(totalPages, 1));
 
-            btnCrear.disableProperty().bind(tblProfesor.getSelectionModel().selectedItemProperty().isNull());
-        }catch (JsonNotFoundException e){
-            globalExceptionHandler.handleJsonNotFoundException(e);
-        }
+            pagination.currentPageIndexProperty().addListener(
+                    (obs, oldIndex, newIndex) -> cargarPagina(newIndex.intValue()));
+        cargarPagina(0);
+    }
+
+    private void cargarPagina(int pageIndex) {
+        int fromIndex = pageIndex * PAGE_SIZE;
+        int toIndex = Math.min(fromIndex + PAGE_SIZE, profesores.size());
+
+        ObservableList<Profesor> profesoresObservableList = FXCollections.observableArrayList();
+        profesoresObservableList.addAll(profesores.subList(fromIndex, toIndex));
+        tblProfesor.setItems(profesoresObservableList);
     }
 
     @FXML
@@ -86,13 +95,11 @@ public class CrearUsuarioVistaController {
             var password = contraseniaField.getText();
             var rol = rolService.validarRolPorNombre(tipoRolComboBox.getSelectionModel().getSelectedItem());
             var profesor = tblProfesor.getSelectionModel().getSelectedItem();
-            usuarioService.guardar(new Usuario(0,username,password,rol,profesor));
+            usuarioService.guardar(new UsuarioDTO(null,username,password,rol.getId(),profesor.getId()));
             vistaUtils.mostrarAlerta("El usuario ha sido creado con éxito", Alert.AlertType.INFORMATION);
             vistaUtils.cerrarVentana(btnCrear);
         } catch (BadRequestException e) {
             globalExceptionHandler.handleBadRequestException(e);
-        } catch (JsonNotFoundException e) {
-            globalExceptionHandler.handleJsonNotFoundException(e);
         } catch (NotFoundException e) {
             globalExceptionHandler.handleNotFoundException(e);
         }
@@ -102,10 +109,10 @@ public class CrearUsuarioVistaController {
         List<String> errores = new ArrayList<>();
 
         // Validar username
-        vistaUtils.validarTexto(usernameField, "Debes ingresar un nombre de usuario valido.", errores);
+        Utils.validarTexto(usernameField, "Debes ingresar un nombre de usuario valido.", errores);
 
         // Validar password
-        vistaUtils.validarPassword(contraseniaField, errores);
+        Utils.validarPassword(contraseniaField, errores);
 
         if (!contraseniaField.getText().equals(repetirContraseniaField.getText())) {
             contraseniaField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
@@ -115,9 +122,9 @@ public class CrearUsuarioVistaController {
             repetirContraseniaField.setStyle("-fx-border-color: transparent;");
         }
 
-        vistaUtils.validarTabla(tblProfesor,"Debes seleccionar un profesor",errores);
+        Utils.validarTabla(tblProfesor,"Debes seleccionar un profesor",errores);
 
-        vistaUtils.validarComboBox(tipoRolComboBox,"Debes seleccionar un rol",errores);
+        Utils.validarComboBox(tipoRolComboBox,"Debes seleccionar un rol",errores);
 
         return errores.isEmpty() ? Optional.empty() : Optional.of(errores);
     }

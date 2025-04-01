@@ -4,16 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.enums.BloqueHorario;
-import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
+import org.example.model.DiaBloque;
 import org.example.model.Reserva;
 import org.example.security.SesionActual;
 import org.example.service.ReservaService;
@@ -22,9 +18,8 @@ import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -38,8 +33,6 @@ public class SeleccionarReservaVistaController {
     @FXML
     private TableView<Reserva> tblReservas;
     @FXML
-    private TableColumn<Reserva,Integer> colId;
-    @FXML
     private TableColumn<Reserva, LocalDate> colFechaInicio;
     @FXML
     private TableColumn<Reserva,LocalDate> colFechaFin;
@@ -48,19 +41,21 @@ public class SeleccionarReservaVistaController {
     @FXML
     private TableColumn<Reserva,String> colInscripcion;
     @FXML
-    private TableColumn<Reserva, Map<DayOfWeek, Set<BloqueHorario>>> colDiaHorario;
+    private TableColumn<Reserva, Set<DiaBloque>> colDiaHorario;
     @FXML
     private Button btnContinuar;
     @FXML
     private Button btnCancelar;
+    @FXML
+    private Pagination pagination;
+    private List<Reserva> reservas;
+    private static final int PAGE_SIZE = 10;
 
     @FXML
     public void initialize() {
         try {
-            var reservas = reservaService.listarReservasPorProfesor(sesionActual.getUsuario().getProfesor().getId());
-            ObservableList<Reserva> data = FXCollections.observableArrayList(reservas);
-            tblReservas.setItems(data);
-            TableUtils.inicializarTablaReserva(colId,colFechaInicio,colFechaFin,colAula,colInscripcion,colDiaHorario);
+            TableUtils.inicializarTablaReserva(colFechaInicio,colFechaFin,
+                    colAula,colInscripcion,colDiaHorario);
             // Deshabilitar botón si no hay selección
             btnContinuar.disableProperty().bind(tblReservas.getSelectionModel().selectedItemProperty().isNull());
 
@@ -73,11 +68,53 @@ public class SeleccionarReservaVistaController {
                 });
                 return row;
             });
-        }catch (JsonNotFoundException | NotFoundException e){
+
+            colDiaHorario.setCellFactory(column -> new TableCell<>() {
+                private final Button btnVerHorarios = new Button("Ver");
+
+                {
+                    btnVerHorarios.setOnAction(event -> {
+                        Reserva reserva = getTableRow().getItem();
+                        if (reserva != null && reserva.getDiasYBloques() != null) {
+                            vistaUtils.mostrarVistaHorarios(reserva.getDiasYBloques());
+                        }
+                    });
+                }
+
+                @Override
+                protected void updateItem(Set<DiaBloque> item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty || item == null || getTableRow().getItem() == null) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        setGraphic(btnVerHorarios);
+                        setText(null);
+                    }
+                }
+            });
+
+            reservas = reservaService.listarReservasPorProfesor(sesionActual.getUsuario().getProfesor().getId());
+            int totalPages = (int) Math.ceil((double) reservas.size() / PAGE_SIZE);
+            pagination.setPageCount(Math.max(totalPages, 1));
+
+            pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex) -> cargarPagina(newIndex.intValue()));
+
+            cargarPagina(0);
+        }catch (NotFoundException e){
             log.error(e.getMessage());
         }
+    }
 
+    private void cargarPagina(int pageIndex) {
+        int fromIndex = pageIndex * PAGE_SIZE;
+        int toIndex = Math.min(fromIndex + PAGE_SIZE, reservas.size());
 
+        ObservableList<Reserva> reservaObservableList = FXCollections.observableArrayList();
+        reservaObservableList.addAll(reservas.subList(fromIndex, toIndex));
+
+        tblReservas.setItems(reservaObservableList);
     }
 
     @FXML
@@ -109,7 +146,7 @@ public class SeleccionarReservaVistaController {
         if (clickedColumn == colInscripcion) {
             vistaUtils.mostrarVistaInscripcion(reserva.getInscripcion());
         }else if(clickedColumn == colAula) {
-            vistaUtils.mostrarVistaAula(reserva.getAula());
+            vistaUtils.mostrarVistaEspacio(reserva.getEspacio());
         }
     }
 }

@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.enums.EstadoSolicitud;
+import org.example.exception.GlobalExceptionHandler;
 import org.example.exception.NotFoundException;
 import org.example.model.DiaBloque;
 import org.example.model.SolicitudCambioAula;
@@ -28,6 +29,7 @@ public class SolicitudVistaController {
     private final SolicitudCambioAulaService solicitudCambioAulaService;
     private final SesionActual sesionActual;
     private final VistaUtils vistaUtils;
+    private final GlobalExceptionHandler globalExceptionHandler;
     @FXML
     private TableView<SolicitudCambioAula> tblSolicitudes;
     @FXML
@@ -109,22 +111,22 @@ public class SolicitudVistaController {
                 };
             } else {
                 this.solicitudes = switch (estadoSolicitud) {
-                    case PENDIENTE -> solicitudCambioAulaService.listarSolicitudesPorEstadoYProfesor(EstadoSolicitud.PENDIENTE,user.getId());
-                    case APROBADA -> solicitudCambioAulaService.listarSolicitudesPorEstadoYProfesor(EstadoSolicitud.APROBADA,user.getId());
-                    case RECHAZADA -> solicitudCambioAulaService.listarSolicitudesPorEstadoYProfesor(EstadoSolicitud.RECHAZADA,user.getId());
+                    case PENDIENTE -> solicitudCambioAulaService.listarSolicitudesPorEstadoYProfesor(EstadoSolicitud.PENDIENTE,user.getProfesor().getId());
+                    case APROBADA -> solicitudCambioAulaService.listarSolicitudesPorEstadoYProfesor(EstadoSolicitud.APROBADA,user.getProfesor().getId());
+                    case RECHAZADA -> solicitudCambioAulaService.listarSolicitudesPorEstadoYProfesor(EstadoSolicitud.RECHAZADA,user.getProfesor().getId());
                 };
             }
+
+            int totalPages = (int) Math.ceil((double) solicitudes.size() / PAGE_SIZE);
+            pagination.setPageCount(Math.max(totalPages, 1));
+
+            pagination.currentPageIndexProperty().addListener(
+                    (obs, oldIndex, newIndex) -> cargarPagina(newIndex.intValue()));
+
+            cargarPagina(0);
         } catch ( NotFoundException e) {
-            log.error("Error al actualizar la tabla: {}", e.getMessage());
+           globalExceptionHandler.handleNotFoundException(e);
         }
-
-        int totalPages = (int) Math.ceil((double) solicitudes.size() / PAGE_SIZE);
-        pagination.setPageCount(Math.max(totalPages, 1));
-
-        pagination.currentPageIndexProperty().addListener(
-                (obs, oldIndex, newIndex) -> cargarPagina(newIndex.intValue()));
-
-        cargarPagina(0);
     }
 
     private void cargarPagina(int pageIndex) {

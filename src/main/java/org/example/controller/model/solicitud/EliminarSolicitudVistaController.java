@@ -8,12 +8,10 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.enums.BloqueHorario;
 import org.example.enums.EstadoSolicitud;
 import org.example.exception.GlobalExceptionHandler;
-import org.example.exception.JsonNotFoundException;
 import org.example.exception.NotFoundException;
-import org.example.model.Laboratorio;
+import org.example.model.DiaBloque;
 import org.example.model.SolicitudCambioAula;
 import org.example.security.SesionActual;
 import org.example.service.SolicitudCambioAulaService;
@@ -21,9 +19,8 @@ import org.example.utils.TableUtils;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -38,8 +35,6 @@ public class EliminarSolicitudVistaController {
     @FXML
     private TableView<SolicitudCambioAula> tblSolicitudes;
     @FXML
-    private TableColumn<SolicitudCambioAula,Integer> colId;
-    @FXML
     private TableColumn<SolicitudCambioAula,String> colReserva;
     @FXML
     private TableColumn<SolicitudCambioAula,String> colAula;
@@ -52,7 +47,7 @@ public class EliminarSolicitudVistaController {
     @FXML
     private TableColumn<SolicitudCambioAula, LocalDate> colFin;
     @FXML
-    private TableColumn<SolicitudCambioAula, Map<DayOfWeek, Set<BloqueHorario>>> colDiaHorario;
+    private TableColumn<SolicitudCambioAula, Set<DiaBloque>> colDiaHorario;
     @FXML
     private TableColumn<SolicitudCambioAula,String> colComenProfe;
     @FXML
@@ -61,12 +56,16 @@ public class EliminarSolicitudVistaController {
     private Button btnEliminar;
     @FXML
     private Button btnCancelar;
+    @FXML
+    private Pagination pagination;
+    private List<SolicitudCambioAula> solicitudes;
+    private static final int PAGE_SIZE = 10;
 
     @FXML
     public void initialize() {
         TableUtils.inicializarTablaSolicitudes(
-                colId, colReserva, colAula, colEstado, colTipo,
-                colInicio, colFin, colDiaHorario, colComenProfe, colComenAdmin
+                colReserva, colAula, colEstado, colTipo,
+                colInicio, colFin, colComenProfe, colComenAdmin,colDiaHorario
         );
         btnEliminar.disableProperty().bind(tblSolicitudes.getSelectionModel().selectedItemProperty().isNull());
 
@@ -80,28 +79,56 @@ public class EliminarSolicitudVistaController {
             return row;
         });
 
+        colDiaHorario.setCellFactory(column -> new TableCell<>() {
+            private final Button btnVerHorarios = new Button("Ver");
+
+            {
+                btnVerHorarios.setOnAction(event -> {
+                    var solicitud = getTableView().getItems().get(getIndex());
+                    Optional
+                            .ofNullable(solicitud)
+                            .ifPresent(r ->  vistaUtils.mostrarVistaHorarios(solicitud.getDiasYBloques()));
+                });
+            }
+
+
+            @Override
+            protected void updateItem(Set<DiaBloque> item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty ||item == null) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btnVerHorarios);
+                }
+            }
+        });
+
         try {
             var user = sesionActual.getUsuario();
-            var solicitudes = solicitudCambioAulaService.listarSolicitudesPorEstadoYProfesor(
+            solicitudes = solicitudCambioAulaService.listarSolicitudesPorEstadoYProfesor(
                     EstadoSolicitud.PENDIENTE, user.getProfesor().getId()
             );
 
-            // Configurar la tabla si no se ha hecho antes
-            if (tblSolicitudes.getColumns().isEmpty()) {
-                TableUtils.inicializarTablaSolicitudes(
-                        colId, colReserva, colAula, colEstado, colTipo,
-                        colInicio, colFin, colDiaHorario, colComenProfe, colComenAdmin
-                );
-            }
+            int totalPages = (int) Math.ceil((double) solicitudes.size() / PAGE_SIZE);
+            pagination.setPageCount(Math.max(totalPages, 1));
 
-            ObservableList<SolicitudCambioAula> solicitudesObservableList = FXCollections.observableArrayList();
-            solicitudesObservableList.addAll(solicitudes);
-            tblSolicitudes.setItems(solicitudesObservableList);
+            pagination.currentPageIndexProperty().addListener(
+                    (obs, oldIndex, newIndex) -> cargarPagina(newIndex.intValue()));
+
+            cargarPagina(0);
         } catch (NotFoundException e) {
             globalExceptionHandler.handleNotFoundException(e);
-        }catch (JsonNotFoundException e) {
-            globalExceptionHandler.handleJsonNotFoundException(e);
         }
+
+    }
+
+    private void cargarPagina(int pageIndex) {
+        int fromIndex = pageIndex * PAGE_SIZE;
+        int toIndex = Math.min(fromIndex + PAGE_SIZE, solicitudes.size());
+
+        ObservableList<SolicitudCambioAula> solicitudesObservableList = FXCollections.observableArrayList();
+        solicitudesObservableList.addAll(solicitudes.subList(fromIndex, toIndex));
+        tblSolicitudes.setItems(solicitudesObservableList);
     }
 
     @FXML
@@ -118,8 +145,6 @@ public class EliminarSolicitudVistaController {
                             vistaUtils.mostrarAlerta("Solicitud eliminada correctamente", Alert.AlertType.INFORMATION);
                             vistaUtils.cerrarVentana(btnEliminar);
                         }
-                    } catch (JsonNotFoundException e) {
-                        globalExceptionHandler.handleJsonNotFoundException(e);
                     } catch (NotFoundException e) {
                         globalExceptionHandler.handleNotFoundException(e);
                     }
@@ -139,11 +164,7 @@ public class EliminarSolicitudVistaController {
         if (clickedColumn == colReserva) {
             vistaUtils.mostrarVistaReserva(solicitud.getReservaOriginal());
         } else if (clickedColumn == colAula) {
-            if (solicitud.getNuevaAula() instanceof Laboratorio laboratorio) {
-                vistaUtils.mostrarVistaLaboratorio(laboratorio);
-            }else {
-                vistaUtils.mostrarVistaAula(solicitud.getNuevaAula());
-            }
+            vistaUtils.mostrarVistaEspacio(solicitud.getNuevoEspacio());
         }
     }
 }
