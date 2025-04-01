@@ -20,15 +20,15 @@
                 <Font name="System Bold" size="24.0" />
             </font>
         </Label>
-        <TableView fx:id="tblEspacios" fixedCellSize="25.0" layoutX="79.0" layoutY="134.0" prefHeight="280" prefWidth="510.0">
-            <columns>
-                <TableColumn fx:id="colNum" prefWidth="105" text="Número" />
-                <TableColumn fx:id="colCapacidad" prefWidth="105" text="Capacidad" />
-                <TableColumn fx:id="colTieneProyector" prefWidth="105.0" text="Tiene Proyector" />
-                <TableColumn fx:id="colTieneTV" text="Tiene TV" />
-                <TableColumn fx:id="colComputadoras" prefWidth="115.0" text="Computadoras" />
-            </columns>
-        </TableView>
         <Pagination fx:id="pagination" layoutX="568.0" layoutY="451.0" pageCount="1" prefHeight="35.0" prefWidth="65.0" />
+      <TableView fx:id="tblEspacios" layoutX="69.0" layoutY="140.0" prefHeight="272.0" prefWidth="598.0">
+         <columns>
+            <TableColumn fx:id="colNum" prefWidth="114.4000244140625" text="Número" />
+            <TableColumn fx:id="colCapacidad" prefWidth="106.39994812011719" text="Capacidad" />
+            <TableColumn fx:id="colTieneProyector" prefWidth="122.4000244140625" text="Tiene Proyector" />
+            <TableColumn fx:id="colTieneTV" prefWidth="126.4000244140625" text="Tiene TV" />
+            <TableColumn fx:id="colComputadoras" prefWidth="129.60003662109375" text="Computadoras" />
+         </columns>
+      </TableView>
     </AnchorPane>
 </AnchorPane>
