@@ -141,7 +141,7 @@ public class Utils {
                 // deshabilitar y pintar de rojo las fechas anteriores y que no son de este año
                 if (item.isBefore(LocalDate.now()) || item.getYear() != LocalDate.now().getYear()) {
                     this.setDisable(true);
-                    Paint color = Color.rgb(241,26,44);
+                    Paint color = Color.rgb(211,126,134);
                     BackgroundFill fill = new BackgroundFill(color, null, null);
 
                     this.setBackground(new Background(fill));
