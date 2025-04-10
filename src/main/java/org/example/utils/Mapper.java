@@ -2,7 +2,6 @@ package org.example.utils;
 
 import lombok.experimental.UtilityClass;
 import org.example.model.*;
-import org.example.model.dto.InscripcionDTO;
 import org.example.model.dto.ReservaDTO;
 import org.example.model.dto.SolicitudCambioAulaDTO;
 import org.example.model.dto.UsuarioDTO;
@@ -51,34 +50,6 @@ public class Mapper {
                 usuario.getProfesor().getId()
         );
     }
-
-    //Inscripción
-
-    /**
-     * Mapea un dto a Inscripción
-     * @param dto que queremos mapear
-     * @return Inscripción mapeado desde dto
-     */
-    public Inscripcion toInscripcion(InscripcionDTO dto){
-        //Retornamos la inscripción mapeando desde DTO, incluyendo su asignatura y profesor
-        var asignatura = new Asignatura();
-        asignatura.setId(dto.idAsignatura());
-
-        var profesor = new Profesor();
-        profesor.setId(dto.idProfesor());
-        return new Inscripcion(
-                dto.id(),
-                dto.cantidadAlumnos(),
-                dto.margenAlumnos(),
-                dto.fechaFinInscripcion(),
-                asignatura,
-                dto.comision(),
-                dto.year(),
-                dto.cuatrimestre(),
-                profesor
-        );
-    }
-
 
     //Reserva
 
