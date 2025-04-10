@@ -3,12 +3,15 @@ package org.example.controller.menus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.controller.model.reserva.ReservaVistaController;
+import org.example.enums.Permisos;
 import org.example.exception.GlobalExceptionHandler;
 import org.example.exception.NotFoundException;
+import org.example.security.Seguridad;
 import org.example.security.SesionActual;
 import org.example.service.ReservaService;
 import org.example.utils.VistaUtils;
@@ -21,6 +24,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Component
 public class MenuProfesorVistaController {
+    private final Seguridad seguridad;
+    private final SesionActual sesionActual;
     private final VistaUtils vistaUtils;
     private final GlobalExceptionHandler globalExceptionHandler;
     @FXML
@@ -33,17 +38,19 @@ public class MenuProfesorVistaController {
     private Button btnCambiarcontrasenia;
     @FXML
     private Button btnCerrarSesion;
-
     private final ReservaService reservaService;
-    private final SesionActual sesionActual;
 
     @FXML
     public void menuListarEspacios(ActionEvent actionEvent) {
-        try{
-            vistaUtils.cargarVista("/org/example/view/menus/menu-listar-espacios-view.fxml");
-            cerrarWindow(actionEvent);
-        }catch (IOException e){
-            log.error(e.getMessage());
+        if (seguridad.verificarPermiso(sesionActual.getUsuario(), Permisos.VER_ESPACIOS)){
+            try{
+                vistaUtils.cargarVista("/org/example/view/menus/menu-listar-espacios-view.fxml");
+                cerrarWindow(actionEvent);
+            }catch (IOException e){
+                globalExceptionHandler.handleIOException(e);
+            }
+        }else{
+            vistaUtils.mostrarAlerta("No tienes permisos para ver los espacios", Alert.AlertType.ERROR);
         }
     }
 
@@ -53,30 +60,38 @@ public class MenuProfesorVistaController {
             vistaUtils.cargarVista("/org/example/view/menus/menu-solicitudes-profesor-view.fxml");
             cerrarWindow(actionEvent);
         }catch (IOException e){
-            log.error(e.getMessage());
+            globalExceptionHandler.handleIOException(e);
         }
     }
 
     @FXML
     public void listarMisReservas(ActionEvent actionEvent) {
-        try {
-            var idProfesor = sesionActual.getUsuario().getProfesor().getId();
-            var reservas = reservaService.listarReservasPorProfesor(idProfesor);
-            vistaUtils.cargarVista("/org/example/view/model/reserva/reserva-view.fxml",
-                    (ReservaVistaController controller) -> controller.setReservas(reservas));
-        } catch (NotFoundException e) {
-            globalExceptionHandler.handleNotFoundException(e);
-        }catch (IOException e){
-            log.error(e.getMessage());
+        if (seguridad.verificarPermiso(sesionActual.getUsuario(),Permisos.VER_RESERVAS)){
+            try {
+                var idProfesor = sesionActual.getUsuario().getProfesor().getId();
+                var reservas = reservaService.listarReservasPorProfesor(idProfesor);
+                vistaUtils.cargarVista("/org/example/view/model/reserva/reserva-view.fxml",
+                        (ReservaVistaController controller) -> controller.setReservas(reservas));
+            } catch (NotFoundException e) {
+                globalExceptionHandler.handleNotFoundException(e);
+            }catch (IOException e){
+                globalExceptionHandler.handleIOException(e);
+            }
+        }else {
+            vistaUtils.mostrarAlerta("No tienes permisos para ver las reservas", Alert.AlertType.ERROR);
         }
     }
 
     @FXML
     public void cambiarPassword(ActionEvent actionEvent) {
-        try {
-            vistaUtils.cargarVista("/org/example/view/cambio-password-view.fxml");
-        } catch (IOException e) {
-            log.error(e.getMessage());
+        if (seguridad.verificarPermiso(sesionActual.getUsuario(),Permisos.CAMBIAR_PASSWORD)){
+            try {
+                vistaUtils.cargarVista("/org/example/view/cambio-password-view.fxml");
+            } catch (IOException e) {
+                globalExceptionHandler.handleIOException(e);
+            }
+        }else {
+            vistaUtils.mostrarAlerta("No tienes permisos para cambiar la contraseña", Alert.AlertType.ERROR);
         }
     }
 

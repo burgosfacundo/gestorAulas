@@ -23,9 +23,8 @@ public class Seguridad {
         this.usuarioService = usuarioService;
     }
 
-
     /**
-     * Método para iniciar sesión
+     * Iniciar sesión
      * @param username nombre de usuario
      * @param password contraseña
      * @return Usuario que inicia sesión
@@ -41,13 +40,13 @@ public class Seguridad {
     }
 
     /**
-     * Método para validar permisos del usuario
+     * Validar permisos del usuario
      * @param usuario usuario que quiere realizar una acción
      * @param permisos enum que indica que es lo que quiere hacer el usuario
      * @return boolean que indica si tiene permisos o no
      */
     public boolean verificarPermiso(Usuario usuario, Permisos permisos) {
-        //Llamamos al método que devuelve si el usuario tiene permiso según su Rol
+        //devuelve si el usuario tiene permiso según su Rol
         return usuario.getRol().tienePermiso(permisos);
     }
 }
