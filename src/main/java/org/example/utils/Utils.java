@@ -36,7 +36,7 @@ public class Utils {
                 .collect(Collectors.joining(", "));
     }
 
-    // Método auxiliar para traducir el día de la semana
+    // Traduce el día de la semana
     public String traducirDiaSemana(DayOfWeek day) {
         return switch (day) {
             case MONDAY -> "Lunes";
@@ -179,7 +179,7 @@ public class Utils {
 
 
     /**
-     * Valida un TextField para asegurarse de que contiene un valor entero positivo no vacío.
+     * Validar un TextField para asegurarse de que contiene un valor entero positivo no vacío.
      * Si la validación falla, el borde del TextField se establece en rojo y se agrega un mensaje de error a la lista de errores.
      *
      * @param campo El TextField a validar.
@@ -193,21 +193,6 @@ public class Utils {
             errores.add(mensajeError);
         } else {
             campo.setStyle("-fx-border-color: transparent;");
-        }
-    }
-
-    /**
-     * Valida que un CheckComboBox tenga al menos un elemento seleccionado si el CheckBox correspondiente está seleccionado.
-     * Si la validación falla, se agrega un mensaje de error a la lista de errores.
-     *
-     * @param dia El CheckBox que representa el día.
-     * @param horarios El CheckComboBox que contiene los bloques horarios.
-     * @param nombreDia El nombre del día para el mensaje de error.
-     * @param errores La lista de errores a la que se agrega el mensaje de error.
-     */
-    public void validarHorarios(CheckBox dia, CheckComboBox<BloqueHorario> horarios, String nombreDia, List<String> errores) {
-        if (dia.isSelected() && horarios.getCheckModel().getCheckedItems().isEmpty()) {
-            errores.add("Debe seleccionar al menos un horario para el " + nombreDia + ".");
         }
     }
 
@@ -238,20 +223,11 @@ public class Utils {
         }
     }
 
-    public void validarTextoArea(TextArea campo, String mensajeError, List<String> errores) {
-        String text = campo.getText();
-        if (text.isEmpty()) {
-            campo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-            errores.add(mensajeError);
-        } else {
-            campo.setStyle("-fx-border-color: transparent;");
-        }
-    }
-
     public void validarPassword(PasswordField campo, List<String> errores) {
         String text = campo.getText();
         String[] patterns = {
-                ".*\\d.*", ".*[a-z].*", ".*[A-Z].*", ".*[!@#\\$%\\^&\\*].*"
+                ".*\\d.*", ".*[a-z].*", ".*[A-Z].*", ".*[!@#$%^&*].*"
+
         };
         String[] messages = {
                 "La contraseña debe contener al menos un dígito.",
@@ -269,7 +245,16 @@ public class Utils {
                 errores.add(messages[i]);
             }
         }
-        campo.setStyle(errores.isEmpty() ? "-fx-border-color: transparent;" : "-fx-border-color: red; -fx-border-width: 2px;");
+
+        String currentStyle = campo.getStyle();
+        if (errores.isEmpty()) {
+            campo.setStyle(currentStyle.replace("-fx-border-color: red; -fx-border-width: 2px;", "").trim());
+        } else {
+            if (!currentStyle.contains("-fx-border-color: red;")) {
+                campo.setStyle(currentStyle + " -fx-border-color: red; -fx-border-width: 2px;");
+            }
+        }
+
     }
 
     public <T> void validarComboBox(ComboBox<T> comboBox, String mensajeError, List<String> errores) {
