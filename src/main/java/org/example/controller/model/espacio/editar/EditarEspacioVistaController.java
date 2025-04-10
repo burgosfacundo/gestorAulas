@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.exception.BadRequestException;
 import org.example.exception.GlobalExceptionHandler;
-import org.example.exception.NotFoundException;
 import org.example.model.Aula;
 import org.example.model.Espacio;
 import org.example.model.Laboratorio;
@@ -104,8 +103,6 @@ public class EditarEspacioVistaController {
             }
         } catch (BadRequestException e) {
             globalExceptionHandler.handleBadRequestException(e);
-        } catch (NotFoundException e) {
-            globalExceptionHandler.handleNotFoundException(e);
         }
     }
 

@@ -96,7 +96,6 @@ public class CambioPasswordVistaController {
             vistaUtils.mostrarAlerta(
                     "Ocurrió un error al modificar la contraseña",
                     Alert.AlertType.ERROR);
-            log.error(e.getMessage());
         }
     }
 }

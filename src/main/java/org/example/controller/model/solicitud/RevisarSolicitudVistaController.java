@@ -17,6 +17,7 @@ import org.example.utils.TableUtils;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -85,7 +86,12 @@ public class RevisarSolicitudVistaController {
                 btnVerHorarios.setOnAction(event -> {
                     SolicitudCambioAula solicitud = getTableRow().getItem();
                     if (solicitud != null && solicitud.getDiasYBloques() != null) {
-                        vistaUtils.mostrarVistaHorarios(solicitud.getDiasYBloques());
+                        try {
+                            vistaUtils.mostrarVistaHorarios(solicitud.getDiasYBloques());
+                        } catch (IOException e) {
+                            globalExceptionHandler.handleIOException(e);
+                        }
+
                     }
                 });
             }
@@ -133,9 +139,19 @@ public class RevisarSolicitudVistaController {
         var clickedColumn = tblSolicitudes.getFocusModel().getFocusedCell().getTableColumn();
 
         if (clickedColumn == colReserva) {
-            vistaUtils.mostrarVistaReserva(solicitud.getReservaOriginal());
+            try {
+                vistaUtils.mostrarVistaReserva(solicitud.getReservaOriginal());
+            } catch (IOException e) {
+                globalExceptionHandler.handleIOException(e);
+            }
+
         } else if (clickedColumn == colAula) {
-            vistaUtils.mostrarVistaEspacio(solicitud.getNuevoEspacio());
+            try {
+                vistaUtils.mostrarVistaEspacio(solicitud.getNuevoEspacio());
+            } catch (IOException e) {
+                globalExceptionHandler.handleIOException(e);
+            }
+
 
         }
     }

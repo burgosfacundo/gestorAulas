@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.exception.GlobalExceptionHandler;
 import org.example.model.Inscripcion;
 import org.example.service.InscripcionService;
 import org.example.utils.TableUtils;
@@ -24,6 +25,7 @@ import java.util.Optional;
 public class SeleccionarInscripcionVistaController {
     private final VistaUtils vistaUtils;
     private final InscripcionService inscripcionService;
+    private final GlobalExceptionHandler globalExceptionHandler;
     @FXML
     private Button btnContinuar;
     @FXML
@@ -123,7 +125,7 @@ public class SeleccionarInscripcionVistaController {
                         vistaUtils.cargarVista("/org/example/view/model/reserva/crear/crear-reserva-view.fxml",
                                 (CrearReservaVistaController controller) -> controller.setInscripcion(inscripcion));
                     } catch (IOException e) {
-                        log.error(e.getMessage());
+                        globalExceptionHandler.handleIOException(e);
                     }
                 });
     }

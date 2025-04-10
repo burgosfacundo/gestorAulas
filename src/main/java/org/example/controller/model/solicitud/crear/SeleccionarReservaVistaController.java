@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.exception.GlobalExceptionHandler;
 import org.example.exception.NotFoundException;
 import org.example.model.DiaBloque;
 import org.example.model.Reserva;
@@ -30,6 +31,7 @@ public class SeleccionarReservaVistaController {
     private final ReservaService reservaService;
     private final VistaUtils vistaUtils;
     private final SesionActual sesionActual;
+    private final GlobalExceptionHandler globalExceptionHandler;
     @FXML
     private TableView<Reserva> tblReservas;
     @FXML
@@ -76,7 +78,11 @@ public class SeleccionarReservaVistaController {
                     btnVerHorarios.setOnAction(event -> {
                         Reserva reserva = getTableRow().getItem();
                         if (reserva != null && reserva.getDiasYBloques() != null) {
-                            vistaUtils.mostrarVistaHorarios(reserva.getDiasYBloques());
+                            try {
+                                vistaUtils.mostrarVistaHorarios(reserva.getDiasYBloques());
+                            } catch (IOException e) {
+                                globalExceptionHandler.handleIOException(e);
+                            }
                         }
                     });
                 }
@@ -129,7 +135,7 @@ public class SeleccionarReservaVistaController {
                                         controller.setReserva(reserva));
                         vistaUtils.cerrarVentana(btnContinuar);
                     }catch (IOException e) {
-                        log.error(e.getMessage());
+                        globalExceptionHandler.handleIOException(e);
                     }
         });
     }
@@ -144,9 +150,18 @@ public class SeleccionarReservaVistaController {
         var clickedColumn = tblReservas.getFocusModel().getFocusedCell().getTableColumn();
 
         if (clickedColumn == colInscripcion) {
-            vistaUtils.mostrarVistaInscripcion(reserva.getInscripcion());
+            try{
+                vistaUtils.mostrarVistaInscripcion(reserva.getInscripcion());
+            }catch (IOException e) {
+                globalExceptionHandler.handleIOException(e);
+            }
+
         }else if(clickedColumn == colAula) {
-            vistaUtils.mostrarVistaEspacio(reserva.getEspacio());
+            try {
+                vistaUtils.mostrarVistaEspacio(reserva.getEspacio());
+            } catch (IOException e) {
+                globalExceptionHandler.handleIOException(e);
+            }
         }
     }
 }

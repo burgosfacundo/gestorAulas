@@ -60,7 +60,7 @@ public class MenuInicioVistaController {
                 try{
                     vistaUtils.cargarVista("/org/example/view/menus/menu-administrador-view.fxml");
                 }catch (IOException e){
-                    log.error(e.getMessage());
+                    globalExceptionHandler.handleIOException(e);
                 }
                 vistaUtils.cerrarVentana(btnLogin);
             }
@@ -68,7 +68,7 @@ public class MenuInicioVistaController {
                 try{
                     vistaUtils.cargarVista("/org/example/view/menus/menu-profesor-view.fxml");
                 }catch (IOException e){
-                    log.error(e.getMessage());
+                    globalExceptionHandler.handleIOException(e);
                 }
                 vistaUtils.cerrarVentana(btnLogin);
             }

@@ -10,6 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.exception.GlobalExceptionHandler;
 import org.example.model.Espacio;
 import org.example.model.Laboratorio;
 import org.example.service.EspacioService;
@@ -27,6 +28,7 @@ import java.util.Optional;
 public class SeleccionarEspacioVistaController {
     private final VistaUtils vistaUtils;
     private final EspacioService espacioService;
+    private final GlobalExceptionHandler globalExceptionHandler;
     @FXML
     Pagination pagination;
     @FXML
@@ -84,7 +86,7 @@ public class SeleccionarEspacioVistaController {
                                         controller.setEspacio(espacio));
                         vistaUtils.cerrarVentana(btnContinuar);
                     }catch (IOException e) {
-                        log.error(e.getMessage());
+                        globalExceptionHandler.handleIOException(e);
                     }
                 });
     }

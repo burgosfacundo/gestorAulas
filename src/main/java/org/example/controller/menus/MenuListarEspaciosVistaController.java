@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.controller.model.espacio.EspacioVistaController;
+import org.example.exception.GlobalExceptionHandler;
 import org.example.security.SesionActual;
 import org.example.service.EspacioService;
 import org.example.utils.VistaUtils;
@@ -20,6 +21,7 @@ public class MenuListarEspaciosVistaController {
     private final VistaUtils vistaUtils;
     private final SesionActual sesionActual;
     private final EspacioService espacioService;
+    private final GlobalExceptionHandler globalExceptionHandler;
     @FXML
     private Button btnListarLaboratorios ;
     @FXML
@@ -38,7 +40,7 @@ public class MenuListarEspaciosVistaController {
             vistaUtils.cargarVista("/org/example/view/model/espacio/espacio-view.fxml",
                     (EspacioVistaController controller) -> controller.setEspacios(aulas));
         } catch (IOException e) {
-            log.error("Error al cargar la vista de aulas: {}", e.getMessage());
+            globalExceptionHandler.handleIOException(e);
         }
     }
 
@@ -49,7 +51,7 @@ public class MenuListarEspaciosVistaController {
             vistaUtils.cargarVista("/org/example/view/model/espacio/espacio-view.fxml",
                     (EspacioVistaController controller) -> controller.setEspacios(laboratorios));
         } catch (IOException e) {
-            log.error("Error al cargar la vista de laboratorios: {}", e.getMessage());
+            globalExceptionHandler.handleIOException(e);
         }
     }
 
@@ -58,7 +60,7 @@ public class MenuListarEspaciosVistaController {
         try {
             vistaUtils.cargarVista("/org/example/view/model/espacio/filtros/aula-disponibles-view.fxml");
         } catch (IOException e) {
-            log.error(e.getMessage());
+            globalExceptionHandler.handleIOException(e);
         }
     }
 
@@ -67,7 +69,7 @@ public class MenuListarEspaciosVistaController {
         try {
             vistaUtils.cargarVista("/org/example/view/model/espacio/filtros/laboratorio-disponibles-view.fxml");
         } catch (IOException e) {
-            log.error(e.getMessage());
+            globalExceptionHandler.handleIOException(e);
         }
     }
 
@@ -81,7 +83,7 @@ public class MenuListarEspaciosVistaController {
             }
 
         } catch (IOException e) {
-            log.error(e.getMessage());
+            globalExceptionHandler.handleIOException(e);
         }
         vistaUtils.cerrarVentana(this.btnVolver);
     }

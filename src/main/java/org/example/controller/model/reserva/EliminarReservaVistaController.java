@@ -17,6 +17,7 @@ import org.example.utils.TableUtils;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -63,7 +64,13 @@ public class EliminarReservaVistaController {
                     var reserva = getTableView().getItems().get(getIndex());
                     Optional
                             .ofNullable(reserva)
-                            .ifPresent(r ->  vistaUtils.mostrarVistaHorarios(reserva.getDiasYBloques()));
+                            .ifPresent(r -> {
+                                try {
+                                    vistaUtils.mostrarVistaHorarios(reserva.getDiasYBloques());
+                                } catch (IOException e) {
+                                    globalExceptionHandler.handleIOException(e);
+                                }
+                            });
                 });
             }
 
@@ -111,9 +118,17 @@ public class EliminarReservaVistaController {
         var clickedColumn = tblReservas.getFocusModel().getFocusedCell().getTableColumn();
 
         if (clickedColumn == colInscripcion) {
-            vistaUtils.mostrarVistaInscripcion(reserva.getInscripcion());
+            try{
+                vistaUtils.mostrarVistaInscripcion(reserva.getInscripcion());
+            }catch (IOException e){
+                globalExceptionHandler.handleIOException(e);
+            }
         }else if(clickedColumn == colAula) {
-            vistaUtils.mostrarVistaEspacio(reserva.getEspacio());
+            try {
+                vistaUtils.mostrarVistaEspacio(reserva.getEspacio());
+            } catch (IOException e) {
+                globalExceptionHandler.handleIOException(e);
+            }
         }
     }
 

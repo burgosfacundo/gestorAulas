@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.exception.BadRequestException;
 import org.example.exception.GlobalExceptionHandler;
 import org.example.exception.NotFoundException;
 import org.example.model.Espacio;
@@ -87,6 +88,8 @@ public class EliminarEspacioVistaController {
                         }
                     } catch (NotFoundException e) {
                         globalExceptionHandler.handleNotFoundException(e);
+                    } catch (BadRequestException e) {
+                        globalExceptionHandler.handleBadRequestException(e);
                     }
                 });
     }

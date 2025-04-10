@@ -7,12 +7,14 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.exception.GlobalExceptionHandler;
 import org.example.model.DiaBloque;
 import org.example.model.Reserva;
 import org.example.utils.TableUtils;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +24,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class ReservaVistaController {
     private final VistaUtils vistaUtils;
+    private final GlobalExceptionHandler globalExceptionHandler;
     @FXML
     private TableView<Reserva> tblReservas;
     @FXML
@@ -71,7 +74,12 @@ public class ReservaVistaController {
                 btnVerHorarios.setOnAction(event -> {
                     Reserva reserva = getTableRow().getItem();
                     if (reserva != null && reserva.getDiasYBloques() != null) {
-                        vistaUtils.mostrarVistaHorarios(reserva.getDiasYBloques());
+                        try {
+                            vistaUtils.mostrarVistaHorarios(reserva.getDiasYBloques());
+                        }catch (IOException e) {
+                            globalExceptionHandler.handleIOException(e);
+                        }
+
                     }
                 });
             }
@@ -106,9 +114,17 @@ public class ReservaVistaController {
         var clickedColumn = tblReservas.getFocusModel().getFocusedCell().getTableColumn();
 
         if (clickedColumn == colInscripcion) {
-            vistaUtils.mostrarVistaInscripcion(reserva.getInscripcion());
+            try {
+                vistaUtils.mostrarVistaInscripcion(reserva.getInscripcion());
+            } catch (IOException e) {
+                globalExceptionHandler.handleIOException(e);
+            }
         }else if(clickedColumn == colAula) {
-            vistaUtils.mostrarVistaEspacio(reserva.getEspacio());
+            try {
+                vistaUtils.mostrarVistaEspacio(reserva.getEspacio());
+            } catch (IOException e) {
+                globalExceptionHandler.handleIOException(e);
+            }
         }
     }
 
