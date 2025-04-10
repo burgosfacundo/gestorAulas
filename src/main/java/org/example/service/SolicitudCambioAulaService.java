@@ -12,6 +12,7 @@ import org.example.model.dto.SolicitudCambioAulaDTO;
 import org.example.repository.*;
 import org.example.utils.Mapper;
 import org.example.utils.Utils;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -85,9 +86,11 @@ public class SolicitudCambioAulaService{
      * @throws NotFoundException si no se encuentra una solicitud con ese ID
      */
     public void eliminar(Integer id) throws NotFoundException {
-        // Validamos que existe una solicitud con ese ID, si no lanzamos excepción
-        validarSolicitudExistente(id);
-        repositorio.deleteById(id);
+       try {
+           repositorio.deleteById(id);
+       }catch (EmptyResultDataAccessException e){
+              throw new NotFoundException("No existe la solicitud");
+       }
     }
 
 
@@ -116,7 +119,7 @@ public class SolicitudCambioAulaService{
 
         //Validamos que la solicitud esté pendiente
         if (!solicitud.getEstado().equals(EstadoSolicitud.PENDIENTE)){
-            throw new BadRequestException(String.format("La solicitud %d no esta pendiente", id));
+            throw new BadRequestException("La solicitud no esta pendiente");
         }
 
         var reserva = reservaService.obtener(solicitud.getReservaOriginal().getId());
@@ -162,7 +165,7 @@ public class SolicitudCambioAulaService{
 
         //Validamos que la solicitud esté pendiente
         if (!solicitud.getEstado().equals(EstadoSolicitud.PENDIENTE)) {
-            throw new BadRequestException(String.format("La solicitud %d no esta pendiente", id));
+            throw new BadRequestException("La solicitud no esta pendiente");
         }
 
         SolicitudCambioAula nuevaSolicitud = new SolicitudCambioAula(solicitud.getId(),solicitud.getProfesor()
@@ -187,7 +190,7 @@ public class SolicitudCambioAulaService{
      */
     private SolicitudCambioAula validarSolicitudExistente(Integer id) throws NotFoundException {
         return repositorio.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format("No existe una solicitud con el id: %d", id)));
+                .orElseThrow(() -> new NotFoundException("No existe la solicitud"));
     }
 
     /**
@@ -198,7 +201,7 @@ public class SolicitudCambioAulaService{
      */
     private Espacio validarAulaExistente(Integer idAula) throws NotFoundException {
         return espacioBaseRepository.findById(idAula)
-                .orElseThrow(() -> new NotFoundException(String.format("No existe un aula con el id: %d", idAula)));
+                .orElseThrow(() -> new NotFoundException("No existe el aula"));
     }
 
     /**
@@ -209,7 +212,7 @@ public class SolicitudCambioAulaService{
      */
     private void validarProfesorExistente(Integer idProfesor) throws NotFoundException {
         profesorRepository.findById(idProfesor)
-                .orElseThrow(() -> new NotFoundException(String.format("No existe un profesor con el id: %d", idProfesor)));
+                .orElseThrow(() -> new NotFoundException("No existe el profesor"));
     }
 
 
@@ -237,7 +240,7 @@ public class SolicitudCambioAulaService{
                 .filter(a -> a.getId().equals(dto.idEspacio()))
                 .findAny()
                 .orElseThrow(()->
-                        new BadRequestException(String.format("El aula %d no está disponible.", dto.idEspacio())));
+                        new BadRequestException("El aula no está disponible."));
     }
 
 
@@ -264,11 +267,8 @@ public class SolicitudCambioAulaService{
      */
     public List<SolicitudCambioAula> listarSolicitudesPorEstadoYProfesor(EstadoSolicitud estado, Integer idProfesor)
             throws NotFoundException {
-
-        var optionalProfesor = profesorRepository.findById(idProfesor);
-
-        if(optionalProfesor.isEmpty()){
-            throw new NotFoundException(String.format("El profesor con el id: %d no existe", idProfesor));
+        if(!profesorRepository.existsById(idProfesor)){
+            throw new NotFoundException("El profesor no existe");
         }
 
         return repositorio.findByEstadoAndProfesor_Id(estado,idProfesor);

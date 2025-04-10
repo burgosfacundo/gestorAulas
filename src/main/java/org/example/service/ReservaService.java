@@ -11,6 +11,7 @@ import org.example.model.dto.ReservaDTO;
 import org.example.repository.*;
 import org.example.utils.Mapper;
 import org.example.utils.Utils;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -34,6 +35,7 @@ public class ReservaService{
     private final ProfesorRepository profesorRepository;
     private final AsignaturaRepository asignaturaRepository;
     private final SolicitudCambioAulaRepository solicitudRepository;
+    private final ReservaRepository reservaRepository;
 
 
     /**
@@ -44,14 +46,13 @@ public class ReservaService{
        return repositorio.findAll();
     }
 
-
     /**
      * Guarda una reserva
+     *
      * @param dto que queremos guardar
-     * @return Reserva que se guarda
      * @throws BadRequestException sí existe un problema con los datos de reserva
      */
-    public ReservaDTO guardar(ReservaDTO dto) throws BadRequestException, ConflictException, NotFoundException {
+    public void guardar(ReservaDTO dto) throws BadRequestException, ConflictException, NotFoundException {
         var idAula = dto.idEspacio();
         var idInscripcion = dto.idInscripcion();
 
@@ -77,7 +78,6 @@ public class ReservaService{
 
         // Guardamos la reserva si pasa todas las validaciones
         repositorio.save(reserva);
-        return dto;
     }
 
 
@@ -87,9 +87,11 @@ public class ReservaService{
      * @throws NotFoundException si no se encuentra una reserva con ese ID
      */
     public void eliminar(Integer id) throws NotFoundException {
-        //Verificamos que existe una reserva con ese ID, si no lanzamos excepción
-        validarReservaExistente(id);
-        repositorio.deleteById(id);
+        try{
+            repositorio.deleteById(id);
+        }catch (EmptyResultDataAccessException e){
+            throw new NotFoundException("No existe la reserva");
+        }
     }
 
     /**
@@ -99,7 +101,8 @@ public class ReservaService{
      * @throws NotFoundException Si no se encuentra la reserva con ese ID
      */
     public Reserva obtener(Integer id) throws NotFoundException {
-        return validarReservaExistente(id);
+        return repositorio.findById(id)
+                .orElseThrow(()-> new NotFoundException("No existe la reserva"));
     }
 
     /**
@@ -108,9 +111,9 @@ public class ReservaService{
      * @throws NotFoundException Si no encuentra reserva o aula o inscripción
      */
     public void modificar(ReservaDTO dto) throws NotFoundException, BadRequestException, ConflictException {
-        // Validamos que existe la reserva que se quiere modificar
-        validarReservaExistente(dto.id());
-
+        if (!reservaRepository.existsById(dto.id())) {
+            throw new BadRequestException("No se encontró la reserva");
+        }
         //Validamos y obtenemos la inscripción de la reserva
         var inscripcion = validarInscripcionExistente(dto.idInscripcion());
 
@@ -137,16 +140,6 @@ public class ReservaService{
 
     // Validaciones
     /**
-     * Valída la existencia de una reserva por ID
-     * @param id de la reserva que se quiere verificar
-     * @return Reserva si existe
-     * @throws NotFoundException Si no se encuentra la reserva con ese ID*/
-    private Reserva validarReservaExistente(Integer id) throws NotFoundException {
-        return repositorio.findById(id)
-                .orElseThrow(()-> new NotFoundException(String.format("No existe una reserva con el id: %d", id)));
-    }
-
-    /**
      * Valída la existencia de un Espacio por ID
      * @param idEspacio del espacio que se quiere verificar
      * @return Espacio si existe
@@ -154,7 +147,7 @@ public class ReservaService{
      */
     private Espacio validarAulaExistenteById(Integer idEspacio) throws NotFoundException {
         return espacioBaseRepository.findById(idEspacio)
-                .orElseThrow(() -> new NotFoundException(String.format("No existe un aula con el id: %d", idEspacio)));
+                .orElseThrow(() -> new NotFoundException("No existe el aula"));
     }
 
     /**
@@ -164,7 +157,7 @@ public class ReservaService{
      * @throws NotFoundException Si no se encuentra la asignatura con ese ID*/
     private Asignatura validarAsignaturaExistente(Integer idAsignatura) throws NotFoundException {
         return asignaturaRepository.findById(idAsignatura)
-                .orElseThrow(()-> new NotFoundException(String.format("No existe una asignatura con el id: %d", idAsignatura)));
+                .orElseThrow(()-> new NotFoundException("No existe la asignatura"));
     }
 
 
@@ -176,7 +169,7 @@ public class ReservaService{
      */
     private Inscripcion validarInscripcionExistente(Integer idInscripcion) throws NotFoundException {
         return inscripcionRepository.findById(idInscripcion)
-                .orElseThrow(()-> new NotFoundException(String.format("No existe una inscripción con el id: %d", idInscripcion)));
+                .orElseThrow(()-> new NotFoundException("No existe la inscripción"));
     }
 
 
@@ -265,10 +258,10 @@ public class ReservaService{
      * @return List<Reserva> las reservas que tiene el profesor
      * @throws NotFoundException si no existe el profesor con ese ID
      */
-    public List<Reserva> listarReservasPorProfesor(int idProfe)
-            throws NotFoundException {
-        profesorRepository.findById(idProfe)
-                .orElseThrow(()-> new NotFoundException(String.format("El profesor con el id: %d no existe", idProfe)));
+    public List<Reserva> listarReservasPorProfesor(int idProfe) throws NotFoundException {
+        if (!profesorRepository.existsById(idProfe)) {
+            throw new NotFoundException("El profesor no existe");
+        }
 
         return repositorio.findByIdProfesor(idProfe);
     }
