@@ -1,5 +1,6 @@
 package org.example.utils;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -139,5 +140,13 @@ public class VistaUtils {
     public void cerrarVentana(Control control) {
         Stage myStage = (Stage) control.getScene().getWindow();
         myStage.close();
+    }
+
+    public void confirmarCierre() {
+        var result = mostrarAlerta("Desea cerrar sesión?", Alert.AlertType.CONFIRMATION);
+        if (result.getButtonData().isCancelButton()){
+            return;
+        }
+        Platform.exit();
     }
 }

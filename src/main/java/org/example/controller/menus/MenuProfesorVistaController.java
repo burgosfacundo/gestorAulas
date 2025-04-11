@@ -100,6 +100,7 @@ public class MenuProfesorVistaController {
         if (seguridad.verificarPermiso(sesionActual.getUsuario(),Permisos.CAMBIAR_PASSWORD)){
             try {
                 vistaUtils.cargarVista("/org/example/view/cambio-password-view.fxml");
+                vistaUtils.cerrarVentana(this.btnCerrarSesion);
             } catch (IOException e) {
                 globalExceptionHandler.handleIOException(e);
             }
