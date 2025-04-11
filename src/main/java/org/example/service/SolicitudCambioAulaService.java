@@ -31,7 +31,8 @@ public class SolicitudCambioAulaService{
 
     /**
      * Lista todas las solicitudes
-     * @return List<SolicitudCambioAula>*/
+     * @return List<SolicitudCambioAula>
+     */
     public List<SolicitudCambioAula> listar() {
         return repositorio.findAll();
     }
@@ -205,7 +206,7 @@ public class SolicitudCambioAulaService{
     }
 
     /**
-     * Método para validar la existencia de un Profesor
+     * Valida la existencia de un Profesor
      *
      * @param idProfesor del profesor que se quiere verificar
      * @throws NotFoundException Si no se encuentra el profesor con ese ID
