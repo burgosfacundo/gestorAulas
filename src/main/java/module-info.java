@@ -2,7 +2,6 @@ module org.example.gestoraulas {
     requires org.slf4j;
     requires org.controlsfx.controls;
     requires jbcrypt;
-    requires java.desktop;
     requires spring.context;
     requires spring.boot;
     requires spring.boot.autoconfigure;
@@ -15,8 +14,8 @@ module org.example.gestoraulas {
     requires spring.data.jpa;
     requires spring.data.commons;
     requires spring.orm;
-    requires java.sql;
     requires org.hibernate.orm.core;
+    requires spring.tx;
 
 
     opens org.example.model to javafx.base, org.hibernate.orm.core, spring.core, spring.beans, spring.context;
@@ -24,7 +23,7 @@ module org.example.gestoraulas {
     opens org.example.utils to spring.beans, spring.context, spring.core;
     opens org.example.security to spring.beans, spring.context, spring.core;
     opens org.example to spring.core, spring.context, spring.beans;
-    opens org.example.service to spring.beans, spring.context;
+    opens org.example.service to spring.beans, spring.context,spring.core;
     opens org.example.repository to spring.beans, spring.context;
 
 
