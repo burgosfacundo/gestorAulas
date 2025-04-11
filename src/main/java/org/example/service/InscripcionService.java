@@ -1,7 +1,6 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.exception.NotFoundException;
 import org.example.model.Inscripcion;
 import org.example.repository.InscripcionRepository;
 import org.springframework.stereotype.Service;
@@ -25,16 +24,5 @@ public class InscripcionService{
      */
     public List<Inscripcion> listar() {
         return repositorio.findAll();
-    }
-
-    /**
-     * Obtiene una inscripción por ID
-     * @param id de la inscripción
-     * @return Inscripcion con ese ID
-     * @throws NotFoundException Si no se encuentra la inscripción con ese ID
-     */
-    public Inscripcion obtener(Integer id) throws NotFoundException {
-        return repositorio.findById(id)
-                .orElseThrow(() -> new NotFoundException("No existe la inscripción"));
     }
 }

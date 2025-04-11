@@ -1,7 +1,6 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.example.exception.BadRequestException;
 import org.example.exception.NotFoundException;
 import org.example.model.*;
@@ -9,6 +8,7 @@ import org.example.repository.AulaRepository;
 import org.example.repository.EspacioBaseRepository;
 import org.example.repository.LaboratorioRepository;
 import org.example.repository.ReservaRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,7 +20,6 @@ import java.util.Set;
  * Clase que se encarga de comunicarse con el repositorio
  * y aplicar la lógica de negocio para manipular espacios
  */
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class EspacioService {
@@ -28,7 +27,6 @@ public class EspacioService {
     private final AulaRepository aulaRepository;
     private final LaboratorioRepository laboratorioRepository;
     private final ReservaRepository reservaRepository;
-
 
     /**
      * Lista todas las aulas
@@ -41,29 +39,30 @@ public class EspacioService {
     /**
      * Guarda un espacio
      * @param espacio que queremos guarde
-     * @return espacio que se guarda
      * @throws BadRequestException sí existe un espacio con ese código
      */
-    public Espacio guardar(Espacio espacio) throws BadRequestException {
-        // Verificamos que no existe esa aula y si existe lanzamos la excepción
-        if (espacioBaseRepository.findByNumero(espacio.getNumero()).isPresent()){
-            throw new BadRequestException(String.format("Ya existe el aula o laboratorio %s", espacio.getNumero()));
+    public void guardar(Espacio espacio) throws BadRequestException {
+        try {
+            espacioBaseRepository.save(espacio);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestException(String.format("Ya existe un aula o laboratorio con el número %s", espacio.getNumero()));
         }
-
-        espacioBaseRepository.save(espacio);
-        return espacio;
     }
 
     /**
      * Elimina un espacio por ID
      * @param id del espacio que queremos eliminar
-     * @throws NotFoundException si no se encuentra un espacio con ese numero
+     * @throws NotFoundException si no se encuentra un espacio con ese número
+     * @throws BadRequestException si el espacio tiene reservas no se puede eliminar
      */
-    public void eliminar(Integer id) throws NotFoundException {
-        // Verificamos que existe una asignatura con ese ID y si no lanzamos la excepción
-        validarEspacioExistenteById(id);
+    public void eliminar(Integer id) throws NotFoundException, BadRequestException {
+        var espacio = espacioBaseRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("No existe el espacio"));
 
-        // Borramos esa aula por ID
+        if (!reservaRepository.findReservaByEspacio(espacio).isEmpty()) {
+            throw new BadRequestException("No se puede eliminar el espacio porque tiene reservas");
+        }
+
         espacioBaseRepository.deleteById(id);
     }
 
@@ -75,26 +74,28 @@ public class EspacioService {
      */
     public Espacio obtener(Integer id) throws NotFoundException {
         // Validamos y retornamos el aula por ID
-        return validarEspacioExistenteById(id);
+        return espacioBaseRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("No se encontró el espacio"));
     }
 
     /**
      * Modifica un espacio
      * @param espacio modificada
-     * @throws NotFoundException si no encuentra el espacio
+     * @throws BadRequestException si ocurriera un error con la información
      */
-    public void modificar(Espacio espacio) throws NotFoundException, BadRequestException {
-        //Verificamos que el espacio con ese ID exista
-        var exist = validarEspacioExistenteById(espacio.getId());
-
-        if (exist.getNumero() != espacio.getNumero() && espacioBaseRepository.findByNumero(espacio.getNumero()).isPresent()){
-                throw new BadRequestException("Ya existe un espacio con ese número");
+    public void modificar(Espacio espacio) throws BadRequestException {
+        if (!espacioBaseRepository.existsById(espacio.getId())) {
+            throw new BadRequestException("No se encontró el espacio");
         }
 
-
-        //la modificamos
-        espacioBaseRepository.save(espacio);
+        try {
+            espacioBaseRepository.save(espacio);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestException("Ya existe un espacio con ese número");
+        }
     }
+
+
 
     //Filtros
 
@@ -175,7 +176,7 @@ public class EspacioService {
         var idsAulasSolapadas = obtenerIdsEspaciosOcupados(fechaInicio,fechaFin,diasYBloques);
 
         // Filtramos las Aulas disponibles que no están en las reservas solapadas
-        return listarAulas().parallelStream()
+        return listarAulas().stream()
                 .filter(aula -> !idsAulasSolapadas.contains(aula.getId()))
                 .toList();
     }
@@ -194,7 +195,7 @@ public class EspacioService {
         var idsLaboratoriosSolapados = obtenerIdsEspaciosOcupados(fechaInicio,fechaFin,diasYBloques);
 
         // Filtramos los Laboratorios disponibles que no están en las reservas solapadas
-        return listarLaboratorios().parallelStream()
+        return listarLaboratorios().stream()
                 .filter(laboratorio -> !idsLaboratoriosSolapados.contains(laboratorio.getId()))
                 .toList();
     }
@@ -237,17 +238,4 @@ public class EspacioService {
         return filtrarEspacios(laboratoriosDisponibles, capacidad, tieneProyector, tieneTV, computadoras);
     }
 
-
-
-
-    // Validaciones
-    /**
-     * Valída la existencia de un Espacio por ID
-     * @param idEspacio del espacio que se quiere verificar
-     * @return Espacio si existe
-     * @throws NotFoundException Si no se encuentra el aula con ese ID*/
-    private Espacio validarEspacioExistenteById(Integer idEspacio) throws NotFoundException {
-        return espacioBaseRepository.findById(idEspacio)
-                .orElseThrow(() -> new NotFoundException(String.format("No existe un aula con el id: %s", idEspacio)));
-    }
 }

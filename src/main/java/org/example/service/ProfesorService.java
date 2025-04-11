@@ -1,9 +1,6 @@
 package org.example.service;
 
-
-
 import lombok.RequiredArgsConstructor;
-import org.example.exception.NotFoundException;
 import org.example.model.Profesor;
 import org.example.repository.ProfesorRepository;
 import org.springframework.stereotype.Service;
@@ -21,16 +18,5 @@ public class ProfesorService {
      */
     public List<Profesor> listar() {
         return repositorio.findAll();
-    }
-
-    /**
-     * Obtiene un profesor por ID
-     * @param id del profesor que queremos obtener
-     * @return Profesor con ese ID
-     * @throws NotFoundException si no se encuentra una asignatura con ese ID
-     */
-    public Profesor obtener(Integer id) throws NotFoundException {
-        return repositorio.findById(id)
-                .orElseThrow(() -> new NotFoundException("No existe el profesor"));
     }
 }
