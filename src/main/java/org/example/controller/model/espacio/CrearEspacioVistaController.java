@@ -8,10 +8,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.exception.BadRequestException;
 import org.example.exception.GlobalExceptionHandler;
-import org.example.exception.JsonNotFoundException;
 import org.example.model.Aula;
 import org.example.model.Laboratorio;
-import org.example.service.AulaService;
+import org.example.service.EspacioService;
+import org.example.utils.Utils;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +24,7 @@ import java.util.Optional;
 @Component
 public class CrearEspacioVistaController {
     private final VistaUtils vistaUtils;
-    private final AulaService aulaService;
+    private final EspacioService espacioService;
     private final GlobalExceptionHandler globalExceptionHandler;
     @FXML
     private ComboBox<String> tipoEspacioComboBox;
@@ -83,22 +83,22 @@ public class CrearEspacioVistaController {
             var tipo = tipoEspacioComboBox.getSelectionModel().getSelectedItem();
             switch (tipo){
                 case "Aula":
-                    aulaService.guardar(new Aula(0,numero,capacidad,tieneProyector,tieneTv));
+                    espacioService.guardar(new Aula(null,numero,capacidad,tieneProyector,tieneTv));
                     vistaUtils.mostrarAlerta("Se creo el aula " + numero + " correctamente.", Alert.AlertType.INFORMATION);
+                    vistaUtils.cerrarVentana(btnCrear);
                     break;
                 case "Laboratorio":
                     var computadoras = Integer.parseInt(computadorasField.getText());
-                    aulaService.guardar(new Laboratorio(0,numero,capacidad,
+                    espacioService.guardar(new Laboratorio(null,numero,capacidad,
                             tieneProyector,tieneTv,computadoras));
                     vistaUtils.mostrarAlerta("Se creo el laboratorio " + numero + " correctamente.", Alert.AlertType.INFORMATION);
+                    vistaUtils.cerrarVentana(btnCrear);
                     break;
                 default:
                     throw new BadRequestException("Tipo de espacio no valido");
             }
         } catch (BadRequestException e) {
             globalExceptionHandler.handleBadRequestException(e);
-        } catch (JsonNotFoundException e) {
-            globalExceptionHandler.handleJsonNotFoundException(e);
         }
     }
 
@@ -107,14 +107,14 @@ public class CrearEspacioVistaController {
 
         // Validar computadoras
         if ("Laboratorio".equals(tipoEspacioComboBox.getSelectionModel().getSelectedItem())) {
-            vistaUtils.validarNumero(computadorasField, "Debes ingresar una cantidad de computadoras.", errores);
+            Utils.validarNumero(computadorasField, "Debes ingresar una cantidad de computadoras.", errores);
         }
 
         // Validar capacidad
-        vistaUtils.validarNumero(capacidadField, "Debes ingresar una capacidad.", errores);
+        Utils.validarNumero(capacidadField, "Debes ingresar una capacidad.", errores);
 
         // Validar número
-        vistaUtils.validarNumero(numeroField, "Debes ingresar un número.", errores);
+        Utils.validarNumero(numeroField, "Debes ingresar un número.", errores);
 
         return errores.isEmpty() ? Optional.empty() : Optional.of(errores);
     }

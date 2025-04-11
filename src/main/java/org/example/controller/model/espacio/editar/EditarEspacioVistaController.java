@@ -7,11 +7,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.exception.BadRequestException;
 import org.example.exception.GlobalExceptionHandler;
-import org.example.exception.JsonNotFoundException;
-import org.example.exception.NotFoundException;
 import org.example.model.Aula;
+import org.example.model.Espacio;
 import org.example.model.Laboratorio;
-import org.example.service.AulaService;
+import org.example.service.EspacioService;
+import org.example.utils.Utils;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
@@ -23,9 +23,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 public class EditarEspacioVistaController {
-    private Aula espacio;
+    private Espacio espacio;
     private final VistaUtils vistaUtils;
-    private final AulaService aulaService;
+    private final EspacioService espacioService;
     private final GlobalExceptionHandler globalExceptionHandler;
     @FXML
     private ComboBox<String> tipoEspacioComboBox;
@@ -42,7 +42,7 @@ public class EditarEspacioVistaController {
     @FXML
     private Button btnEditar;
 
-    public void setEspacio(Aula espacio) {
+    public void setEspacio(Espacio espacio) {
         this.espacio = espacio;
         actualizarData();
     }
@@ -86,13 +86,13 @@ public class EditarEspacioVistaController {
             if (result == ButtonType.OK) {
                 switch (tipo) {
                     case "Aula":
-                        aulaService.modificar(new Aula(id, numero, capacidad, tieneProyector, tieneTv));
+                        espacioService.modificar(new Aula(id, numero, capacidad, tieneProyector, tieneTv));
                         vistaUtils.mostrarAlerta("Se edito el aula " + numero + " correctamente.", Alert.AlertType.INFORMATION);
                         vistaUtils.cerrarVentana(btnEditar);
                         break;
                     case "Laboratorio":
                         var computadoras = Integer.parseInt(computadorasField.getText());
-                        aulaService.modificar(new Laboratorio(id, numero, capacidad,
+                        espacioService.modificar(new Laboratorio(id, numero, capacidad,
                                 tieneProyector, tieneTv, computadoras));
                         vistaUtils.mostrarAlerta("Se edito el laboratorio " + numero + " correctamente.", Alert.AlertType.INFORMATION);
                         vistaUtils.cerrarVentana(btnEditar);
@@ -103,10 +103,6 @@ public class EditarEspacioVistaController {
             }
         } catch (BadRequestException e) {
             globalExceptionHandler.handleBadRequestException(e);
-        } catch (JsonNotFoundException e) {
-            globalExceptionHandler.handleJsonNotFoundException(e);
-        } catch (NotFoundException e) {
-            globalExceptionHandler.handleNotFoundException(e);
         }
     }
 
@@ -115,14 +111,14 @@ public class EditarEspacioVistaController {
 
         // Validar computadoras
         if ("Laboratorio".equals(tipoEspacioComboBox.getSelectionModel().getSelectedItem())) {
-            vistaUtils.validarNumero(computadorasField, "Debes ingresar una cantidad de computadoras.", errores);
+            Utils.validarNumero(computadorasField, "Debes ingresar una cantidad de computadoras.", errores);
         }
 
         // Validar capacidad
-        vistaUtils.validarNumero(capacidadField, "Debes ingresar una capacidad.", errores);
+        Utils.validarNumero(capacidadField, "Debes ingresar una capacidad.", errores);
 
         // Validar número
-        vistaUtils.validarNumero(numeroField, "Debes ingresar un número.", errores);
+        Utils.validarNumero(numeroField, "Debes ingresar un número.", errores);
 
         return errores.isEmpty() ? Optional.empty() : Optional.of(errores);
     }

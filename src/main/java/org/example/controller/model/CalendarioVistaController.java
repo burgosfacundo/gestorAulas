@@ -5,13 +5,13 @@ import jfxtras.scene.control.agenda.Agenda;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.enums.BloqueHorario;
+import org.example.model.DiaBloque;
 import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -34,27 +34,26 @@ public class CalendarioVistaController {
         agenda.getStylesheets().add(css);
     }
 
-    public void cargarHorarios(Map<DayOfWeek, Set<BloqueHorario>> horarios) {
+    public void cargarHorarios(Set<DiaBloque> diasBloques) {
         agenda.appointments().clear();
 
         LocalDate semanaBase = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
 
-        for (var entry : horarios.entrySet()) {
-            DayOfWeek dia = entry.getKey();
+        for (DiaBloque diaBloque : diasBloques) {
+            DayOfWeek dia = diaBloque.getDia(); // Obtener el día
+            BloqueHorario bh = diaBloque.getBloqueHorario(); // Obtener el bloque horario
+
             LocalDate fechaReferencia = semanaBase.with(dia);
+            LocalDateTime inicio = fechaReferencia.atTime(bh.getInicio());
+            LocalDateTime fin = fechaReferencia.atTime(bh.getFin());
 
-            for (BloqueHorario bh : entry.getValue()) {
-                LocalDateTime inicio = fechaReferencia.atTime(bh.getInicio());
-                LocalDateTime fin = fechaReferencia.atTime(bh.getFin());
+            Agenda.Appointment appointment = new Agenda.AppointmentImplLocal()
+                    .withStartLocalDateTime(inicio)
+                    .withEndLocalDateTime(fin)
+                    .withDescription("Reserva programada")
+                    .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("reservado"));
 
-                Agenda.Appointment appointment = new Agenda.AppointmentImplLocal()
-                        .withStartLocalDateTime(inicio)
-                        .withEndLocalDateTime(fin)
-                        .withDescription("Reserva programada")
-                        .withAppointmentGroup(new Agenda.AppointmentGroupImpl().withStyleClass("reservado"));
-
-                agenda.appointments().add(appointment);
-            }
+            agenda.appointments().add(appointment);
         }
     }
 }

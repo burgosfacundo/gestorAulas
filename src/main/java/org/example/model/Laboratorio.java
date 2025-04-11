@@ -1,10 +1,13 @@
 package org.example.model;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 import lombok.*;
 
-@Getter
-@Setter
-public class Laboratorio extends Aula {
+@Entity @DiscriminatorValue("Laboratorio")
+@Getter @Setter
+@NoArgsConstructor
+public class Laboratorio extends Espacio {
     private int computadoras;
 
     public Laboratorio(Integer id, int numero, int capacidad, boolean tieneProyector, boolean tieneTV,int computadoras) {
@@ -13,10 +16,10 @@ public class Laboratorio extends Aula {
     }
 
     @Override
-    public void actualizar(Aula aula){
-        super.actualizar(aula);
+    public void actualizar(Espacio espacio) {
+        super.actualizar(espacio);
 
-        if (aula instanceof Laboratorio laboratorio) {
+        if (espacio instanceof Laboratorio laboratorio) {
             this.computadoras = laboratorio.getComputadoras();
         }
     }

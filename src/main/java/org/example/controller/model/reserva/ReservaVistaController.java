@@ -7,17 +7,16 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.enums.BloqueHorario;
+import org.example.exception.GlobalExceptionHandler;
+import org.example.model.DiaBloque;
 import org.example.model.Reserva;
 import org.example.utils.TableUtils;
 import org.example.utils.VistaUtils;
 import org.springframework.stereotype.Component;
 
-import java.time.DayOfWeek;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -25,10 +24,9 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class ReservaVistaController {
     private final VistaUtils vistaUtils;
+    private final GlobalExceptionHandler globalExceptionHandler;
     @FXML
     private TableView<Reserva> tblReservas;
-    @FXML
-    private TableColumn<Reserva,Integer> colId;
     @FXML
     private TableColumn<Reserva, LocalDate> colFechaInicio;
     @FXML
@@ -38,49 +36,64 @@ public class ReservaVistaController {
     @FXML
     private TableColumn<Reserva,String> colInscripcion;
     @FXML
-    private TableColumn<Reserva, Map<DayOfWeek, Set<BloqueHorario>>> colDiaHorario;
+    private TableColumn<Reserva,  Set<DiaBloque>> colDiaHorario;
+    @FXML
+    private Pagination pagination;
     private List<Reserva> reservas;
+    private static final int PAGE_SIZE = 10;
 
     public void setReservas(List<Reserva> reservas) {
         this.reservas = reservas;
-        actualizarTabla();
+        int totalPages = (int) Math.ceil((double) reservas.size() / PAGE_SIZE);
+        pagination.setPageCount(Math.max(totalPages, 1));
+
+        pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex) -> cargarPagina(newIndex.intValue()));
+
+        cargarPagina(0);
     }
 
-    private void actualizarTabla() {
-        // Configurar la tabla si no se ha hecho antes
-        if (tblReservas.getColumns().isEmpty()) {
-            TableUtils.inicializarTablaReserva(colId,colFechaInicio,colFechaFin,colAula,colInscripcion,colDiaHorario);
-        }
+    private void cargarPagina(int pageIndex) {
+        int fromIndex = pageIndex * PAGE_SIZE;
+        int toIndex = Math.min(fromIndex + PAGE_SIZE, reservas.size());
 
         ObservableList<Reserva> reservaObservableList = FXCollections.observableArrayList();
-        reservaObservableList.addAll(reservas);
+        reservaObservableList.addAll(reservas.subList(fromIndex, toIndex));
+
         tblReservas.setItems(reservaObservableList);
     }
 
     @FXML
     public void initialize() {
-        TableUtils.inicializarTablaReserva(colId,colFechaInicio,colFechaFin,colAula,colInscripcion,colDiaHorario);
+        TableUtils.inicializarTablaReserva(colFechaInicio,colFechaFin,
+                colAula,colInscripcion,colDiaHorario);
 
         colDiaHorario.setCellFactory(column -> new TableCell<>() {
-            private final Button btnVerHorarios;
+            private final Button btnVerHorarios = new Button("Ver");
 
             {
-                btnVerHorarios = new Button("Ver");
                 btnVerHorarios.setOnAction(event -> {
-                    var reserva = getTableView().getItems().get(getIndex());
-                    Optional
-                            .ofNullable(reserva)
-                            .ifPresent(r ->  vistaUtils.mostrarVistaHorarios(reserva.getDiasYBloques()));
+                    Reserva reserva = getTableRow().getItem();
+                    if (reserva != null && reserva.getDiasYBloques() != null) {
+                        try {
+                            vistaUtils.mostrarVistaHorarios(reserva.getDiasYBloques());
+                        }catch (IOException e) {
+                            globalExceptionHandler.handleIOException(e);
+                        }
+
+                    }
                 });
             }
 
             @Override
-            protected void updateItem(Map<DayOfWeek, Set<BloqueHorario>> item, boolean empty) {
+            protected void updateItem(Set<DiaBloque> item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) {
+
+                if (empty || item == null || getTableRow().getItem() == null) {
                     setGraphic(null);
+                    setText(null);
                 } else {
                     setGraphic(btnVerHorarios);
+                    setText(null);
                 }
             }
         });
@@ -101,9 +114,17 @@ public class ReservaVistaController {
         var clickedColumn = tblReservas.getFocusModel().getFocusedCell().getTableColumn();
 
         if (clickedColumn == colInscripcion) {
-            vistaUtils.mostrarVistaInscripcion(reserva.getInscripcion());
+            try {
+                vistaUtils.mostrarVistaInscripcion(reserva.getInscripcion());
+            } catch (IOException e) {
+                globalExceptionHandler.handleIOException(e);
+            }
         }else if(clickedColumn == colAula) {
-            vistaUtils.mostrarVistaAula(reserva.getAula());
+            try {
+                vistaUtils.mostrarVistaEspacio(reserva.getEspacio());
+            } catch (IOException e) {
+                globalExceptionHandler.handleIOException(e);
+            }
         }
     }
 

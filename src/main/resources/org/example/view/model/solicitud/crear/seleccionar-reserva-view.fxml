@@ -19,14 +19,14 @@
         </Label>
         <TableView fx:id="tblReservas" layoutX="60.0" layoutY="160.0" prefHeight="271.0" prefWidth="606.0">
             <columns>
-                <TableColumn fx:id="colId" prefWidth="47.19997787475586" text="ID" />
-                <TableColumn fx:id="colFechaInicio" prefWidth="96.0" text="Fecha de inicio" />
-                <TableColumn fx:id="colFechaFin" prefWidth="102.4000244140625" text="Fecha de Fin" />
-                <TableColumn fx:id="colAula" prefWidth="88.0" text="Aula" />
-                <TableColumn fx:id="colInscripcion" prefWidth="106.4000244140625" text="Inscripción" />
-                <TableColumn fx:id="colDiaHorario" prefWidth="175.20001220703125" text="Horarios" />
+                <TableColumn fx:id="colFechaInicio" prefWidth="125.60003662109375" text="Fecha de inicio" />
+                <TableColumn fx:id="colFechaFin" prefWidth="128.79998779296875" text="Fecha de Fin" />
+                <TableColumn fx:id="colAula" prefWidth="56.0" text="Aula" />
+                <TableColumn fx:id="colInscripcion" prefWidth="186.4000244140625" text="Inscripción" />
+                <TableColumn fx:id="colDiaHorario" prefWidth="111.199951171875" text="Horarios" />
             </columns>
         </TableView>
+        <Pagination fx:id="pagination" layoutX="60.0" layoutY="440.0" pageCount="1" prefHeight="35.0" prefWidth="65.0" />
         <HBox alignment="CENTER" layoutX="549.0" layoutY="440.0" prefHeight="44.0" prefWidth="154.0" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="2">
             <Button fx:id="btnContinuar" onAction="#continuar" text="Continuar" />
             <Button fx:id="btnCancelar" onAction="#cancelar" text="Cancelar" />

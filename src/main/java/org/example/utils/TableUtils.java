@@ -6,45 +6,42 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.experimental.UtilityClass;
-import org.example.enums.BloqueHorario;
 import org.example.model.*;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Map;
 import java.util.Set;
 
 @UtilityClass
 public class TableUtils {
-    public static void inicializarTablaProfesores(TableColumn<Profesor, Integer> colId,
-                                                TableColumn<Profesor, String> colNombre,
-                                                TableColumn<Profesor, String> colApellido,
-                                                TableColumn<Profesor, String> colMatricula){
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+    public static void inicializarTablaProfesores(TableColumn<Profesor, String> colNombre,
+                                                  TableColumn<Profesor, String> colApellido,
+                                                  TableColumn<Profesor, String> colMatricula){
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colApellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
         colMatricula.setCellValueFactory(new PropertyValueFactory<>("matricula"));
     }
 
-    public static void inicializarTablaUsuarios(TableColumn<Usuario, Integer> colId,
-                                     TableColumn<Usuario, String> colUsername,
-                                     TableColumn<Usuario, String> colNombre,
-                                     TableColumn<Usuario, String> colApellido,
-                                     TableColumn<Usuario, String> colMatricula){
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+    public static void inicializarTablaUsuarios(TableColumn<Usuario, String> colUsername,
+                                                TableColumn<Usuario, String> colNombre,
+                                                TableColumn<Usuario, String> colApellido,
+                                                TableColumn<Usuario, String> colMatricula){
         colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
         colNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProfesor().getNombre()));
         colApellido.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProfesor().getApellido()));
         colMatricula.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProfesor().getMatricula()));
     }
 
-    public static void inicializarTablaEspacio(TableColumn<Aula, Integer> colId,
-                                               TableColumn<Aula, Integer> colNum,
-                                               TableColumn<Aula, Integer> colCapacidad,
-                                               TableColumn<Aula, Boolean> colTieneProyector,
-                                               TableColumn<Aula, Boolean> colTieneTV,
+    public static void inicializarTablaEspacio(TableColumn<Espacio, Integer> colNum,
+                                               TableColumn<Espacio, Integer> colCapacidad,
+                                               TableColumn<Espacio, Boolean> colTieneProyector,
+                                               TableColumn<Espacio, Boolean> colTieneTV,
                                                TableColumn<Laboratorio, Integer> colComputadoras) {
-        inicializarTablaAula(colId, colNum, colCapacidad, colTieneProyector, colTieneTV);
+        colNum.setCellValueFactory(new PropertyValueFactory<>("numero"));
+        colCapacidad.setCellValueFactory(new PropertyValueFactory<>("capacidad"));
+        colTieneProyector.setCellValueFactory(new PropertyValueFactory<>("tieneProyector"));
+        colTieneTV.setCellValueFactory(new PropertyValueFactory<>("tieneTV"));
+        colTieneProyector.setCellFactory(TableUtils::columnTic);
+        colTieneTV.setCellFactory(TableUtils::columnTic);
         // Configurar la columna de computadoras solo para Laboratorio
         colComputadoras.setCellValueFactory(cellData -> {
             if (cellData.getValue() instanceof Laboratorio lab) {
@@ -72,12 +69,10 @@ public class TableUtils {
     }
 
 
-    public void inicializarTablaAula(TableColumn<Aula, Integer> colId,
-                                            TableColumn<Aula, Integer> colNum,
-                                            TableColumn<Aula, Integer> colCapacidad,
-                                            TableColumn<Aula, Boolean> colTieneProyector,
-                                            TableColumn<Aula, Boolean> colTieneTV){
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+    public void inicializarTablaAula(TableColumn<Aula, Integer> colNum,
+                                     TableColumn<Aula, Integer> colCapacidad,
+                                     TableColumn<Aula, Boolean> colTieneProyector,
+                                     TableColumn<Aula, Boolean> colTieneTV){
         colNum.setCellValueFactory(new PropertyValueFactory<>("numero"));
         colCapacidad.setCellValueFactory(new PropertyValueFactory<>("capacidad"));
         colTieneProyector.setCellValueFactory(new PropertyValueFactory<>("tieneProyector"));
@@ -86,13 +81,11 @@ public class TableUtils {
         colTieneTV.setCellFactory(TableUtils::columnTic);
     }
 
-    public void inicializarTablaLaboratorio(TableColumn<Laboratorio, Integer> colId,
-                                                   TableColumn<Laboratorio, Integer> colNum,
-                                                   TableColumn<Laboratorio, Integer> colCapacidad,
-                                                   TableColumn<Laboratorio, Boolean> colTieneProyector,
-                                                   TableColumn<Laboratorio, Boolean> colTieneTV,
-                                                   TableColumn<Laboratorio, Integer> colComputadoras){
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+    public void inicializarTablaLaboratorio(TableColumn<Laboratorio, Integer> colNum,
+                                            TableColumn<Laboratorio, Integer> colCapacidad,
+                                            TableColumn<Laboratorio, Boolean> colTieneProyector,
+                                            TableColumn<Laboratorio, Boolean> colTieneTV,
+                                            TableColumn<Laboratorio, Integer> colComputadoras){
         colComputadoras.setCellValueFactory(new PropertyValueFactory<>("computadoras"));
         colNum.setCellValueFactory(new PropertyValueFactory<>("numero"));
         colCapacidad.setCellValueFactory(new PropertyValueFactory<>("capacidad"));
@@ -104,70 +97,57 @@ public class TableUtils {
         colTieneTV.setCellFactory(TableUtils::columnTic);
     }
 
-    public void inicializarTablaSolicitudes(TableColumn<SolicitudCambioAula,Integer> colId,
-                                            TableColumn<SolicitudCambioAula,String> colReserva,
+    public void inicializarTablaSolicitudes(TableColumn<SolicitudCambioAula,String> colReserva,
                                             TableColumn<SolicitudCambioAula,String> colAula,
                                             TableColumn<SolicitudCambioAula, String> colEstado,
                                             TableColumn<SolicitudCambioAula, String> colTipo,
                                             TableColumn<SolicitudCambioAula, LocalDate> colInicio,
                                             TableColumn<SolicitudCambioAula, LocalDate> colFin,
-                                            TableColumn<SolicitudCambioAula, Map<DayOfWeek, Set<BloqueHorario>>> colDiaHorario,
                                             TableColumn<SolicitudCambioAula,String> colComenProfe,
-                                            TableColumn<SolicitudCambioAula,String> colComenAdmin){
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+                                            TableColumn<SolicitudCambioAula,String> colComenAdmin,
+                                            TableColumn<SolicitudCambioAula, Set<DiaBloque>> colDiaHorario){
         colReserva.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getReservaOriginal().toString()));
-        colAula.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNuevaAula().toString()));
+        colAula.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNuevoEspacio().toString()));
         colEstado.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEstado().toString()));
         colTipo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTipoSolicitud().toString()));
         colInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));
         colFin.setCellValueFactory(new PropertyValueFactory<>("fechaFin"));
-        colDiaHorario.setCellValueFactory(new PropertyValueFactory<>("diasYBloques"));
-        colDiaHorario.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(Map<DayOfWeek, Set<BloqueHorario>> item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(Utils.formatDiasYBloques(item));
-                }
-            }
-        });
         colComenProfe.setCellValueFactory(new PropertyValueFactory<>("comentarioProfesor"));
         colComenAdmin.setCellValueFactory(new PropertyValueFactory<>("comentarioEstado"));
+        colDiaHorario.setCellValueFactory(new PropertyValueFactory<>("diasYBloques"));
     }
 
-    public void inicializarTablaReserva(TableColumn<Reserva,Integer> colId,
-                                               TableColumn<Reserva, LocalDate> colFechaInicio,
-                                               TableColumn<Reserva,LocalDate> colFechaFin,
-                                               TableColumn<Reserva,String> colAula,
-                                               TableColumn<Reserva,String> colInscripcion,
-                                               TableColumn<Reserva, Map<DayOfWeek, Set<BloqueHorario>>> colDiaHorario){
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+    public void inicializarTablaReserva(TableColumn<Reserva, LocalDate> colFechaInicio,
+                                        TableColumn<Reserva,LocalDate> colFechaFin,
+                                        TableColumn<Reserva,String> colAula,
+                                        TableColumn<Reserva,String> colInscripcion,
+                                        TableColumn<Reserva, Set<DiaBloque>> colDiaHorario){
         colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));
         colFechaFin.setCellValueFactory(new PropertyValueFactory<>("fechaFin"));
-        colAula.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAula().toString()));
+        colAula.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEspacio().toString()));
         colInscripcion.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getInscripcion().toString()));
         colDiaHorario.setCellValueFactory(new PropertyValueFactory<>("diasYBloques"));
     }
 
-    public void inicializarTablaInscripcion(TableColumn<Inscripcion, Integer> colId,
-                                                   TableColumn<Inscripcion, Integer> colAlumnos,
-                                                   TableColumn<Inscripcion, Integer> colMargenAlumnos,
-                                                   TableColumn<Inscripcion, LocalDate> colFechaFinInscripcion,
-                                                   TableColumn<Inscripcion, String> colAsignatura,
-                                                   TableColumn<Inscripcion, String> colComision,
-                                                   TableColumn<Inscripcion, String> colProfesor){
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+    public void inicializarTablaInscripcion(TableColumn<Inscripcion, Integer> colAlumnos,
+                                            TableColumn<Inscripcion, Integer> colMargenAlumnos,
+                                            TableColumn<Inscripcion, LocalDate> colFechaFinInscripcion,
+                                            TableColumn<Inscripcion, String> colAsignatura,
+                                            TableColumn<Inscripcion, Integer> colComision,
+                                            TableColumn<Inscripcion, Integer> colYear,
+                                            TableColumn<Inscripcion, Integer> colCuatrimestre,
+                                            TableColumn<Inscripcion, String> colProfesor){
         colAlumnos.setCellValueFactory(new PropertyValueFactory<>("cantidadAlumnos"));
         colMargenAlumnos.setCellValueFactory(new PropertyValueFactory<>("margenAlumnos"));
         colFechaFinInscripcion.setCellValueFactory(new PropertyValueFactory<>("fechaFinInscripcion"));
         colAsignatura.setCellValueFactory(new PropertyValueFactory<>("asignatura"));
         colComision.setCellValueFactory(new PropertyValueFactory<>("comision"));
+        colYear.setCellValueFactory(new PropertyValueFactory<>("year"));
+        colCuatrimestre.setCellValueFactory(new PropertyValueFactory<>("cuatrimestre"));
         colProfesor.setCellValueFactory(new PropertyValueFactory<>("profesor"));
     }
 
-    private <T extends Aula> TableCell<T, Boolean> columnTic(TableColumn<T, Boolean> column) {
+    private <T extends Espacio> TableCell<T, Boolean> columnTic(TableColumn<T, Boolean> column) {
         return new TableCell<>() {
             @Override
             protected void updateItem(Boolean item, boolean empty) {

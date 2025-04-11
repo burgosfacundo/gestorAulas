@@ -86,9 +86,8 @@
                 <CheckComboBox fx:id="checkComboBoxBloquesDomingo" prefWidth="50"/>
             </HBox>
         </VBox>
-      <TableView fx:id="tblLaboratorios" layoutX="296.0" layoutY="155.0" prefHeight="294.0" prefWidth="439.0">
+      <TableView fx:id="tblLaboratorios" layoutX="296.0" layoutY="155.0" prefHeight="284.0" prefWidth="400.0">
          <columns>
-            <TableColumn fx:id="colId" prefWidth="40.79998779296875" text="ID" />
             <TableColumn fx:id="colNum" prefWidth="58.4000244140625" text="Número" />
             <TableColumn fx:id="colCapacidad" prefWidth="80.79998779296875" text="Capacidad" />
             <TableColumn fx:id="colTieneProyector" prefWidth="94.4000244140625" text="Tiene Proyector" />
@@ -96,6 +95,7 @@
             <TableColumn fx:id="colComputadoras" prefWidth="95.99998779296874" text="Computadoras" />
          </columns>
       </TableView>
+        <Pagination fx:id="pagination" layoutX="645.0" layoutY="460.0" pageCount="1" prefHeight="35.0" prefWidth="65.0" />
         <Button fx:id="btnBuscar" layoutX="296.0" layoutY="460.0" onAction="#filtrarLaboratoriosDisponibles" text="Buscar" />
     </AnchorPane>
 </AnchorPane>

@@ -1,9 +1,7 @@
 module org.example.gestoraulas {
     requires org.slf4j;
     requires org.controlsfx.controls;
-    requires com.google.gson;
     requires jbcrypt;
-    requires java.desktop;
     requires spring.context;
     requires spring.boot;
     requires spring.boot.autoconfigure;
@@ -12,16 +10,20 @@ module org.example.gestoraulas {
     requires static lombok;
     requires java.naming;
     requires jfxtras.agenda;
+    requires jakarta.persistence;
+    requires spring.data.jpa;
+    requires spring.data.commons;
+    requires spring.orm;
+    requires org.hibernate.orm.core;
+    requires spring.tx;
 
-    opens org.example.model to com.google.gson, javafx.base;
-    opens org.example.model.dto to com.google.gson;
-    opens org.example.enums to com.google.gson;
+
+    opens org.example.model to javafx.base, org.hibernate.orm.core, spring.core, spring.beans, spring.context;
     opens org.example.controller to javafx.fxml,spring.core,spring.context,org.slf4j;
-    opens org.example.config to spring.context,spring.core,spring.beans;
     opens org.example.utils to spring.beans, spring.context, spring.core;
     opens org.example.security to spring.beans, spring.context, spring.core;
     opens org.example to spring.core, spring.context, spring.beans;
-    opens org.example.service to spring.beans, spring.context;
+    opens org.example.service to spring.beans, spring.context,spring.core;
     opens org.example.repository to spring.beans, spring.context;
 
 
@@ -31,7 +33,6 @@ module org.example.gestoraulas {
     exports org.example.enums;
     exports org.example.service;
     exports org.example.repository;
-    exports org.example.config;
     exports org.example.utils;
     exports org.example.security;
     exports org.example.exception;
