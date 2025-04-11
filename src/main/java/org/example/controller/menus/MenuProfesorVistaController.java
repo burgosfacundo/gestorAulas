@@ -1,10 +1,12 @@
 package org.example.controller.menus;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.controller.model.reserva.ReservaVistaController;
@@ -41,11 +43,22 @@ public class MenuProfesorVistaController {
     private final ReservaService reservaService;
 
     @FXML
+    public void initialize() {
+        Platform.runLater(() -> {
+            Stage stage = (Stage) btnCerrarSesion.getScene().getWindow();
+            stage.setOnCloseRequest(event -> {
+                event.consume(); // Previene el cierre hasta que el usuario confirme
+                vistaUtils.confirmarCierre();
+            });
+        });
+    }
+
+    @FXML
     public void menuListarEspacios(ActionEvent actionEvent) {
         if (seguridad.verificarPermiso(sesionActual.getUsuario(), Permisos.VER_ESPACIOS)){
             try{
                 vistaUtils.cargarVista("/org/example/view/menus/menu-listar-espacios-view.fxml");
-                cerrarWindow(actionEvent);
+                vistaUtils.cerrarVentana(this.btnCerrarSesion);
             }catch (IOException e){
                 globalExceptionHandler.handleIOException(e);
             }
@@ -58,7 +71,7 @@ public class MenuProfesorVistaController {
     public void menuSolicitudes(ActionEvent actionEvent) {
         try{
             vistaUtils.cargarVista("/org/example/view/menus/menu-solicitudes-profesor-view.fxml");
-            cerrarWindow(actionEvent);
+            vistaUtils.cerrarVentana(this.btnCerrarSesion);
         }catch (IOException e){
             globalExceptionHandler.handleIOException(e);
         }
@@ -97,6 +110,6 @@ public class MenuProfesorVistaController {
 
     @FXML
     public void cerrarWindow(ActionEvent actionEvent) {
-        vistaUtils.cerrarVentana(this.btnCerrarSesion);
+        vistaUtils.confirmarCierre();
     }
 }

@@ -1,9 +1,11 @@
 package org.example.controller.menus;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.controller.model.solicitud.SolicitudVistaController;
@@ -38,6 +40,21 @@ public class MenuSolicitudProfesorVistaController {
     private Button btnSolicitudesRechazadas;
     @FXML
     private Button btnVolver;
+
+    @FXML
+    public void initialize() {
+        Platform.runLater(() -> {
+            Stage stage = (Stage) btnVolver.getScene().getWindow();
+            stage.setOnCloseRequest(event -> {
+                try{
+                    vistaUtils.cargarVista("/org/example/view/menus/menu-profesor-view.fxml");
+                }catch (IOException e){
+                    globalExceptionHandler.handleIOException(e);
+                }
+                vistaUtils.cerrarVentana(this.btnVolver);
+            });
+        });
+    }
 
     @FXML
     public void crearSolicitud(ActionEvent actionEvent) {
@@ -109,13 +126,8 @@ public class MenuSolicitudProfesorVistaController {
 
     @FXML
     public void volverMenuPrincipal(ActionEvent actionEvent) {
-        try {
-            if (sesionActual.getUsuario().getRol().getNombre().equals("Administrador")) {
-                vistaUtils.cargarVista("/org/example/view/menus/menu-admin-view.fxml");
-            }else if (sesionActual.getUsuario().getRol().getNombre().equals("Profesor")) {
-                vistaUtils.cargarVista("/org/example/view/menus/menu-profesor-view.fxml");
-            }
-
+        try{
+            vistaUtils.cargarVista("/org/example/view/menus/menu-profesor-view.fxml");
         } catch (IOException e) {
             globalExceptionHandler.handleIOException(e);
         }
